@@ -67,9 +67,9 @@ export default {
   },
   methods: {
     //获取当前城市的天气
-    // ...mapActions({
-    //   getWeatherata
-    // }),
+    ...mapActions({
+      getWeatherata
+    }),
     handleCommand(command) {
       if (command == "exit") {
         this.userName = "";
