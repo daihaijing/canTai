@@ -1,0 +1,198 @@
+[   {
+        "label": "A",
+	    "options": [{
+		   "label": "Australia",
+		   "key": "AUS"
+        },{
+           "label": "Azerbaijan",
+		   "key": "AZE"
+        }]
+    },
+    {
+        "label": "B",
+	    "options": [{
+		   "label": "Bahrian",
+		   "key": "BHR"
+        },{
+           "label": "Brazil",
+		   "key": "BRA"
+        }]
+    },
+    {
+        "label": "C",
+	    "options": [{
+		   "label": "Canada",
+		   "key": "CAN"
+        },{
+           "label": "Chile",
+		   "key": "CHL"
+        },{
+           "label": "China",
+		   "key": "CHN"
+        }]
+    },
+    {
+        "label": "E",
+	    "options": [{
+		   "label": "Egypt",
+		   "key": "EGY"
+        }]
+    },
+    {
+        "label": "F",
+	    "options": [{
+		   "label": "France",
+		   "key": "FRA"
+        }]
+    },
+    {
+        "label": "G",
+	    "options": [{
+		   "label": "Germany",
+		   "key": "DEU"
+        }]
+    },
+    {
+        "label": "H",
+	    "options": [{
+		   "label": "Hong Kong",
+		   "key": "HKG"
+        }]
+    },
+    {
+        "label": "I",
+	    "options": [{
+		   "label": "India",
+		   "key": "IND"
+        },{
+            "label": "Indonesia",
+            "key": "IND"
+        },{
+            "label": "Israel",
+            "key": "ISR"
+        },{
+            "label": "Italy",
+            "key": "ITA"
+        }]
+    },
+    {
+        "label": "J",
+	    "options": [{
+		   "label": "Japan",
+		   "key": "JPN"
+        }]
+    },
+    {
+        "label": "K",
+	    "options": [{
+		   "label": "Korea",
+		   "key": "KOR"
+        },{
+            "label": "Kuwait",
+            "key": "KWT"
+        }]
+    },
+    {
+        "label": "L",
+	    "options": [{
+		   "label": "Lebanon",
+		   "key": "LBN"
+        }]
+    },
+    {
+        "label": "M",
+	    "options": [{
+		   "label": "Macau",
+		   "key": "MAC"
+        },{
+            "label": "Malaysia",
+            "key": "MYS"
+        },{
+            "label": "Mexico",
+            "key": "MEX"
+        }]
+    },
+    {
+        "label": "N",
+	    "options": [{
+		   "label": "Netherlands",
+		   "key": "NLD"
+        },{
+            "label": "Norway",
+            "key": "NOR"
+        }]
+    },
+    {
+        "label": "P",
+	    "options": [{
+		   "label": "Philippines",
+		   "key": "PHL"
+        },{
+            "label": "Poland",
+            "key": "POL"
+        },{
+            "label": "Portugal",
+            "key": "PRT"
+        }]
+    },
+    {
+        "label": "Q",
+	    "options": [{
+		   "label": "Qatar",
+		   "key": "QAT"
+        }]
+    },
+    {
+        "label": "R",
+	    "options": [{
+		   "label": "Russia",
+		   "key": "RUS"
+        }]
+    },
+    {
+        "label": "S",
+	    "options": [{
+		   "label": "Saudi Arabia",
+		   "key": "SAU"
+        },{
+            "label": "Singapore",
+            "key": "SGP"
+        },{
+            "label": "Spain",
+            "key": "ESP"
+        }]
+    },
+    {
+        "label": "T",
+	    "options": [{
+		   "label": "Taiwan",
+		   "key": "TWN"
+        },{
+            "label": "Thailand",
+            "key": "THA"
+        },{
+            "label": "Turkey",
+            "key": "TUR"
+        }]
+    },
+    {
+        "label": "U",
+	    "options": [{
+		   "label": "United Arab Emirates",
+		   "key": "ARE"
+        },{
+            "label": "United Kingdom",
+            "key": "ENG"
+        },{
+            "label": "United States",
+            "key": "USA"
+        }]
+    },
+    {
+        "label": "V",
+	    "options": [{
+		   "label": "VNM",
+		   "key": "Vietnam"
+        }]
+    }
+]

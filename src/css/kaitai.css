@@ -1,0 +1,164 @@
+/* 开台界面css */
+.ktimg {
+  width: 12%;
+  float: left;
+  margin-top: 5px;
+  border-radius: 20px;
+  padding: 0 0.25%;
+}
+
+.ktimg:hover {
+  cursor: pointer;
+}
+
+/* 内容显示面板的标题/内容/span/el-input的公用css */
+.title {
+  /* 标题css */
+  background: #12203D;
+  height: 30px;
+  margin: 5px;
+  margin-bottom: 0;
+  border-radius: 5px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  color: #fff;
+}
+
+.content {
+  /* 内容css */
+  /* background: #12203D; */
+  height: calc(100% - 40px);
+  margin: 5px;
+  margin-top: 0;
+  border: 1px solid #aaa;
+  border-top: 0;
+  padding-top: 10px;
+  box-sizing: border-box;
+  color: #333;
+}
+
+.txtView {
+  /* 文本框span css */
+  margin-left: 20px;
+  height: 26px;
+  vertical-align: middle;
+}
+
+.inputView {
+  width: auto;
+}
+
+.inputView input {
+  /* 输入框input css */
+  width: 100px;
+  height: 26px;
+  color: #333;
+  margin-left: 20px;
+}
+
+/* 点餐界面css */
+.diancanTitle {
+  /* 点餐title css */
+  background: #12203D;
+  height: 30px;
+  margin: 5px;
+  margin-bottom: 0;
+  border-radius: 5px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  padding-right: 2px;
+  color: #fff;
+}
+
+.diancanContent {
+  height: calc(100% - 40px);
+  margin: 5px;
+  margin-top: 0;
+  border: 1px solid #aaa;
+  border-top: 0;
+  padding-top: 10px;
+  box-sizing: border-box;
+  color: #333;
+}
+
+.dcLeft {
+  /* 左侧菜品栏css */
+  width: 60%;
+  height: 94%;
+  float: left;
+  margin-left: 5px;
+}
+
+.xiaofeiTitle {
+  /* 消费清单 Title css */
+  float: left;
+  background: #12203D;
+  width: 38%;
+  height: 30px;
+  margin: 5px;
+  margin-bottom: 0;
+  border-radius: 5px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  padding-right: 2px;
+  color: #fff;
+
+}
+
+.dcRight {
+  width: 38%;
+  height: 93%;
+  float: left;
+  overflow-x: auto;
+  overflow-y: auto;
+  margin-left: 5px;
+  border: 1px solid #aaa;
+}
+
+.dcimg {
+  /* 菜品图片css */
+  width: 17%;
+  float: left;
+  margin-top: 5px;
+  border-radius: 20px;
+  padding: 0px 1.25%;
+}
+
+/* 套餐设置界面 css */
+.tcLeft {
+  width: 60%;
+  height: 60%;
+  float: left;
+  /* background-color: #1D2F55; */
+  background-color: aliceblue;
+  overflow-x: auto;
+  overflow-y: auto;
+  margin-left: 5px;
+  border: 1px solid #aaa;
+  border-top: 0;
+}
+
+.tcRight {
+  width: 38%;
+  height: 60%;
+  float: left;
+  background-color: aliceblue;
+  overflow-x: auto;
+  overflow-y: auto;
+  margin-left: 5px;
+  border: 1px solid #aaa;
+  border-top: 0;
+}
+
+
+/* 账单查询界面 css*/
+
+/* 餐台预定界面 css */
+.ydInputView{
+  width: auto;
+}
+.ydInputView input{
+  width: 205px;
+  height: 38px;
+  color: #333;
+}
