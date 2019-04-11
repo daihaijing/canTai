@@ -1,7 +1,7 @@
 <template>
   <div :class="style.layout">
     <left-menu :class="style.left"></left-menu>
-    <header-title></header-title>
+    <header-title @login="login"></header-title>
     <title-menu></title-menu>
     <router-view :class="style.content"></router-view>
     <login-view :isLogin="isLogin" @loginEmit="loginEmit"></login-view>
@@ -35,7 +35,9 @@ export default {
     loginEmit() {
       this.isLogin = false;
     },
-    
+    login(){
+      this.isLogin = true;
+    }
   },
   watch: {},
   mounted() {

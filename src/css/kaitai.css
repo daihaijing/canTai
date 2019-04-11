@@ -155,10 +155,15 @@
 
 /* 餐台预定界面 css */
 .ydInputView{
-  width: auto;
+  width: auto !important;
 }
 .ydInputView input{
   width: 205px;
   height: 38px;
   color: #333;
+}
+.form{
+  width: 600px;
+  margin: 0 auto;
+  margin-top: 15px;
 }

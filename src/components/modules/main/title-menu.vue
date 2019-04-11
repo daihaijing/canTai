@@ -21,7 +21,7 @@ export default {
     },
     methods: {
       handleSelect(key, keyPath) {
-        console.log(key, keyPath);
+        // console.log(key, keyPath);
       }
     },
     mounted(){
@@ -38,6 +38,24 @@ export default {
         this.activeIndex = 'ctsz';
       }else if(a.indexOf('zdcx')!=-1){
         this.activeIndex = 'zdcx';
+      }
+    },
+    watch:{
+      '$route'(){
+        let a = window.location.href;
+        if(a.indexOf('kt')!=-1){
+          this.activeIndex = 'kt';
+        }else if(a.indexOf('ctyd')!=-1){
+          this.activeIndex = 'ctyd';
+        }else if(a.indexOf('qtsy')!=-1){
+          this.activeIndex = 'qtsy';
+        }else if(a.indexOf('cprk')!=-1){
+          this.activeIndex = 'cprk';
+        }else if(a.indexOf('ctsz')!=-1){
+          this.activeIndex = 'ctsz';
+        }else if(a.indexOf('zdcx')!=-1){
+          this.activeIndex = 'zdcx';
+        }
       }
     }
 }

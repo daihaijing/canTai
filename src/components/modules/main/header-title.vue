@@ -14,7 +14,7 @@
         </el-dropdown-menu>
       </el-dropdown>
       <img :class="style.imgtitle" src="/static/assets/whitepeople.gif" v-if="userName">
-      <span v-else>请登录</span>
+      <span v-else @click="loginPlease">请登录</span>
     </div>
   </div>
 </template>
@@ -24,7 +24,6 @@ import style from "@/css/main";
 import BMap from "BMap";
 import { getWeatherata } from "./mutation-types";
 import { mapActions } from "vuex";
-
 export default {
   data() {
     return {
@@ -62,7 +61,8 @@ export default {
         ]
       },
       value: "",
-      userName: ""
+      userName: "",
+      isLogin: false
     };
   },
   methods: {
@@ -70,6 +70,10 @@ export default {
     ...mapActions({
       getWeatherata
     }),
+    //登录
+    loginPlease(){
+       this.$emit("login");
+    },
     handleCommand(command) {
       if (command == "exit") {
         this.userName = "";

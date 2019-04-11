@@ -13,7 +13,8 @@
                 <br>
                 <span>当前状态：{{item.status}}</span>
               </div>
-              <img :class="style.ktimg" :src="item.src" @dblclick="toDianCan">
+              <img :class="style.ktimg" src="/static/assets/empty.png" @click="toDianCan" v-if="item.status=='空闲'">
+              <img :class="style.ktimg" src="/static/assets/used.png" v-if="item.status=='占用'">
             </el-tooltip>
           </li>
         </ul>
@@ -27,93 +28,75 @@
 import Vue from "vue";
 import style from "css/kaitai.css";
 import bus from "@/bus.js";
-//import ctimg from "/static/assets/empty.jpg";
 export default {
   data() {
     return {
       style,
-      //imgAddress:"/static/assets/empty.jpg",
       isUl: true,
       zhuotai: [
         {
           num: 1,
           status: "空闲",
-          src:"/static/assets/empty.jpg",
         },
         {
           num: 2,
           status: "空闲",
-          src:"/static/assets/empty.jpg"
         },
         {
           num: 3,
           status: "空闲",
-          src:"/static/assets/empty.jpg"
         },
         {
           num: 4,
           status: "空闲",
-          src:"/static/assets/empty.jpg"
         },
         {
           num: 5,
           status: "空闲",
-          src:"/static/assets/empty.jpg"
         },
         {
           num: 6,
           status: "空闲",
-          src:"/static/assets/empty.jpg"
         },
         {
           num: 7,
           status: "空闲",
-          src:"/static/assets/empty.jpg"
         },
         {
           num: 8,
           status: "空闲",
-          src:"/static/assets/empty.jpg"
         },
         {
           num: 9,
           status: "空闲",
-          src:"/static/assets/empty.jpg"
         },
         {
           num: 10,
           status: "空闲",
-          src:"/static/assets/empty.jpg"
         },
         {
           num: 11,
           status: "空闲",
-          src:"/static/assets/empty.jpg"
         },
         {
           num: 12,
-          status: "空闲",
-          src:"/static/assets/empty.jpg"
+          status: "占用",
         },
         {
           num: 13,
           status: "空闲",
-          src:"/static/assets/empty.jpg"
         },
         {
           num: 14,
           status: "空闲",
-          src:"/static/assets/empty.jpg"
         },
         {
           num: 15,
           status: "空闲",
-          src:"/static/assets/empty.jpg"
         },
         {
           num: 16,
           status: "空闲",
-          src:"/static/assets/empty.jpg"
         }
       ]
     };
@@ -130,13 +113,13 @@ export default {
     }
   },
   mounted() {
-    bus.$on("yu", num => {
+    bus.$on("yuding", num => {
       for (let i = 0; i < this.zhuotai.length; i++) {
         if (num == this.zhuotai[i].num) {
           Vue.set(this.zhuotai, i, {
             num: this.zhuotai[i].num,
             status: "占用",
-            src:"/static/assets/used.jpg",
+            src:"/static/assets/used.png",
           });
         }
       }

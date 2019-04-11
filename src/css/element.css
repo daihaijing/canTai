@@ -22,7 +22,7 @@
   background: #fff;
   border-right: 0;
   box-sizing: border-box;
-  box-shadow: 0 0 5px 1px rgba(0,0,0,.08);
+  box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
   z-index: 200;
 }
 /* :global(.el-menu--horizontal){
@@ -30,13 +30,15 @@
 } */
 :global(.el-menu--horizontal>.el-menu-item:not(.is-disabled):hover){
   background-color: #eaeef5;
-  color: #1D2F55;
+  color: #409EFF;
 }
 :global(.el-menu--horizontal>.el-menu-item:not(.is-disabled):focus){
   background-color: transparent;
+  color: #409EFF;
 }
 :global(.el-menu--horizontal>.el-menu-item.is-active){
-  border-bottom: transparent;
+  font-weight: 700;
+  color: #409EFF;
 }
 :global(.el-submenu__title:hover) {
   background-color: transparent;
@@ -46,7 +48,7 @@
 }
 :global(.el-menu-item:hover){
   background-color: transparent;
-  color: #1D2F55;
+  color: #409EFF;
 }
 /* 餐台设置，表格css */
 :global(.el-table .cell a){
@@ -67,4 +69,26 @@
 } */
 :global(.canTaiTable td){
   padding:0;
+}
+/*****ctyd路由样式******/
+:global(.inputCtyd input){
+  height: 38px;
+  line-height: 38px;
+  width: 205px;
+}
+/***登录弹框样式****/
+:global(.loginDiv){
+  width: 1600px;
+}
+:global(.loginInput){
+  width: 400px;
+}
+:global(.loginInput input){
+  height: 38px;
+  line-height: 38px;
+  width: 400px;
+  padding-right:30px;
+}
+:global(.loginButton){
+  margin-left: 158px;
 }
