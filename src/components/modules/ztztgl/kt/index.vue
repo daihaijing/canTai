@@ -14,7 +14,7 @@
                 <span>当前状态：{{item.status}}</span>
               </div>
               <img :class="style.ktimg" src="/static/assets/empty.png" @click="toDianCan" v-if="item.status=='空闲'">
-              <img :class="style.ktimg" src="/static/assets/used.png" v-if="item.status=='占用'">
+              <img :class="style.ktimg" src="/static/assets/used.png" @click="toDianCan" v-if="item.status=='占用'">
             </el-tooltip>
           </li>
         </ul>
@@ -80,7 +80,7 @@ export default {
         },
         {
           num: 12,
-          status: "占用",
+          status: "空闲",
         },
         {
           num: 13,

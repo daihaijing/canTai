@@ -3,6 +3,7 @@
   /* 标题css */
   background: #12203D;
   height: 30px;
+  line-height: 30px;
   margin: 5px;
   border-radius: 5px;
   border-bottom-left-radius: 0;
@@ -23,21 +24,34 @@
   padding-top: 10px;
 }
 
-.txtView{
+
+.inputView{
   width: auto;
 }
 
-.txtView input{
-    /* 文本框span css */
+.inputView input{
   width: 100px;
   height: 26px;
   color: #333;
   margin-left: 20px;
 }
 
-.inputView {
-    /* 输入框input css */
-  margin-bottom: 25px;
+.txtView {
+  /* 文本框span css */
+  margin-left: 20px;
+}
+/* 餐台设置 css */
+/* 新增餐台 el-input  span css */
+.addinput {
+  width: auto;
+}
+.addinput input{
   width: 200px;
-  height: 25px;
+  height: 40px;
+  color: #333;
+  margin-left: 20px;
+}
+.addspan{
+  margin-left: 20px;
+  font-size: 16px;
 }

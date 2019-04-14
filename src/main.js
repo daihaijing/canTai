@@ -12,7 +12,7 @@ import PrototypeExtend from '@/plugins/vue-prototypes'
 import App from '#/app'
 import '@/util/array-find-polyfill'
 import routerIntercept from 'vr/router-intercept'
-
+import 'jquery'
 Vue.use(PrototypeExtend);
 //引入axios
 import axios from 'axios'

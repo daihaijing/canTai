@@ -8,7 +8,7 @@
         <el-form :model="dynamicValidateForm" status-icon ref="dynamicValidateForm" label-width="100px" class="demo-dynamic" :rules="rules">
             <el-form-item prop="value1" label="预定餐台号:">
               <el-select v-model="dynamicValidateForm.value1" clearable placeholder="请选择" class="inputCtyd">
-                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                <el-option v-for="item in options" :key="item.cth" :label="item.name" :value="item.cth"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item prop="value2" label="人数:">

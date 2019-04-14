@@ -6,6 +6,7 @@
           <el-menu-item index="qtsy">前台收银</el-menu-item>
           <el-menu-item index="cprk">入库</el-menu-item>
           <el-menu-item index="ctsz">餐台设置</el-menu-item>
+          <el-menu-item index="tcsz">套餐设置</el-menu-item>
           <el-menu-item index="zdcx">账单查询</el-menu-item>
         </el-menu>
     </div>
@@ -25,42 +26,17 @@ export default {
       }
     },
     mounted(){
-      let a = window.location.href;
-      if(a.indexOf('kt')!=-1){
-        this.activeIndex = 'kt';
-      }else if(a.indexOf('ctyd')!=-1){
-        this.activeIndex = 'ctyd';
-      }else if(a.indexOf('qtsy')!=-1){
-        this.activeIndex = 'qtsy';
-      }else if(a.indexOf('cprk')!=-1){
-        this.activeIndex = 'cprk';
-      }else if(a.indexOf('ctsz')!=-1){
-        this.activeIndex = 'ctsz';
-      }else if(a.indexOf('zdcx')!=-1){
-        this.activeIndex = 'zdcx';
+      if(this.$route){
+            this.activeIndex= this.$route.name;
       }
     },
     watch:{
-      '$route'(){
-        let a = window.location.href;
-        if(a.indexOf('kt')!=-1){
-          this.activeIndex = 'kt';
-        }else if(a.indexOf('ctyd')!=-1){
-          this.activeIndex = 'ctyd';
-        }else if(a.indexOf('qtsy')!=-1){
-          this.activeIndex = 'qtsy';
-        }else if(a.indexOf('cprk')!=-1){
-          this.activeIndex = 'cprk';
-        }else if(a.indexOf('ctsz')!=-1){
-          this.activeIndex = 'ctsz';
-        }else if(a.indexOf('zdcx')!=-1){
-          this.activeIndex = 'zdcx';
-        }
-      }
+      $route(){
+           if(this.$route){
+             this.activeIndex = this.$route.name;
+           }
+      },
     }
 }
 </script>
 
-<style>
-
-</style>

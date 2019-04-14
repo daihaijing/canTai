@@ -1,45 +1,61 @@
 <template>
   <el-dialog :visible.sync="addVisible" @close="addCloseEmit">
-    <ul>
-      <li>
-        <el-input v-model="cth" id="contentA" placeholder="餐台号:" @focus="clear($event)"></el-input>
-      </li>
-      <li>
-        <el-input v-model="name" id="contentB" placeholder="餐台名称" @focus="clear"></el-input>
-      </li>
-      <li>
-        <el-input v-model="ctzt" id="contentC" placeholder="餐台状态" @focus="clear"></el-input>
-      </li>
-      <li>
-        <el-input v-model="type" id="contentD" placeholder="类型" @focus="clear"></el-input>
-      </li>
-      <li>
-        <el-input v-model="edrs" id="contentE" placeholder="额定人数" @focus="clear"></el-input>
-      </li>
-      <li>
-        <el-input v-model="money" id="contentF" placeholder="是否收取包厢费用" @focus="clear"></el-input>
-      </li>
-      <li>
-        <el-input v-model="hmoney" id="contentG" placeholder="每小时包厢费用" @focus="clear"></el-input>
-      </li>
-    </ul>
-    <el-button @click="newAdd" v-if="tiJiao">提交</el-button>
-    <el-button @click="newEdit" v-else>修改</el-button>
+    <div :class="style.title">
+      <span :class="style.txtView">新增餐台</span>
+    </div>
+    <div :class="style.content">
+      <el-form
+        :model="ruleForm"
+        :rules="rules"
+        ref="ruleForm"
+        label-width="100px"
+        class="demo-ruleForm">
+        <el-form-item label="餐台号" prop="cth">
+          <el-input v-model="ruleForm.cth" :class="style.addinput" @focus="clear" id="contentA"></el-input>
+        </el-form-item>
+        <el-form-item label="餐台状态" prop="ctzt">
+          <el-input v-model="ruleForm.ctzt" :class="style.addinput" @focus="clear" id="contentB"></el-input>
+        </el-form-item>
+        <el-form-item label="类型" prop="type">
+          <el-input v-model="ruleForm.type" :class="style.addinput" @focus="clear" id="contentC"></el-input>
+        </el-form-item>
+        <el-form-item label="额定人数" prop="edrs">
+          <el-input v-model="ruleForm.edrs" :class="style.addinput" @focus="clear" id="contentD"></el-input>
+        </el-form-item>
+        <el-form-item label="是否收取包厢费用" prop="money">
+          <el-input v-model="ruleForm.money" :class="style.addinput" @focus="clear" id="contentE"></el-input>
+        </el-form-item>
+        <el-form-item label="单位" prop="hmony">
+          <el-input v-model="ruleForm.hmoney" :class="style.addinput" @focus="clear" id="contentF"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="newAdd" v-if="tiJiao">提交</el-button>
+          <el-button type="primary" @click="newEdit" v-else>修改</el-button>
+          <el-button @click="resetForm('ruleForm')">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </el-dialog>
 </template>
 
 <script>
+import style from "css/jcxxgl.css";
 export default {
   data() {
     return {
-      cth: "",
-      name: "",
-      ctzt: "",
-      type: "",
-      edrs: "",
-      money: "",
-      hmoney: "",
-    };
+      style,
+      ruleForm:{
+        cth: "",
+        name: "",
+        ctzt: "",
+        type: "",
+        edrs: "",
+        money: "",
+        hmoney: ""
+      },
+      rules: { 
+      }
+    }
   },
   props: {
     addVisible: null,
@@ -50,7 +66,7 @@ export default {
     edrsEdit: null,
     moneyEdit: null,
     hmoneyEdit: null,
-    tiJiao:null,
+    tiJiao: null
   },
   methods: {
     addCloseEmit() {
@@ -59,115 +75,116 @@ export default {
     newAdd() {
       this.$emit(
         "newAdd",
-        this.cth,
-        this.name,
-        this.ctzt,
-        this.type,
-        this.edrs,
-        this.money,
-        this.hmoney
+        this.ruleForm.cth,
+        this.ruleForm.name,
+        this.ruleForm.ctzt,
+        this.ruleForm.type,
+        this.ruleForm.edrs,
+        this.ruleForm.money,
+        this.ruleForm.hmoney
       );
     },
-    newEdit(){
+    newEdit() {
       this.$emit(
         "newEdit",
-        this.cth,
-        this.name,
-        this.ctzt,
-        this.type,
-        this.edrs,
-        this.money,
-        this.hmoney
+        this.ruleForm.cth,
+        this.ruleForm.name,
+        this.ruleForm.ctzt,
+        this.ruleForm.type,
+        this.ruleForm.edrs,
+        this.ruleForm.money,
+        this.ruleForm.hmoney
       );
     },
-    clear(e){
-        switch(e.target.id){
-          case 'contentA':{
-            // console.log(this.cth,document.getElementById("contentA").value )
-            if(document.getElementById("contentA").value = this.cthEdit)
-              document.getElementById("contentA").value="";
-            break;
-          };
-          case 'contentB':{
-            if(document.getElementById("contentB").value = this.nameEdit)
-              document.getElementById("contentB").value="";
-            break;
-          };
-          case 'contentC':{
-            if(document.getElementById("contentC").value = this.ctztEdit)
-              document.getElementById("contentC").value="";
-            break;
-          };
-          case 'contentD':{
-            if(document.getElementById("contentD").value = this.typeEdit)
-              document.getElementById("contentD").value="";
-            break;
-          };
-          case 'contentE':{
-            if(document.getElementById("contentE").value = this.edrsEdit)
-              document.getElementById("contentE").value="";
-            break;
-          };
-          case 'contentF':{
-            if(document.getElementById("contentF").value = this.moneyEdit)
-              document.getElementById("contentF").value="";
-            break;
-          };
-          case 'contentG':{
-            if(document.getElementById("contentG").value = this.hmoneyEdit)
-              document.getElementById("contentG").value="";
-            break;
-          };
-        };
-        
-        
+    clear(e) {
+      switch (e.target.id) {
+        case "contentA": {
+          // console.log(this.cth,document.getElementById("contentA").value )
+          if ((document.getElementById("contentA").value = this.cthEdit))
+            document.getElementById("contentA").value = "";
+          break;
+        }
+        case "contentB": {
+          if ((document.getElementById("contentB").value = this.nameEdit))
+            document.getElementById("contentB").value = "";
+          break;
+        }
+        case "contentC": {
+          if ((document.getElementById("contentC").value = this.ctztEdit))
+            document.getElementById("contentC").value = "";
+          break;
+        }
+        case "contentD": {
+          if ((document.getElementById("contentD").value = this.typeEdit))
+            document.getElementById("contentD").value = "";
+          break;
+        }
+        case "contentE": {
+          if ((document.getElementById("contentE").value = this.edrsEdit))
+            document.getElementById("contentE").value = "";
+          break;
+        }
+        case "contentF": {
+          if ((document.getElementById("contentF").value = this.moneyEdit))
+            document.getElementById("contentF").value = "";
+          break;
+        }
+        case "contentG": {
+          if ((document.getElementById("contentG").value = this.hmoneyEdit))
+            document.getElementById("contentG").value = "";
+          break;
+        }
+      }
+    },
+    resetForm(formName) {
+        this.$refs[formName].resetFields();
     }
   },
-  mounted(){
-    if(this.cthEdit){
-          this.cth = this.cthEdit;
-      }
-      if(this.nameEdit){
-          this.name = this.nameEdit;
-      }
-      if(this.ctztEdit){
-          this.ctzt = this.ctztEdit;
-      }
-      if(this.typeEdit){
-          this.type = this.typeEdit;
-      }
-      if(this.edrsEdit){
-          this.edrs = this.edrsEdit;
-      }
-      if(this.moneyEdit){
-          this.money = this.moneyEdit;
-      }
-      if(this.hmoneyEdit){
-          this.hmoney = this.hmoneyEdit;
-      }
+  mounted() {
+    if (this.cthEdit) {
+      this.ruleForm.cth = this.cthEdit;
+    }
+    if (this.nameEdit) {
+      this.ruleForm.name = this.nameEdit;
+    }
+    if (this.ctztEdit) {
+      this.ruleForm.ctzt = this.ctztEdit;
+    }
+    if (this.typeEdit) {
+      this.ruleForm.type = this.typeEdit;
+    }
+    if (this.edrsEdit) {
+      this.ruleForm.edrs = this.edrsEdit;
+    }
+    if (this.moneyEdit) {
+      this.ruleForm.money = this.moneyEdit;
+    }
+    if (this.hmoneyEdit) {
+      this.ruleForm.hmoney = this.hmoneyEdit;
+    }
   },
-  watch:{
-      cthEdit(){
-          this.cth = this.cthEdit;
-      },
-      nameEdit(){
-          this.name = this.nameEdit;
-      },
-      ctztEdit(){
-          this.ctzt = this.ctztEdit;
-      },
-      typeEdit(){
-          this.type = this.typeEdit;
-      },
-      edrsEdit(){
-          this.edrs = this.edrsEdit;
-      },
-      moneyEdit(){
-          this.money = this.moneyEdit;
-      },
-      hmoneyEdit(){
-          this.hmoney = this.hmoneyEdit;
-      }
+  watch: {
+    cthEdit() {
+      this.ruleForm.cth = this.cthEdit;
+    },
+    nameEdit() {
+      this.ruleForm.name = this.nameEdit;
+    },
+    ctztEdit() {
+      this.ruleForm.ctzt = this.ctztEdit;
+    },
+    typeEdit() {
+      this.ruleForm.type = this.typeEdit;
+    },
+    edrsEdit() {
+      this.ruleForm.edrs = this.edrsEdit;
+    },
+    moneyEdit() {
+      this.ruleForm.money = this.moneyEdit;
+    },
+    hmoneyEdit() {
+      this.ruleForm.hmoney = this.hmoneyEdit;
+    }
   }
 };
 </script>

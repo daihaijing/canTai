@@ -92,3 +92,104 @@
 :global(.loginButton){
   margin-left: 158px;
 }
+/* 套餐设置 表格 css */
+:global(.TCTable){
+  float: left;
+  width: 39%;
+  height: 90%;
+  border-radius: 5px;
+  margin-left: 5px;
+  border: 1px solid #aaa;
+}
+:global(.XMTable){
+  float: right;
+  width: 59%;
+  height: 90%;
+  border-radius: 5px;
+  margin-right: 5px;
+  border: 1px solid #aaa;
+}
+/* 套餐设置 按钮 css */
+:global(.TCbtn){
+  margin: 5px 10px;
+}
+/***********表格样式全局*************/
+:global(.el-table__fixed){
+  box-shadow: none;
+}
+:global(.el-table__fixed-right){
+  box-shadow: none;
+}
+/**************点餐标签页*********/
+:global(.dcTitle>.el-tabs__header){
+  background: #12203D;
+  height: 30px;
+  line-height: 30px;
+  margin: 5px;
+  border-radius: 5px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  color: #fff;
+  margin-bottom: 0;
+  padding-left: 10px;
+}
+:global(.dcTitle .el-tabs__item){
+  height: 30px;
+  line-height: 30px;
+}
+:global(.dcTitle .el-tabs__nav){
+  height: 30px;
+  line-height: 30px;
+  position: relative;
+  bottom: 2px;
+}
+:global(.dcTable>.el-tabs__header .el-tabs__item){
+  border-left: 0;
+}
+:global(.dcTable>.el-tabs__header .el-tabs__nav){
+  border: 0;
+}
+:global(.dcTable>.el-tabs__header){
+  border-bottom: 0;
+}
+:global(.dcTitle>.el-tabs__header .el-tabs__item){
+  color: #fff;
+}
+:global(.dcTitle>.el-tabs__header .el-tabs__item.is-active){
+  color: #fff;
+}
+:global(.dcTitle .el-tabs__nav-wrap::after){
+  display: none;
+}
+:global(.dcTitle>.el-tabs__content){
+  margin: 5px;
+  margin-top: 0;
+  border: 1px solid #aaa;
+  border-top: 0;
+  height: calc(100% - 36px);
+}
+:global(.dcTitle){
+  height:calc(100% - 5px);
+}
+:global(.dcTable){
+  margin-top: 20px;
+  width: 65%;
+  float: left;
+}
+:global(.el-tabs__nav-next){
+  line-height: 30px;
+}
+:global(.el-tabs__nav-prev){
+  line-height: 30px;
+}
+:global(.dcTable2){
+  margin-top: 10px;
+}
+:global(.dcTable2  td){
+  padding: 5px 0;
+  font-size: 14px;
+}
+:global(.dcTable2  th){
+  padding: 5px 0;
+  font-size: 14px;
+}

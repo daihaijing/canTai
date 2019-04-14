@@ -16,6 +16,7 @@
   /* 标题css */
   background: #12203D;
   height: 30px;
+  line-height: 30px;
   margin: 5px;
   margin-bottom: 0;
   border-radius: 5px;
@@ -40,12 +41,10 @@
 .txtView {
   /* 文本框span css */
   margin-left: 20px;
-  height: 26px;
-  vertical-align: middle;
 }
 
 .inputView {
-  width: auto;
+  width: auto !important;
 }
 
 .inputView input {
@@ -61,6 +60,7 @@
   /* 点餐title css */
   background: #12203D;
   height: 30px;
+  line-height: 30px;
   margin: 5px;
   margin-bottom: 0;
   border-radius: 5px;
@@ -117,11 +117,8 @@
 
 .dcimg {
   /* 菜品图片css */
-  width: 17%;
-  float: left;
-  margin-top: 5px;
+  width: 100%;
   border-radius: 20px;
-  padding: 0px 1.25%;
 }
 
 /* 套餐设置界面 css */
@@ -166,4 +163,22 @@
   width: 600px;
   margin: 0 auto;
   margin-top: 15px;
+}
+/* 点菜图标css */
+.dcIcon{
+  position: relative;
+  float: left;
+  width: 17%;
+  margin: 0px 1.5%;
+  margin-top: 5px;
+}
+.dcIcon i:nth-child(2){
+  position: absolute;
+  bottom: 5px;
+  left: 2px;
+}
+.dcIcon i:nth-child(3){
+  position: absolute;
+  bottom: 5px;
+  right: 2px;
 }

@@ -6,7 +6,7 @@
     <div :class="style.content">
       <span :class="style.txtView">桌号：</span>
       <el-input :class="style.inputView"></el-input>
-      <el-button type="info" plain @cllick="searchZH">查询</el-button>
+      <el-button type="info" plain @click="searchZH">查询</el-button>
       <el-table :data="tableData" style="width: 100%">
         <el-table-column prop="xh" label="序号" width="60"></el-table-column>
         <el-table-column prop="cth" label="餐台号" width="80"></el-table-column>
@@ -74,9 +74,16 @@ export default {
     };
   },
   methods: {
+    
+    searchZH(){
+
+    },
+    accounts(){
+
+    },
     backKT() {
       this.$router.push({ path: "kt" });
-    }
+    },
   }
 };
 </script>

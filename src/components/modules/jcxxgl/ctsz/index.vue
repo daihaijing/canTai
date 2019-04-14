@@ -1,28 +1,26 @@
 <template>
   <div>
     <div :class="style.title">
-      <span style="color:#fff;margin-left:20px;vertical-align:middle;">餐台设置</span>
+      <span :class="style.txtView">餐台设置</span>
     </div>
     <div :class="style.content">
-      <span>桌号：</span>
-      <el-input v-model="num" :class="style.txtView" @keyup.enter.native="searchCanTai"></el-input>
-      <el-button type="info" plain @click="searchCanTai">查询</el-button>
-      <el-button type="info" plain @click="deleteCanTai">删除</el-button>
-      <el-button type="info" plain @click="modifyCanTai">修改</el-button>
-      <el-button type="info" plain @click="addct">新增</el-button>
-      <el-button type="info" plain @click="backToKaiTai">返回</el-button>
+      <span :class="style.txtView">桌号：</span>
+      <el-input v-model="num" :class="style.inputView" @keyup.enter.native="searchCanTai"></el-input>
+      <el-button type="info" plain @click="searchCanTai">查询餐台</el-button>
+      <el-button type="info" plain @click="addct">新增餐台</el-button>
+      <el-button type="info" plain @click="backToKaiTai">返回首页</el-button>
       <el-table :data="tableData" style="width: 100%;" height="590" class="canTaiTable">
         <el-table-column prop="cth" label="餐台号" width="160" fixed="left"></el-table-column>
         <el-table-column prop="name" label="名称" width="180"></el-table-column>
         <el-table-column prop="ctzt" label="状态" width="140"></el-table-column>
         <el-table-column prop="type" label="餐台类型" width="160"></el-table-column>
         <el-table-column prop="edrs" label="额定人数" width="140"></el-table-column>
-        <el-table-column prop="money" label="是否消费" width="140"></el-table-column>
-        <el-table-column prop="hmoney" label="每小时包厢费" width="140"></el-table-column>
-        <el-table-column label="操作" width="80" fixed="right">
+        <el-table-column prop="money" label="是否消费" width="110"></el-table-column>
+        <el-table-column prop="hmoney" label="每小时包厢费" width="120"></el-table-column>
+        <el-table-column label="操作" width="90" fixed="right">
           <template slot-scope="scope">
-            <a @click="modifyData(scope.row)">修改</a>
-            <a @click="deleteData(scope.row)">删除</a>
+            <el-button type="text" size="small" @click="modifyData(scope.row)">修改</el-button>
+            <el-button type="text" size="small" @click="deleteData(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -281,29 +279,6 @@ export default {
           let a = document.getElementsByClassName("canTaiTable")[0];
           let b = a.getElementsByTagName("tr")[i + 1];
           b.style.background = "aquamarine";
-          //$(".canTaiTable tr").eq(i+1).addClass("lookHover");
-        }
-      }
-    },
-    deleteCanTai() {
-      for (let i = 0; i < this.tableData.length; i++) {
-        if (this.tableData[i].cth == this.num) {
-          this.tableData.splice(i, 1);
-        }
-      }
-    },
-    modifyCanTai() {
-      this.tiJiao = false;
-      this.addVisible = true;
-      for (let i = 0; i < this.tableData.length; i++) {
-        if (this.tableData[i].cth == this.num) {
-          this.cthEdit = this.tableData[i].cth;
-          this.nameEdit = this.tableData[i].name;
-          this.ctztEdit = this.tableData[i].ctzt;
-          this.typeEdit = this.tableData[i].type;
-          this.edrsEdit = this.tableData[i].edrs;
-          this.moneyEdit = this.tableData[i].money;
-          this.hmoneyEdit = this.tableData[i].hmoney;
         }
       }
     },

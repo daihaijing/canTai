@@ -3,6 +3,7 @@
   /* 标题css */
   background: #12203D;
   height: 30px;
+  line-height: 30px;
   margin: 5px;
   margin-bottom: 0;
   border-radius: 5px;
@@ -24,7 +25,6 @@
 .txtView {
   /* 文本框span css */
   width: 100px;
-  height: 26px;
   color: #333;
   margin-left: 20px;
 }
