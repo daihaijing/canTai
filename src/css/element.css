@@ -193,3 +193,9 @@
   padding: 5px 0;
   font-size: 14px;
 }
+/* 消费清单 按钮 css */
+:global(.xfBtn){
+  display: block;
+  margin: 0 auto;
+  margin-top: 10px;
+}

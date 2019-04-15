@@ -1,8 +1,8 @@
 <template>
   <el-dialog :visible.sync="addVisible" @close="addCloseEmit">
     <div :class="style.title">
-      <span :class="style.txtView">新增服务员</span>
-      <!-- <span :class="style.txtView" v-else>修改服务员</span> -->
+      <span :class="style.txtView" v-if="tiJiao">新增服务员</span>
+      <span :class="style.txtView" v-else>修改服务员</span>
     </div>
     <div :class="style.content">
       <el-form
@@ -228,6 +228,9 @@ export default {
     },
     bmmcEdit() {
       this.ruleForm.bmmc = this.bmmcEdit;
+    },
+    pnumEdit() {
+      this.ruleForm.pnum = this.pnumEdit;
     },
     idEdit() {
       this.ruleForm.id = this.idEdit;

@@ -9,6 +9,7 @@
         <el-input :class="style.inputView" v-model="num" @keyup.enter.native="searchTC"></el-input>
         <el-button type="info" plain @click="searchTC" class="TCbtn">查询套餐</el-button>
         <el-button type="info" plain @click="addTC" class="TCbtn">新增套餐</el-button>
+        <el-button type="info" plain @click="addTCXM" class="TCbtn">新增套餐项目</el-button>
       </div>
       <el-table :data="tcData" class="TCTable">
         <el-table-column prop="tcmc" label="套餐名称" width="160"></el-table-column>
@@ -202,6 +203,16 @@ export default {
       this.tcbmEdit = "";
       this.numEdit = "";
       this.moneyEdit = "";
+    },
+    addTCXM(){
+      this.addVisible1 = true;
+      this.tiJiao = true;
+
+      this.xmmcEdit = "";
+      this.dwEdit = "";
+      this.numEdit = "";
+      this.tcjEdit = "";
+      this.timeEdit = "";
     },
     addCloseEmit() {
       this.addVisible = false;
