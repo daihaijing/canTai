@@ -1,22 +1,13 @@
 <template>
-  <div>
+  <div :class="style.qtsy">
     <div :class="style.title">
       <span :class="style.txtView">前台收银</span>
     </div>
-    <div :class="style.content">
+    <div :class="style.content" style="text-align: center;">
       <span :class="style.txtView">桌号：</span>
       <el-input :class="style.inputView"></el-input>
       <el-button type="info" plain @click="searchZH">查询</el-button>
-      <el-table :data="tableData" style="width: 100%">
-        <el-table-column prop="xh" label="序号" width="60"></el-table-column>
-        <el-table-column prop="cth" label="餐台号" width="80"></el-table-column>
-        <el-table-column prop="xmmc" label="项目名称" width="100"></el-table-column>
-        <el-table-column prop="num" label="数量" width="80"></el-table-column>
-        <el-table-column prop="dj" label="单价" width="80"></el-table-column>
-        <el-table-column prop="money" label="金额" width="80"></el-table-column>
-        <el-table-column prop="time" label="登记时间" width="180"></el-table-column>
-        <el-table-column prop="jzr" label="记账人" width="100"></el-table-column>
-      </el-table>
+      <pay-table class="table" :tableData="tableData"></pay-table>
       <el-button type="info" plain @click="accounts">结账</el-button>
       <el-button type="info" plain @click="backKT">返回</el-button>
     </div>
@@ -25,6 +16,7 @@
 
 <script>
 import style from "css/kaitai.css";
+import PayTable from "./pay-table"
 export default {
   data() {
     return {
@@ -84,6 +76,9 @@ export default {
     backKT() {
       this.$router.push({ path: "kt" });
     },
+  },
+  components:{
+    PayTable,
   }
 };
 </script>

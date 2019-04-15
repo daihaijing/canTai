@@ -49,6 +49,7 @@
       :numEdit="numEdit"
       :moneyEdit="moneyEdit"
       :tiJiao="tiJiao"
+      v-if="addVisible"
     ></addTaoCan>
     <addTaoCanXM
       :addVisible="addVisible1"
@@ -61,6 +62,7 @@
       :tcjEdit="tcjEdit"
       :timeEdit="timeEdit"
       :tiJiao="tiJiao"
+      v-if="addVisible1"
     ></addTaoCanXM>
   </div>
 </template>
@@ -77,60 +79,60 @@ export default {
       tcData: [
         {
           tcmc: "鱼香肉丝套餐",
-          tcbh: "001",
+          tcbh: '001',
           tcbm: "YXRS",
-          num: "1",
-          money: "30"
+          num: 1,
+          money: 30
         },
         {
           tcmc: "青椒炒肉套餐",
-          tcbh: "002",
+          tcbh: '002',
           tcbm: "QJCR",
-          num: "1",
-          money: "30"
+          num: 1,
+          money: 30
         },
         {
           tcmc: "麻辣香锅套餐",
-          tcbh: "003",
+          tcbh: '003',
           tcbm: "MLXG",
-          num: "1",
-          money: "30"
+          num: 1,
+          money: 30
         }
       ],
       tcxmData: [
         {
           xmmc: "鱼香肉丝",
           dw: "份",
-          num: "1",
-          tcj: "15",
+          num: 1,
+          tcj: 15,
           time: "2019-4-2"
         },
         {
           xmmc: "青椒炒肉",
           dw: "份",
-          num: "1",
-          tcj: "15",
+          num: 1,
+          tcj: 15,
           time: "2019-4-2"
         },
         {
           xmmc: "麻辣香锅",
           dw: "份",
-          num: "1",
-          tcj: "15",
+          num: 1,
+          tcj: 15,
           time: "2019-4-2"
         },
         {
           xmmc: "米饭",
           dw: "碗",
-          num: "1",
-          tcj: "2",
+          num: 1,
+          tcj: 2,
           time: "2019-4-2"
         },
         {
           xmmc: "北冰洋",
           dw: "瓶",
-          num: "1",
-          tcj: "5",
+          num: 1,
+          tcj: 5,
           time: "2019-4-2"
         }
       ],

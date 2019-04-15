@@ -70,6 +70,9 @@
 :global(.canTaiTable td){
   padding:0;
 }
+:global(.canTaiTable th){
+  padding:5px auto;
+}
 /*****ctyd路由样式******/
 :global(.inputCtyd input){
   height: 38px;
@@ -96,7 +99,7 @@
 :global(.TCTable){
   float: left;
   width: 39%;
-  height: 90%;
+  max-height: 90%;
   border-radius: 5px;
   margin-left: 5px;
   border: 1px solid #aaa;
@@ -104,7 +107,7 @@
 :global(.XMTable){
   float: right;
   width: 59%;
-  height: 90%;
+  max-height: 90%;
   border-radius: 5px;
   margin-right: 5px;
   border: 1px solid #aaa;
@@ -198,4 +201,60 @@
   display: block;
   margin: 0 auto;
   margin-top: 10px;
+}
+/*点餐加减样式*/
+:global(.dcRight){
+  width: 20px;
+  height: 20px;
+  color: #333;
+  background-color: hsla(0,0%,100%,0.7);
+  border: 1.5px solid #dfe0e4;
+  font-size: 10px;
+  line-height: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+:global(.dcLeft){
+  width: 20px;
+  height: 20px;
+  color: #333;
+  background-color: hsla(0,0%,100%,0.7);
+  border: 1.5px solid #dfe0e4;
+  font-size: 10px;
+  line-height: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+:global(.table){
+  width: 90%;
+  margin: 10px auto;
+}
+/* 分页样式 */
+:global(.page){
+  text-align: center;
+}
+:global(.page p){
+  font-size: 14px;
+}
+/* 表格样式 */
+:global(.el-table th) {
+  background-color: #f5f7fa;
+  padding: 8px 0;
+}
+:global(.el-table td) {
+  padding: 8px 0;
+}
+:global(.el-table .el-table__header-wrapper tr) {
+  background-color: #f5f7fa !important;
+  color: #000;
+}
+:global(.el-table th .cell) {
+  font-size: 13px;
+  word-break: normal;
+}
+:global(.el-table td .cell) {
+  font-size: 12px;
+}
+:global(.el-table tr:nth-of-type(even)){
+  background: #fafafa;
 }

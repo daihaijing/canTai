@@ -17,18 +17,22 @@
         <el-form-item label="单位" prop="dw">
           <el-input v-model="ruleForm.dw" :class="style.addinput" @focus="clear" id="contentB"></el-input>
         </el-form-item>
-        <el-form-item label="人数" prop="tcbm">
-          <el-input v-model="ruleForm.num" :class="style.addinput" @focus="clear" id="contentC"></el-input>
+        <el-form-item label="人数" prop="tcbm" :rules="[
+          { type: 'number', message: '人数必须为数字值'}
+        ]">
+          <el-input v-model.number="ruleForm.num" :class="style.addinput" @focus="clear" id="contentC"></el-input>
         </el-form-item>
-        <el-form-item label="套餐价" prop="tcj">
-          <el-input v-model="ruleForm.tcj" :class="style.addinput" @focus="clear" id="contentD"></el-input>
+        <el-form-item label="套餐价" prop="tcj" :rules="[
+          { type: 'number', message: '套餐价必须为数字值'}
+        ]">
+          <el-input v-model.number="ruleForm.tcj" :class="style.addinput" @focus="clear" id="contentD"></el-input>
         </el-form-item>
         <el-form-item label="登记时间" prop="time">
           <el-input v-model="ruleForm.time" :class="style.addinput" @focus="clear" id="contentE"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="newAdd" v-if="tiJiao">提交</el-button>
-          <el-button type="primary" @click="newEdit" v-else>修改</el-button>
+          <el-button type="primary" @click="newAdd('ruleForm')" v-if="tiJiao">提交</el-button>
+          <el-button type="primary" @click="newEdit('ruleForm')" v-else>修改</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
       </el-form>
@@ -66,25 +70,45 @@ export default {
     addCloseEmit() {
       this.$emit("addCloseEmit");
     },
-    newAdd() {
-      this.$emit(
-        "newAdd",
-        this.ruleForm.xmmc,
-        this.ruleForm.dw,
-        this.ruleForm.num,
-        this.ruleForm.tcj,
-        this.ruleForm.time
-      );
+    newAdd(ruleForm) {
+      this.$refs[ruleForm].validate((valid) => {
+        if(valid){
+          this.$notify({
+              title: '成功',
+              message: '提交成功'
+          });
+          this.$emit(
+            "newAdd",
+            this.ruleForm.xmmc,
+            this.ruleForm.dw,
+            this.ruleForm.num,
+            this.ruleForm.tcj,
+            this.ruleForm.time
+          );
+        } else {
+            return false;
+        }
+      });
     },
-    newEdit() {
-      this.$emit(
-        "newEdit",
-        this.ruleForm.xmmc,
-        this.ruleForm.dw,
-        this.ruleForm.num,
-        this.ruleForm.tcj,
-        this.ruleForm.time
-      );
+    newEdit(ruleForm) {
+      this.$refs[ruleForm].validate((valid) => {
+        if(valid){
+          this.$notify({
+              title: '成功',
+              message: '修改成功'
+          });
+          this.$emit(
+            "newEdit",
+            this.ruleForm.xmmc,
+            this.ruleForm.dw,
+            this.ruleForm.num,
+            this.ruleForm.tcj,
+            this.ruleForm.time
+          );
+        } else {
+            return false;
+        }
+      });
     },
     clear(e) {
       switch (e.target.id) {

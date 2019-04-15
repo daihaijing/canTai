@@ -10,6 +10,7 @@
   border-bottom-right-radius: 0;
   color: #fff;
   margin-bottom: 0;
+  text-align: left;
 }
 
 .content {
@@ -54,4 +55,7 @@
 .addspan{
   margin-left: 20px;
   font-size: 16px;
+}
+.allResDiv{
+  text-align: center;
 }

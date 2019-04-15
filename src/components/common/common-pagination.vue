@@ -1,15 +1,16 @@
 <template>
-    <el-pagination :page-size="pageSize"  @current-change="currentChange" :current-page="pageNum" :layout="layout" :total="total">
-    </el-pagination>
+    <div class="page">
+      <p>总共<span>{{total}} </span> 条数据</p>
+      <el-pagination :page-size.sync="pageSize" style="margin:10px auto;"  @current-change="currentChange" :current-page.sync="currentPage" :layout="layout" :total="total">
+      </el-pagination>
+    </div>
 </template>
 <script>
 export default {
     name: "common-pagination",
     data() {
         return {
-            pageSizes: [24],
-            layout: "total, prev, pager, next, jumper",            
-            pageNum:1,
+            layout: "prev, pager, next, jumper",
         }
     },
     model: {
@@ -17,18 +18,18 @@ export default {
         event: 'pageChange'
     },
     props: {        
-        total: 0,
+        total: null,
         pageSize: null,
+        currentPage: null,
     },
     methods: {
-        sizeChange(pageSize) {
-            this.pageSize = pageSize;
-            this.$emit('pageSizeChange', this.pageSize);
-        },
         currentChange(pageNum) {
-            this.pageNum = pageNum;
-            this.$emit('pageNumChange', this.pageNum);
+            this.$emit('pageNumChange', pageNum);
         },
     },
+    watch:{
+        
+    }
+   
 }
 </script>

@@ -74,6 +74,8 @@ body {
 	/* Box-model */
 	height: 100%;
 	/* scrollbar-face-color: rgba(192, 204, 219, 0.6); */
+	font-size: 16px;
+	color: #333;
 }
 ::-webkit-scrollbar {
     width: 5px;

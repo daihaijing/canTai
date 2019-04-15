@@ -42,7 +42,8 @@
         :idEdit="idEdit"
         :pyjsmEdit="pyjsmEdit"
         :jtzzEdit="jtzzEdit"
-        :tiJiao="tiJiao">
+        :tiJiao="tiJiao"
+        v-if="addVisible">
       </addFuWuYuan>
     </div>
   </div>

@@ -11,26 +11,7 @@
         <el-button type="info" plain @click="addSF">新增项目</el-button>
         <el-button type="info" plain @click="backKaitai">返回首页</el-button>
       </div>
-      <el-table :data="shouFeiData" style="width: 100%" class="shouFeiTable">
-        <el-table-column prop="xmmc" label="项目名称" width="100" fixed="left"></el-table-column>
-        <el-table-column prop="xmbh" label="项目编号" width="60"></el-table-column>
-        <el-table-column prop="xmbm" label="项目编码" width="60"></el-table-column>
-        <el-table-column prop="dl" label="大类" width="80"></el-table-column>
-        <el-table-column prop="xl" label="小类" width="80"></el-table-column>
-        <el-table-column prop="dw" label="单位" width="80"></el-table-column>
-        <el-table-column prop="cbdj" label="成本单价" width="80"></el-table-column>
-        <el-table-column prop="xsdj" label="销售单价" width="60"></el-table-column>
-        <el-table-column prop="sfcykc" label="是否参与库存" width="100"></el-table-column>
-        <el-table-column prop="sfcyjf" label="是否参与积分" width="100"></el-table-column>
-        <el-table-column prop="sfcyzk" label="是否参与折扣" width="100"></el-table-column>
-        <el-table-column prop="ygtc" label="员工提成" width="80"></el-table-column>
-        <el-table-column label="操作" width="120" fixed="right">
-          <template slot-scope="scope">
-            <el-button type="text" size="small" @click="modifyData(scope.row)">修改</el-button>
-            <el-button type="text" size="small" @click="deleteData(scope.row)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+      <price-pay class="table" :shouFeiData="shouFeiData" @modifyData="modifyData" @deleteData="deleteData"></price-pay>
       <addShouFei
         :addVisible="addVisible"
         @addCloseEmit="addCloseEmit"
@@ -48,6 +29,7 @@
         :sfcyzkEdit="sfcyzkEdit"
         :ygtcEdit="ygtcEdit"
         :tiJiao="tiJiao"
+        v-if="addVisible"
         @newEdit="newEdit"
       ></addShouFei>
     </div>
@@ -56,6 +38,7 @@
 
 <script>
 import AddShouFei from "#com/addShouFei";
+import PricePay from "./price-pay"
 import style from "css/jcxxgl.css";
 export default {
   data() {
@@ -261,7 +244,8 @@ export default {
     }
   },
   components: {
-    AddShouFei
+    AddShouFei,
+    PricePay
   }
 };
 </script>

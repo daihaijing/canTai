@@ -1,8 +1,8 @@
 <template>
   <div :class="style.layout">
-    <left-menu :class="style.left"></left-menu>
+    <left-menu :class="style.left" :isUser="isUser"></left-menu>
     <header-title @login="login"></header-title>
-    <title-menu></title-menu>
+    <title-menu :isUser="isUser"></title-menu>
     <router-view :class="style.content"></router-view>
     <login-view :isLogin="isLogin" @loginEmit="loginEmit"></login-view>
   </div>
@@ -21,7 +21,8 @@ export default {
   data() {
     return {
       style,
-      isLogin: false
+      isLogin: false,
+      isUser:true,
     };
   },
   components: {
@@ -43,8 +44,10 @@ export default {
   mounted() {
     if (localStorage.getItem("user")) {
       this.isLogin = false;
+      this.isUser = false;
     } else {
       this.isLogin = true;
+      this.isUser = true;
     }
   }
 };

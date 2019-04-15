@@ -10,8 +10,10 @@
         ref="ruleForm"
         label-width="100px"
         class="demo-ruleForm">
-        <el-form-item label="餐台号" prop="cth">
-          <el-input v-model="ruleForm.cth" :class="style.addinput" @focus="clear" id="contentA"></el-input>
+        <el-form-item label="餐台号" prop="cth" :rules="[
+          { type: 'number', message: '餐台号必须为数字值'}
+        ]">
+          <el-input v-model.number="ruleForm.cth" :class="style.addinput" @focus="clear" id="contentA"></el-input>
         </el-form-item>
         <el-form-item label="餐台状态" prop="ctzt">
           <el-input v-model="ruleForm.ctzt" :class="style.addinput" @focus="clear" id="contentB"></el-input>
@@ -19,18 +21,22 @@
         <el-form-item label="类型" prop="type">
           <el-input v-model="ruleForm.type" :class="style.addinput" @focus="clear" id="contentC"></el-input>
         </el-form-item>
-        <el-form-item label="额定人数" prop="edrs">
-          <el-input v-model="ruleForm.edrs" :class="style.addinput" @focus="clear" id="contentD"></el-input>
+        <el-form-item label="额定人数" prop="edrs" :rules="[
+          { type: 'number', message: '额定人数必须为数字值'}
+        ]">
+          <el-input v-model.number="ruleForm.edrs" :class="style.addinput" @focus="clear" id="contentD"></el-input>
         </el-form-item>
         <el-form-item label="是否收取包厢费用" prop="money">
           <el-input v-model="ruleForm.money" :class="style.addinput" @focus="clear" id="contentE"></el-input>
         </el-form-item>
-        <el-form-item label="单位" prop="hmony">
-          <el-input v-model="ruleForm.hmoney" :class="style.addinput" @focus="clear" id="contentF"></el-input>
+        <el-form-item label="单位" prop="hmony" :rules="[
+          { type: 'number', message: '单位必须为数字值'}
+        ]">
+          <el-input v-model.number="ruleForm.hmoney" :class="style.addinput" @focus="clear" id="contentF"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="newAdd" v-if="tiJiao">提交</el-button>
-          <el-button type="primary" @click="newEdit" v-else>修改</el-button>
+          <el-button type="primary" @click="newAdd('ruleForm')" v-if="tiJiao">提交</el-button>
+          <el-button type="primary" @click="newEdit('ruleForm')" v-else>修改</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
       </el-form>
@@ -72,29 +78,49 @@ export default {
     addCloseEmit() {
       this.$emit("addCloseEmit");
     },
-    newAdd() {
-      this.$emit(
-        "newAdd",
-        this.ruleForm.cth,
-        this.ruleForm.name,
-        this.ruleForm.ctzt,
-        this.ruleForm.type,
-        this.ruleForm.edrs,
-        this.ruleForm.money,
-        this.ruleForm.hmoney
-      );
+    newAdd(ruleForm) {
+      this.$refs[ruleForm].validate((valid) => {
+        if(valid){
+          this.$notify({
+              title: '成功',
+              message: '提交成功'
+          });
+          this.$emit(
+            "newAdd",
+            this.ruleForm.cth,
+            this.ruleForm.name,
+            this.ruleForm.ctzt,
+            this.ruleForm.type,
+            this.ruleForm.edrs,
+            this.ruleForm.money,
+            this.ruleForm.hmoney
+          );
+        } else {
+            return false;
+        }
+      });
     },
-    newEdit() {
-      this.$emit(
-        "newEdit",
-        this.ruleForm.cth,
-        this.ruleForm.name,
-        this.ruleForm.ctzt,
-        this.ruleForm.type,
-        this.ruleForm.edrs,
-        this.ruleForm.money,
-        this.ruleForm.hmoney
-      );
+    newEdit(ruleForm) {
+      this.$refs[ruleForm].validate((valid) => {
+        if(valid){
+          this.$notify({
+              title: '成功',
+              message: '修改成功'
+          });
+          this.$emit(
+            "newEdit",
+            this.ruleForm.cth,
+            this.ruleForm.name,
+            this.ruleForm.ctzt,
+            this.ruleForm.type,
+            this.ruleForm.edrs,
+            this.ruleForm.money,
+            this.ruleForm.hmoney
+          );
+        } else {
+            return false;
+        }
+      });
     },
     clear(e) {
       switch (e.target.id) {

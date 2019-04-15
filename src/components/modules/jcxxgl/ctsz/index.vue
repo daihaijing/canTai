@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="style.allResDiv">
     <div :class="style.title">
       <span :class="style.txtView">餐台设置</span>
     </div>
@@ -9,21 +9,7 @@
       <el-button type="info" plain @click="searchCanTai">查询餐台</el-button>
       <el-button type="info" plain @click="addct">新增餐台</el-button>
       <el-button type="info" plain @click="backToKaiTai">返回首页</el-button>
-      <el-table :data="tableData" style="width: 100%;" height="590" class="canTaiTable">
-        <el-table-column prop="cth" label="餐台号" width="160" fixed="left"></el-table-column>
-        <el-table-column prop="name" label="名称" width="180"></el-table-column>
-        <el-table-column prop="ctzt" label="状态" width="140"></el-table-column>
-        <el-table-column prop="type" label="餐台类型" width="160"></el-table-column>
-        <el-table-column prop="edrs" label="额定人数" width="140"></el-table-column>
-        <el-table-column prop="money" label="是否消费" width="110"></el-table-column>
-        <el-table-column prop="hmoney" label="每小时包厢费" width="120"></el-table-column>
-        <el-table-column label="操作" width="90" fixed="right">
-          <template slot-scope="scope">
-            <el-button type="text" size="small" @click="modifyData(scope.row)">修改</el-button>
-            <el-button type="text" size="small" @click="deleteData(scope.row)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+      <all-res class="table" :tableData="tableData" @modifyData="modifyData" @deleteData="deleteData"></all-res>
       <addCanTai
         :addVisible="addVisible"
         @addCloseEmit="addCloseEmit"
@@ -37,6 +23,7 @@
         :hmoneyEdit="hmoneyEdit"
         :tiJiao="tiJiao"
         @newEdit="newEdit"
+        v-if="addVisible"
       ></addCanTai>
     </div>
   </div>
@@ -45,145 +32,146 @@
 <script>
 import AddCanTai from "#com/addCanTai";
 import style from "css/jcxxgl.css";
+import AllRes from "./all-res"
 export default {
   data() {
     return {
       style,
       tableData: [
         {
-          cth: "1",
+          cth: 1,
           name: "1号桌",
           ctzt: "占用",
           type: "卡座",
-          edrs: "4",
+          edrs: 4,
           money: "Y",
-          hmoney: "6"
+          hmoney: 6
         },
         {
-          cth: "2",
+          cth: 2,
           name: "2号桌",
           ctzt: "空闲",
           type: "卡座",
-          edrs: "4",
+          edrs: 4,
           money: "F",
-          hmoney: "6"
+          hmoney: 6
         },
         {
-          cth: "3",
+          cth: 3,
           name: "3号桌",
           ctzt: "空闲",
           type: "卡座",
-          edrs: "4",
+          edrs: 4,
           money: "F",
-          hmoney: "6"
+          hmoney: 6
         },
         {
-          cth: "4",
+          cth: 4,
           name: "4号桌",
           ctzt: "空闲",
           type: "卡座",
-          edrs: "4",
+          edrs: 4,
           money: "F",
-          hmoney: "6"
+          hmoney: 6
         },
         {
-          cth: "5",
+          cth: 5,
           name: "5号桌",
           ctzt: "空闲",
           type: "卡座",
-          edrs: "4",
+          edrs: 4,
           money: "F",
-          hmoney: "6"
+          hmoney: 6
         },
         {
-          cth: "6",
+          cth: 6,
           name: "6号桌",
           ctzt: "占用",
           type: "卡座",
-          edrs: "4",
+          edrs: 4,
           money: "Y",
-          hmoney: "6"
+          hmoney: 6
         },
         {
-          cth: "7",
+          cth: 7,
           name: "7号桌",
           ctzt: "空闲",
           type: "卡座",
-          edrs: "4",
+          edrs: 4,
           money: "F",
-          hmoney: "6"
+          hmoney: 6
         },
         {
-          cth: "8",
+          cth: 8,
           name: "8号桌",
           ctzt: "空闲",
           type: "卡座",
-          edrs: "4",
+          edrs: 4,
           money: "F",
-          hmoney: "6"
+          hmoney: 6
         },
         {
-          cth: "9",
+          cth: 9,
           name: "9号桌",
           ctzt: "空闲",
           type: "卡座",
-          edrs: "4",
+          edrs: 4,
           money: "F",
-          hmoney: "6"
+          hmoney: 6
         },
         {
-          cth: "10",
+          cth: 10,
           name: "10号桌",
           ctzt: "空闲",
           type: "卡座",
-          edrs: "4",
+          edrs: 4,
           money: "F",
-          hmoney: "6"
+          hmoney: 6
         },
         {
-          cth: "11",
+          cth: 11,
           name: "11号桌",
           ctzt: "占用",
           type: "卡座",
-          edrs: "4",
+          edrs: 4,
           money: "Y",
-          hmoney: "6"
+          hmoney: 6
         },
         {
-          cth: "12",
+          cth: 12,
           name: "12号桌",
           ctzt: "空闲",
           type: "包间",
-          edrs: "6",
+          edrs: 6,
           money: "F",
-          hmoney: "12"
+          hmoney: 12
         },
         {
-          cth: "13",
+          cth: 13,
           name: "13号桌",
           ctzt: "空闲",
           type: "包间",
-          edrs: "8",
+          edrs: 8,
           money: "F",
-          hmoney: "14"
+          hmoney: 14
         },
         {
-          cth: "14",
+          cth: 14,
           name: "14号桌",
           ctzt: "空闲",
           type: "包间",
-          edrs: "8",
+          edrs: 8,
           money: "F",
-          hmoney: "14"
+          hmoney: 14
         },
         {
-          cth: "15",
+          cth: 15,
           name: "15号桌",
           ctzt: "空闲",
           type: "包间",
-          edrs: "10",
+          edrs: 10,
           money: "F",
-          hmoney: "16"
+          hmoney: 16
         }
       ],
       addVisible: false,
@@ -287,7 +275,8 @@ export default {
     }
   },
   components: {
-    AddCanTai
+    AddCanTai,
+    AllRes
   }
 };
 </script>
