@@ -5,7 +5,7 @@
     </div>
     <div :class="style.content" style="text-align: center;">
       <span :class="style.txtView">桌号：</span>
-      <el-input :class="style.inputView"></el-input>
+      <el-input :class="style.inputView" v-model="num" @keyup.enter.native="searchZH"></el-input>
       <el-button type="info" plain @click="searchZH">查询</el-button>
       <pay-table class="table" :tableData="tableData"></pay-table>
       <el-button type="info" plain @click="accounts">结账</el-button>
@@ -21,6 +21,7 @@ export default {
   data() {
     return {
       style,
+      num:"",
       tableData: [
         {
           xh: "1",
@@ -68,7 +69,18 @@ export default {
   methods: {
     
     searchZH(){
-
+      for (let i = 0; i < this.tableData.length; i++) {
+        let a = document.getElementsByClassName("canTaiTable")[0];
+        let b = a.getElementsByTagName("tr")[i];
+        b.style.background = "#fff";
+      }
+      for (let i = 0; i < this.tableData.length; i++) {
+        if (this.tableData[i].cth == this.num) {
+          let a = document.getElementsByClassName("canTaiTable")[0];
+          let b = a.getElementsByTagName("tr")[i + 1];
+          b.style.background = "aquamarine";
+        }
+      }
     },
     accounts(){
 

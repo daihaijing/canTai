@@ -1,0 +1,44 @@
+/* 系统设置模块 CSS */
+/* 内容显示面板的标题/内容/span/el-input的公用css */
+.title {
+    /* 标题css */
+    background: #12203D;
+    height: 30px;
+    line-height: 30px;
+    margin: 5px;
+    margin-bottom: 0;
+    border-radius: 5px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    color: #fff;
+  }
+  
+  .content {
+    /* 内容css */
+    /* background: #12203D; */
+    height: calc(100% - 40px);
+    margin: 5px;
+    margin-top: 0;
+    border: 1px solid #aaa;
+    border-top: 0;
+    padding-top: 10px;
+    box-sizing: border-box;
+    color: #333;
+  }
+
+  .txtView {
+    /* 文本框span css */
+    margin-left: 20px;
+  }
+  
+  .inputView {
+    width: auto !important;
+  }
+  
+  .inputView input {
+    /* 输入框input css */
+    width: 100px;
+    height: 26px;
+    color: #333;
+    margin-left: 20px;
+  }

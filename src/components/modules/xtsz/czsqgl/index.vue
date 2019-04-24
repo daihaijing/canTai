@@ -1,55 +1,38 @@
 <template>
   <div>
-    <ul>
-      <li>查询条件</li>
-      <li>
-        <span>会员卡号</span>
-        <input type="text">
-      </li>
-      <li>
-        <span>会员密码</span>
-        <input type="text">
-        <button>查询</button>
-      </li>
-      <li>会员信息</li>
-      <li>
-        <span>会员名称</span>
-        <input type="text">
-      </li>
-      <li>
-        <span>联系电话</span>
-        <input type="text">
-      </li>
-      <li>
-        <span>联系地址</span>
-        <input type="text">
-      </li>
-      <li>
-        <span>可兑换积分</span>
-        <input type="text">
-      </li>
-      <li>
-        <span>准备兑换积分</span>
-        <input type="text">
-      </li>
-      <li>
-        <span>备注</span>
-        <input type="text">
-      </li>
-      <li>
-        <button>兑换</button>
-        <button>返回</button>
-      </li>
-    </ul>
+    <div :class="style.title">
+      <span :class="style.txtView">操作员授权管理</span>
+    </div>
+    <div :class="style.content">
+      <div>
+        <el-button type="info" plain @click="add">新增</el-button>
+        <el-button type="info" plain @click="modify">修改</el-button>
+        <el-button type="info" plain @click="del">删除</el-button>
+        <el-button type="info" plain @click="cancle">取消</el-button>
+        <el-button type="info" plain @click="save">保存</el-button>
+        <el-button type="info" plain @click="modPassword">修改密码</el-button>
+        <el-button type="info" plain @click="backKT">返回</el-button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import style from "@/css/xtsz.css";
 export default {
   data() {
     return {
-      
+      style
     };
+  },
+  methods: {
+    add() {},
+    modify() {},
+    del() {},
+    canale() {},
+    save() {},
+    modPassword() {},
+    backKT() {},
   }
 };
 </script>

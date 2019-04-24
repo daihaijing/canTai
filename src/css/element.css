@@ -258,3 +258,19 @@
 :global(.el-table tr:nth-of-type(even)){
   background: #fafafa;
 }
+/* 商品入库选择框样式 */
+:global(.rkSelect){
+  width: 100px;
+  height: 26px;
+  line-height: 26px;
+  margin-left: 40px;
+}
+:global(.rkSelect input){
+  width: 100px;
+  height: 26px;
+}
+:global(.rkSelect .el-input span){
+  position: absolute;
+  top: -3px;
+  right: 1px;
+}
