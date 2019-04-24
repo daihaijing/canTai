@@ -47,7 +47,7 @@
           <el-button type="info" plain @click="add" v-if="flag =='add'">入库</el-button>
           <el-button type="info" plain @click="del" v-else-if="flag=='del'">出库</el-button>
           <el-button type="info" plain @click="find" v-else-if="flag=='find'">查询</el-button>
-          <el-button type="info" plain @click="analy" v-else="flag=='analy'">盘点</el-button>
+          <el-button type="info" plain @click="analy" v-else-if="flag=='analy'">盘点</el-button>
           <el-button type="info" plain>返回</el-button>
         </div>
       </div>

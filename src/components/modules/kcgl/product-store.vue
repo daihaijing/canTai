@@ -8,7 +8,7 @@
             <el-table-column prop="jhdj" label="进货单价"  align="center"></el-table-column>
             <el-table-column prop="rksl" label="库存数量"  align="center"></el-table-column>
             <el-table-column label="实际盘点数量" align="center" v-if="flag == 'analy'">
-                <template slot-scope="scope">
+                <template>
                     <el-input :class="style.inputView" v-model="trueNum"></el-input>
                 </template>
             </el-table-column>
