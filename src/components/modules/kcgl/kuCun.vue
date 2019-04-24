@@ -149,6 +149,7 @@ export default {
         }
       ];
       let label;
+      let tableData3 = [];
       this.tableData.map((item,index)=>{
         switch(this.value){
           case 'all' : label = ""; break;
@@ -156,10 +157,37 @@ export default {
           case 'water' : label = "饮料"; break;
         }
         if(item.cplb == label){
-            this.tableData = [];
-            this.tableData.push(item);
+          tableData3.push(item);
+        }
+        if(!label){
+          tableData3 = [
+            {
+              jsm: "WHH",
+              xmmc: "哇哈哈",
+              dw: "瓶",
+              cplb: "猪",
+              jhdj: "1",
+              rksl: "20"
+            },
+            {
+              jsm: "BS",
+              xmmc: "哇哈哈",
+              dw: "瓶",
+              cplb: "饮料",
+              jhdj: "1",
+              rksl: "20"
+            }, {
+              jsm: "EJL",
+              xmmc: "哇哈哈",
+              dw: "瓶",
+              cplb: "猪",
+              jhdj: "1",
+              rksl: "20"
+            }
+          ]
         }
       })
+      this.tableData = tableData3;
     },
     //选择
     select() {
