@@ -8,7 +8,7 @@
         <span :class="style.txtView">项目清单</span>
         <div style="margin-top:5px;">
           <span :class="style.txtView">编号/检索码：</span>
-          <el-input :class="style.inputView" v-model="name" @change="nameChange"></el-input>
+          <el-input :class="style.inputView" v-model="name" @change="typeChange"></el-input>
         </div>
         <div style="margin-top:5px;">
           <span :class="style.txtView">入库数量：</span>
@@ -93,6 +93,13 @@ export default {
           cplb: "猪",
           jhdj: "1",
           rksl: "20"
+        },{
+          jsm: "EJL",
+          xmmc: "哇哈哈",
+          dw: "瓶",
+          cplb: "饮料",
+          jhdj: "1",
+          rksl: "20"
         }
       ],
       options: [
@@ -113,15 +120,7 @@ export default {
     };
   },
   methods: {
-    //编号改变
-    nameChange() {
-      this.tableData.map((item,index)=>{
-        if(item.jsm == this.name){
-          this.tableData = [];
-          this.tableData.push(item);
-        }
-      })
-    },
+    //编号改变或类别改变
     typeChange(){
        this.tableData = [
         {
@@ -146,7 +145,14 @@ export default {
           cplb: "猪",
           jhdj: "1",
           rksl: "20"
-        }
+        },{
+            jsm: "EJL",
+            xmmc: "哇哈哈",
+            dw: "瓶",
+            cplb: "饮料",
+            jhdj: "1",
+            rksl: "20"
+          }
       ];
       let label;
       let tableData3 = [];
@@ -156,51 +162,66 @@ export default {
           case 'pig' : label = "猪"; break;
           case 'water' : label = "饮料"; break;
         }
-        if(item.cplb == label){
-          tableData3.push(item);
-        }
-        if(!label){
-          tableData3 = [
-            {
-              jsm: "WHH",
-              xmmc: "哇哈哈",
-              dw: "瓶",
-              cplb: "猪",
-              jhdj: "1",
-              rksl: "20"
-            },
-            {
-              jsm: "BS",
-              xmmc: "哇哈哈",
-              dw: "瓶",
-              cplb: "饮料",
-              jhdj: "1",
-              rksl: "20"
-            }, {
-              jsm: "EJL",
-              xmmc: "哇哈哈",
-              dw: "瓶",
-              cplb: "猪",
-              jhdj: "1",
-              rksl: "20"
+        if(!this.name){
+          if(!label)
+            tableData3 = [
+              {
+                jsm: "WHH",
+                xmmc: "哇哈哈",
+                dw: "瓶",
+                cplb: "猪",
+                jhdj: "1",
+                rksl: "20"
+              },
+              {
+                jsm: "BS",
+                xmmc: "哇哈哈",
+                dw: "瓶",
+                cplb: "饮料",
+                jhdj: "1",
+                rksl: "20"
+              }, {
+                jsm: "EJL",
+                xmmc: "哇哈哈",
+                dw: "瓶",
+                cplb: "猪",
+                jhdj: "1",
+                rksl: "20"
+              },{
+                jsm: "EJL",
+                xmmc: "哇哈哈",
+                dw: "瓶",
+                cplb: "饮料",
+                jhdj: "1",
+                rksl: "20"
+              }
+            ]
+          else{
+            if(item.cplb == label){
+              tableData3.push(item);
             }
-          ]
+          }
+        }else{
+          if(!label){
+            if(this.name == item.jsm){
+              tableData3.push(item);
+            }
+          }else{
+            if(item.cplb == label && this.name == item.jsm){
+              tableData3.push(item);
+            }
+          }
         }
       })
       this.tableData = tableData3;
     },
     //选择
     select() {
-      var addData = {};
-      this.tableData.map((item, index) => {
-        addData.jsm = item.jsm;
-        addData.xmmc = item.xmmc;
-        addData.dw = item.dw;
-        addData.cplb = item.cplb;
-        addData.jhdj = this.price;
-        addData.rksl = this.num;
+      this.tableData2 = this.tableData;
+      this.tableData2.map((item, index) => {
+        item.jhdj = this.price == '' ? 0 : this.price;
+        item.rksl = this.num == '' ? 0 :this.num;
       });
-      this.tableData2.push(addData);
     },
     //入库
     add(){
