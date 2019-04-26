@@ -8,7 +8,7 @@
         <span :class="style.txtView">项目清单</span>
         <div style="margin-top:5px;">
           <span :class="style.txtView">编号/检索码：</span>
-          <el-input :class="style.inputView" v-model="name" @change="typeChange"></el-input>
+          <el-input :class="style.inputView" v-model="name" @change="nameChange"></el-input>
         </div>
         <div style="margin-top:5px;">
           <span :class="style.txtView">入库数量：</span>
@@ -20,7 +20,7 @@
         </div>
         <div style="margin-top:5px;">
           <span :class="style.txtView">查看类别:</span>
-          <el-select v-model="value" placeholder="请选择" class="rkSelect" @change="typeChange">
+          <el-select v-model="type" placeholder="请选择" class="rkSelect" @change="typeChange">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -30,7 +30,7 @@
           </el-select>
           <el-button type="info" plain @click="select">-></el-button>
         </div>
-        <product-store :tableData="tableData" class="table" ></product-store>
+        <product-store :tableData="tableData" class="table" @deleteData="deleteData" v-loading="loading"></product-store>
       </div>
       <div :class="style.rkRight">
         <span :class="style.txtView">产品入库单</span>
@@ -42,12 +42,10 @@
           <span :class="style.txtView">入库日期：</span>
           <span>{{nowTime}}</span>
         </div>
-        <product-store :tableData="tableData2" class="table" @deleteData="deleteData"></product-store>
+        <product-store :tableData="tableData2" class="table" @deleteData="deleteData2"></product-store>
         <div style="text-align:center;">
           <el-button type="info" plain @click="add" v-if="flag =='add'">入库</el-button>
           <el-button type="info" plain @click="del" v-else-if="flag=='del'">出库</el-button>
-          <el-button type="info" plain @click="find" v-else-if="flag=='find'">查询</el-button>
-          <el-button type="info" plain @click="analy" v-else-if="flag=='analy'">盘点</el-button>
           <el-button type="info" plain>返回</el-button>
         </div>
       </div>
@@ -65,43 +63,43 @@ export default {
       name: "",
       num: 0,
       price: 0,
-      value: "all",
+      type: "all",
       people: "",
       date: "",
       nowTime:"",
       nowNum:"",
-      tableData: [
-        {
-          jsm: "WHH",
-          xmmc: "哇哈哈",
-          dw: "瓶",
-          cplb: "猪",
-          jhdj: "1",
-          rksl: "20"
-        },
-        {
-          jsm: "BS",
-          xmmc: "哇哈哈",
-          dw: "瓶",
-          cplb: "饮料",
-          jhdj: "1",
-          rksl: "20"
-        },{
-          jsm: "EJL",
-          xmmc: "哇哈哈",
-          dw: "瓶",
-          cplb: "猪",
-          jhdj: "1",
-          rksl: "20"
-        },{
-          jsm: "EJL",
-          xmmc: "哇哈哈",
-          dw: "瓶",
-          cplb: "饮料",
-          jhdj: "1",
-          rksl: "20"
-        }
-      ],
+      // tableData: [
+      //   {
+      //     jsm: "WHH",
+      //     xmmc: "哇哈哈",
+      //     dw: "瓶",
+      //     cplb: "猪",
+      //     jhdj: "1",
+      //     rksl: "20"
+      //   },
+      //   {
+      //     jsm: "BS",
+      //     xmmc: "哇哈哈",
+      //     dw: "瓶",
+      //     cplb: "饮料",
+      //     jhdj: "1",
+      //     rksl: "20"
+      //   },{
+      //     jsm: "EJL",
+      //     xmmc: "哇哈哈",
+      //     dw: "瓶",
+      //     cplb: "猪",
+      //     jhdj: "1",
+      //     rksl: "20"
+      //   },{
+      //     jsm: "EJL",
+      //     xmmc: "哇哈哈",
+      //     dw: "瓶",
+      //     cplb: "饮料",
+      //     jhdj: "1",
+      //     rksl: "20"
+      //   }
+      // ],
       options: [
         {
           value: "all",
@@ -120,104 +118,27 @@ export default {
     };
   },
   methods: {
-    //编号改变或类别改变
+    //检索码改变
+    nameChange(){
+      this.$emit("nameChange",this.name);
+    },
+    //类别改变
     typeChange(){
-       this.tableData = [
-        {
-          jsm: "WHH",
-          xmmc: "哇哈哈",
-          dw: "瓶",
-          cplb: "猪",
-          jhdj: "1",
-          rksl: "20"
-        },
-        {
-          jsm: "BS",
-          xmmc: "哇哈哈",
-          dw: "瓶",
-          cplb: "饮料",
-          jhdj: "1",
-          rksl: "20"
-        }, {
-          jsm: "EJL",
-          xmmc: "哇哈哈",
-          dw: "瓶",
-          cplb: "猪",
-          jhdj: "1",
-          rksl: "20"
-        },{
-            jsm: "EJL",
-            xmmc: "哇哈哈",
-            dw: "瓶",
-            cplb: "饮料",
-            jhdj: "1",
-            rksl: "20"
-          }
-      ];
-      let label;
-      let tableData3 = [];
-      this.tableData.map((item,index)=>{
-        switch(this.value){
-          case 'all' : label = ""; break;
-          case 'pig' : label = "猪"; break;
-          case 'water' : label = "饮料"; break;
-        }
-        if(!this.name){
-          if(!label)
-            tableData3 = [
-              {
-                jsm: "WHH",
-                xmmc: "哇哈哈",
-                dw: "瓶",
-                cplb: "猪",
-                jhdj: "1",
-                rksl: "20"
-              },
-              {
-                jsm: "BS",
-                xmmc: "哇哈哈",
-                dw: "瓶",
-                cplb: "饮料",
-                jhdj: "1",
-                rksl: "20"
-              }, {
-                jsm: "EJL",
-                xmmc: "哇哈哈",
-                dw: "瓶",
-                cplb: "猪",
-                jhdj: "1",
-                rksl: "20"
-              },{
-                jsm: "EJL",
-                xmmc: "哇哈哈",
-                dw: "瓶",
-                cplb: "饮料",
-                jhdj: "1",
-                rksl: "20"
-              }
-            ]
-          else{
-            if(item.cplb == label){
-              tableData3.push(item);
-            }
-          }
-        }else{
-          if(!label){
-            if(this.name == item.jsm){
-              tableData3.push(item);
-            }
-          }else{
-            if(item.cplb == label && this.name == item.jsm){
-              tableData3.push(item);
-            }
-          }
-        }
-      })
-      this.tableData = tableData3;
+      this.$emit("typeChange",this.type);
     },
     //选择
     select() {
-      this.tableData2 = this.tableData;
+      // this.tableData2 = this.tableData;这样写会使两个数据占据同样位置的内存，操纵一个另外一个也会跟着改变
+      this.tableData.map((item,index)=>{
+        let a = {};
+        a.jsm = item.jsm;
+        a.xmmc = item.xmmc;
+        a.dw = item.dw;
+        a.cplb = item.cplb;
+        a.jhdj = item.jhdj;
+        a.rksl = item.rksl;
+        this.tableData2.push(a);
+      })
       this.tableData2.map((item, index) => {
         item.jhdj = this.price == '' ? 0 : this.price;
         item.rksl = this.num == '' ? 0 :this.num;
@@ -225,7 +146,7 @@ export default {
     },
     //入库
     add(){
-
+      
     },
     //出库
     del(){
@@ -240,7 +161,10 @@ export default {
 
     },
     //删除一条记录
-    deleteData(e) {
+    deleteData(val) {
+      this.$emit("deleteData",val);
+    },
+    deleteData2(e) {
       for (let i = 0; i < this.tableData2.length; i++) {
         if (e == this.tableData2[i]) {
           this.tableData2.splice(i, 1);
@@ -283,6 +207,8 @@ export default {
   props:{
     keyName:null,
     flag:null,
+    tableData:null,
+    loading:null,
   },
   mounted() {
     if (localStorage.getItem("user")) {

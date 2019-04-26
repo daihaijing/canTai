@@ -4,9 +4,9 @@
       <span :class="style.title_span">库存查询</span>
     </div>
     <div :class="style.content">
-      <div>
+      <div :class="style.kccxEmit">
         <span :class="style.txtView">商品类别：</span>
-        <el-select v-model="value" placeholder="请选择">
+        <el-select v-model="value" placeholder="请选择" class="rkSelect" style="margin-left:10px;">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -14,12 +14,14 @@
             :value="item.value"
           ></el-option>
         </el-select>
-        <span :class="style.txtView">拼音检索码：</span>
+        <span :class="style.txtView" style="margin-left:50px;">拼音检索码：</span>
         <el-input :class="style.inputView" v-model="num"></el-input>
-        <el-button type="info" plain @click="find">查询</el-button>
-        <el-button type="info" plain @click="print">打印</el-button>
-        <el-button type="info" plain @click="exportExcel">导出Excel</el-button>
-        <el-button type="info" plain @click="backKT">返回</el-button>
+        <div :class="style.buttonEmit">
+          <el-button type="info" plain @click="find">查询</el-button>
+          <el-button type="info" plain @click="print">打印</el-button>
+          <el-button type="info" plain @click="exportExcel">导出Excel</el-button>
+          <el-button type="info" plain @click="backKT" style="float: right;margin-right: 5%;">返回</el-button>
+        </div>
       </div>
       <product-store :tableData="tableData" class="table" :flag="flag" @deleteData="deleteData"></product-store>
     </div>
@@ -86,8 +88,21 @@ export default {
     print(){
 
     },
-    exportExcel(){
-
+    //导出的方法
+    exportExcel() {
+      require.ensure([], () => {
+        const { export_json_to_excel } = require('@/excel/Export2Excel');
+        const tHeader = ['检索码', '项目名称', '单位','产品类别','进货单价','库存数量'];
+        // 上面设置Excel的表格第一行的标题
+        const filterVal = ['jsm', 'xmmc', 'dw','cplb','jhdj','rksl'];
+        // 上面的index、nickName、name是tableData里对象的属性
+        const list = this.tableData;  //把data里的tableData存到list
+        const data = this.formatJson(filterVal, list);
+        export_json_to_excel(tHeader, data, '列表excel');
+      })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => v[j]))
     },
     deleteData(e) {
       for (let i = 0; i < this.tableData.length; i++) {

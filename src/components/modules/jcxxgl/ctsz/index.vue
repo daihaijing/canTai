@@ -9,7 +9,7 @@
       <el-button type="info" plain @click="searchCanTai">查询餐台</el-button>
       <el-button type="info" plain @click="addct">新增餐台</el-button>
       <el-button type="info" plain @click="backToKaiTai">返回首页</el-button>
-      <all-res class="table" :tableData="tableData" @modifyData="modifyData" @deleteData="deleteData"></all-res>
+      <all-res class="table" :tableData="tableData" @modifyData="modifyData" @deleteData="deleteData" v-loading="loading"></all-res>
       <addCanTai
         :addVisible="addVisible"
         @addCloseEmit="addCloseEmit"
@@ -33,147 +33,13 @@
 import AddCanTai from "#com/addCanTai";
 import style from "css/jcxxgl.css";
 import AllRes from "./all-res"
+import { mapActions } from "vuex";
+import { addOneTable,deleteOneTable,getAllTable } from "./mutation-types";
 export default {
   data() {
     return {
       style,
-      tableData: [
-        {
-          cth: 1,
-          name: "1号桌",
-          ctzt: "占用",
-          type: "卡座",
-          edrs: 4,
-          money: "Y",
-          hmoney: 6
-        },
-        {
-          cth: 2,
-          name: "2号桌",
-          ctzt: "空闲",
-          type: "卡座",
-          edrs: 4,
-          money: "F",
-          hmoney: 6
-        },
-        {
-          cth: 3,
-          name: "3号桌",
-          ctzt: "空闲",
-          type: "卡座",
-          edrs: 4,
-          money: "F",
-          hmoney: 6
-        },
-        {
-          cth: 4,
-          name: "4号桌",
-          ctzt: "空闲",
-          type: "卡座",
-          edrs: 4,
-          money: "F",
-          hmoney: 6
-        },
-        {
-          cth: 5,
-          name: "5号桌",
-          ctzt: "空闲",
-          type: "卡座",
-          edrs: 4,
-          money: "F",
-          hmoney: 6
-        },
-        {
-          cth: 6,
-          name: "6号桌",
-          ctzt: "占用",
-          type: "卡座",
-          edrs: 4,
-          money: "Y",
-          hmoney: 6
-        },
-        {
-          cth: 7,
-          name: "7号桌",
-          ctzt: "空闲",
-          type: "卡座",
-          edrs: 4,
-          money: "F",
-          hmoney: 6
-        },
-        {
-          cth: 8,
-          name: "8号桌",
-          ctzt: "空闲",
-          type: "卡座",
-          edrs: 4,
-          money: "F",
-          hmoney: 6
-        },
-        {
-          cth: 9,
-          name: "9号桌",
-          ctzt: "空闲",
-          type: "卡座",
-          edrs: 4,
-          money: "F",
-          hmoney: 6
-        },
-        {
-          cth: 10,
-          name: "10号桌",
-          ctzt: "空闲",
-          type: "卡座",
-          edrs: 4,
-          money: "F",
-          hmoney: 6
-        },
-        {
-          cth: 11,
-          name: "11号桌",
-          ctzt: "占用",
-          type: "卡座",
-          edrs: 4,
-          money: "Y",
-          hmoney: 6
-        },
-        {
-          cth: 12,
-          name: "12号桌",
-          ctzt: "空闲",
-          type: "包间",
-          edrs: 6,
-          money: "F",
-          hmoney: 12
-        },
-        {
-          cth: 13,
-          name: "13号桌",
-          ctzt: "空闲",
-          type: "包间",
-          edrs: 8,
-          money: "F",
-          hmoney: 14
-        },
-        {
-          cth: 14,
-          name: "14号桌",
-          ctzt: "空闲",
-          type: "包间",
-          edrs: 8,
-          money: "F",
-          hmoney: 14
-        },
-        {
-          cth: 15,
-          name: "15号桌",
-          ctzt: "空闲",
-          type: "包间",
-          edrs: 10,
-          money: "F",
-          hmoney: 16
-        }
-      ],
+      tableData: [],
       addVisible: false,
       cthEdit: "",
       nameEdit: "",
@@ -184,10 +50,16 @@ export default {
       hmoneyEdit: "",
       tiJiao: true,
       num: "",
-      eData: ""
+      eData: "",
+      loading:false,
     };
   },
   methods: {
+    ...mapActions({
+      addOneTable,
+      deleteOneTable,
+      getAllTable
+    }),
     //添加餐台
     addct() {
       this.tiJiao = true;
@@ -216,6 +88,18 @@ export default {
       };
       this.tableData.push(newData);
       this.addVisible = false;
+      this.addDate(cth, name, ctzt, type, edrs, money, hmoney);
+    },
+    async addDate(cth, name, ctzt, type, edrs, money, hmoney){
+      let result = await this.addOneTable({
+        t_number:cth,
+        t_name: name,
+        t_people: edrs,
+        t_type: type,
+        t_state: ctzt,
+      })
+      if (!result) return;
+      let data = JSON.parse(result);
     },
     newEdit(cth, name, ctzt, type, edrs, money, hmoney) {
       var newData = {
@@ -233,6 +117,7 @@ export default {
           this.addVisible = false;
         }
       }
+
     },
     //修改餐台
     modifyData(e) {
@@ -255,6 +140,14 @@ export default {
           this.tableData.splice(i, 1);
         }
       }
+      this.deleteDataTable(e);
+    },
+    async deleteDataTable(e){
+      let result = await this.deleteOneTable({
+        t_number:e.cth
+      })
+      if (!result) return;
+      let data = JSON.parse(result);
     },
     searchCanTai() {
       for (let i = 0; i < this.tableData.length; i++) {
@@ -272,11 +165,23 @@ export default {
     },
     backToKaiTai() {
       this.$router.push({ path: "kt" });
+    },
+    //查询全部餐台
+    async getAllTableData(){
+      this.loading = true;
+      let result = await this.getAllTable();
+      if (!result) return;
+      let data = JSON.parse(result);
+      this.tableData = data;
+      this.loading = false;
     }
   },
   components: {
     AddCanTai,
     AllRes
+  },
+  mounted(){
+    this.getAllTableData();
   }
 };
 </script>

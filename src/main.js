@@ -13,6 +13,8 @@ import App from '#/app'
 import '@/util/array-find-polyfill'
 import routerIntercept from 'vr/router-intercept'
 import 'jquery'
+import Blob from './excel/Blob'
+import Export2Excel from './excel/Export2Excel.js'
 Vue.use(PrototypeExtend);
 //引入axios
 import axios from 'axios'

@@ -4,9 +4,9 @@
       <span :class="style.title_span">库存盘点</span>
     </div>
     <div :class="style.content">
-      <div>
+      <div :class="style.kccxEmit">
         <span :class="style.txtView">商品类别：</span>
-        <el-select v-model="value" placeholder="请选择">
+        <el-select v-model="value" placeholder="请选择" class="rkSelect" style="margin-left:10px;">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -14,12 +14,14 @@
             :value="item.value"
           ></el-option>
         </el-select>
-        <el-button type="info" plain @click="find">查询</el-button>
-        <el-button type="info" plain @click="finish">盘点完成</el-button>
-        <el-button type="info" plain @click="backKT">返回</el-button>
+        <div :class="style.buttonEmit">
+          <el-button type="info" plain @click="find">查询</el-button>
+          <el-button type="info" plain @click="finish">盘点完成</el-button>
+          <el-button type="info" plain @click="backKT" style="float: right;margin-right: 5%;">返回</el-button>
+        </div>
       </div>
       <product-store :tableData="tableData" class="table" :flag="flag"></product-store>
-      <div>
+      <div :class="style.tip">
         <span>提示：先查询数据，再在盘点实际数量框内输入实际数量，最后点击”盘点完成“按钮！</span>
       </div>
     </div>

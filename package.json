@@ -15,12 +15,14 @@
     "axios": "^0.18.0",
     "element-ui": "^2.0.8",
     "es6-promise": "^4.1.1",
+    "file-saver": "^2.0.1",
     "flag-icon-css": "^3.0.0",
     "jquery": "^3.4.0",
     "vue": "^2.4.2",
     "vue-concise-slider": "^2.4.8",
     "vue-router": "^2.8.1",
-    "vuex": "^3.1.0"
+    "vuex": "^3.1.0",
+    "xlsx": "^0.14.2"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -61,6 +63,7 @@
     "phantomjs-prebuilt": "^2.1.14",
     "portfinder": "^1.0.13",
     "rimraf": "^2.6.0",
+    "script-loader": "^0.7.2",
     "semver": "^5.3.0",
     "shelljs": "^0.7.6",
     "sinon": "^4.0.0",

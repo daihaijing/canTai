@@ -29,7 +29,7 @@ export default {
     add() {},
     modify() {},
     del() {},
-    canale() {},
+    cancle() {},
     save() {},
     modPassword() {},
     backKT() {},

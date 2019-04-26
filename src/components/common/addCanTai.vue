@@ -15,6 +15,9 @@
         ]">
           <el-input v-model.number="ruleForm.cth" :class="style.addinput" @focus="clear" id="contentA"></el-input>
         </el-form-item>
+        <el-form-item label="名称" prop="name">
+          <el-input v-model="ruleForm.name" :class="style.addinput" @focus="clear" id="contentB"></el-input>
+        </el-form-item>
         <el-form-item label="餐台状态" prop="ctzt">
           <el-input v-model="ruleForm.ctzt" :class="style.addinput" @focus="clear" id="contentB"></el-input>
         </el-form-item>
@@ -51,11 +54,11 @@ export default {
     return {
       style,
       ruleForm:{
-        cth: "",
+        cth: 0,
         name: "",
         ctzt: "",
         type: "",
-        edrs: "",
+        edrs: 0,
         money: "",
         hmoney: ""
       },
@@ -81,10 +84,10 @@ export default {
     newAdd(ruleForm) {
       this.$refs[ruleForm].validate((valid) => {
         if(valid){
-          this.$notify({
-              title: '成功',
-              message: '提交成功'
-          });
+          // this.$notify({
+          //     title: '成功',
+          //     message: '提交成功'
+          // });
           this.$emit(
             "newAdd",
             this.ruleForm.cth,
@@ -103,10 +106,10 @@ export default {
     newEdit(ruleForm) {
       this.$refs[ruleForm].validate((valid) => {
         if(valid){
-          this.$notify({
-              title: '成功',
-              message: '修改成功'
-          });
+          // this.$notify({
+          //     title: '成功',
+          //     message: '修改成功'
+          // });
           this.$emit(
             "newEdit",
             this.ruleForm.cth,

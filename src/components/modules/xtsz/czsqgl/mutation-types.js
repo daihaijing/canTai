@@ -1,11 +1,1 @@
-/**
- * mutations
- */
 
-/**
- * actions
- */
-
-/**
- * getters
- */
