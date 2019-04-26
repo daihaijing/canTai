@@ -82,5 +82,17 @@ module.exports = {
         }
       }
     ]
+  },
+  devServer:{
+    historyApiFallback:true,
+    noInfo:true,
+    overlay:true,
+    proxy:{
+      '/user/*':{
+        target:'http://localhost:8081',
+        secure:false,
+        changeOrigin:true,
+      }
+    }
   }
 }
