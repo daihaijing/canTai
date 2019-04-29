@@ -14,13 +14,11 @@
         :addVisible="addVisible"
         @addCloseEmit="addCloseEmit"
         @newAdd="newAdd"
-        :cthEdit="cthEdit"
-        :nameEdit="nameEdit"
-        :ctztEdit="ctztEdit"
-        :typeEdit="typeEdit"
-        :edrsEdit="edrsEdit"
-        :moneyEdit="moneyEdit"
-        :hmoneyEdit="hmoneyEdit"
+        :t_numberEdit="t_numberEdit"
+        :t_nameEdit="t_nameEdit"
+        :t_stateEdit="t_stateEdit"
+        :t_typeEdit="t_typeEdit"
+        :t_peopleEdit="t_peopleEdit"
         :tiJiao="tiJiao"
         @newEdit="newEdit"
         v-if="addVisible"
@@ -39,15 +37,13 @@ export default {
   data() {
     return {
       style,
-      tableData: [],
+      tableData:[],
       addVisible: false,
-      cthEdit: "",
-      nameEdit: "",
-      ctztEdit: "",
-      typeEdit: "",
-      edrsEdit: "",
-      moneyEdit: "",
-      hmoneyEdit: "",
+      t_numberEdit: "",
+      t_nameEdit: "",
+      t_stateEdit: "",
+      t_typeEdit: "",
+      t_peopleEdit: "",
       tiJiao: true,
       num: "",
       eData: "",
@@ -65,51 +61,45 @@ export default {
       this.tiJiao = true;
       this.addVisible = true;
 
-      this.cthEdit = "";
-      this.nameEdit = "";
-      this.ctztEdit = "";
-      this.typeEdit = "";
-      this.edrsEdit = "";
-      this.moneyEdit = "";
-      this.hmoneyEdit = "";
+      this.t_numberEdit = "";
+      this.t_nameEdit = "";
+      this.t_stateEdit = "";
+      this.t_typeEdit = "";
+      this.t_peopleEdit = "";
     },
     addCloseEmit() {
       this.addVisible = false;
     },
-    newAdd(cth, name, ctzt, type, edrs, money, hmoney) {
+    newAdd(t_number, t_name, t_state, t_type, t_people) {
       var newData = {
-        cth: cth,
-        name: name + "号桌",
-        ctzt: ctzt,
-        type: type,
-        edrs: edrs,
-        money: money,
-        hmoney: hmoney
+        t_number: t_number,
+        t_name: t_name + "号桌",
+        t_state: t_state,
+        t_type: t_type,
+        t_people: t_people,
       };
       this.tableData.push(newData);
       this.addVisible = false;
-      this.addDate(cth, name, ctzt, type, edrs, money, hmoney);
+      this.addDate(t_number, t_name, t_state, t_type, t_people);
     },
-    async addDate(cth, name, ctzt, type, edrs, money, hmoney){
+    async addDate(t_number, t_name, t_state, t_type, t_people){
       let result = await this.addOneTable({
-        t_number:cth,
-        t_name: name,
-        t_people: edrs,
-        t_type: type,
-        t_state: ctzt,
+        t_number: t_number,
+        t_name: t_name + "号桌",
+        t_state: t_state,
+        t_type: t_type,
+        t_people: t_people,
       })
       if (!result) return;
       let data = JSON.parse(result);
     },
-    newEdit(cth, name, ctzt, type, edrs, money, hmoney) {
+    newEdit(t_number,t_name,t_state,t_type,t_people) {
       var newData = {
-        cth: cth,
-        name: name + "号桌",
-        ctzt: ctzt,
-        type: type,
-        edrs: edrs,
-        money: money,
-        hmoney: hmoney
+        t_number: t_number,
+        t_name: t_name + "号桌",
+        t_state: t_state,
+        t_type: t_type,
+        t_people: t_people,
       };
       for (let i = 0; i < this.tableData.length; i++) {
         if (this.eData == this.tableData[i]) {
@@ -117,20 +107,18 @@ export default {
           this.addVisible = false;
         }
       }
-
+  
     },
     //修改餐台
     modifyData(e) {
       this.tiJiao = false;
       this.addVisible = true;
 
-      this.cthEdit = e.cth;
-      this.nameEdit = e.name;
-      this.ctztEdit = e.ctzt;
-      this.typeEdit = e.type;
-      this.edrsEdit = e.edrs;
-      this.moneyEdit = e.money;
-      this.hmoneyEdit = e.hmoney;
+      this.t_numberEdit = e.t_number;
+      this.t_nameEdit = e.t_name;
+      this.t_stateEdit = e.t_state;
+      this.t_typeEdit = e.t_type;
+      this.t_peopleEdit = e.t_people;
       this.eData = e;
     },
     //删除餐台
@@ -144,7 +132,7 @@ export default {
     },
     async deleteDataTable(e){
       let result = await this.deleteOneTable({
-        t_number:e.cth
+        t_number:e.t_number
       })
       if (!result) return;
       let data = JSON.parse(result);
@@ -156,7 +144,7 @@ export default {
         b.style.background = "#fff";
       }
       for (let i = 0; i < this.tableData.length; i++) {
-        if (this.tableData[i].cth == this.num) {
+        if (this.tableData[i].t_number == this.num) {
           let a = document.getElementsByClassName("canTaiTable")[0];
           let b = a.getElementsByTagName("tr")[i + 1];
           b.style.background = "aquamarine";
@@ -166,7 +154,6 @@ export default {
     backToKaiTai() {
       this.$router.push({ path: "kt" });
     },
-    //查询全部餐台
     async getAllTableData(){
       this.loading = true;
       let result = await this.getAllTable();
@@ -175,14 +162,15 @@ export default {
       this.tableData = data;
       this.loading = false;
     }
+
+  },
+  created(){
+    this.getData();
   },
   components: {
     AddCanTai,
     AllRes
   },
-  mounted(){
-    this.getAllTableData();
-  }
 };
 </script>
 

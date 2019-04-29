@@ -4,9 +4,9 @@ const state = {};
 const getters = {};
 const mutations = {};
 const actions = {
-  [TYPES.addOneTable]:(context,args) => sysClient.getData('/addOneTable',args),
-  [TYPES.deleteOneTable]:(context,args) => sysClient.getData('/deleteOneTable',args),
-  [TYPES.getAllTable]:(context,args) => sysClient.getData('/getAllTable',args),
+  [TYPES.addOneTable]:(context,args) => sysClient.getData('http://localhost:8081/getAllTable/addOneTable',args),
+  [TYPES.deleteOneTable]:(context,args) => sysClient.getData('http://localhost:8081/getAllTable/deleteOneTable',args),
+  [TYPES.getAllTable]:(context,args) => sysClient.getData('http://localhost:8081/getAllTable/getAllTable',args),
 };
 export default {
   state,
@@ -14,3 +14,4 @@ export default {
   getters,
   actions
 };
+

@@ -10,32 +10,24 @@
         ref="ruleForm"
         label-width="100px"
         class="demo-ruleForm">
-        <el-form-item label="餐台号" prop="cth" :rules="[
+        <el-form-item label="餐台号" prop="t_number" :rules="[
           { type: 'number', message: '餐台号必须为数字值'}
         ]">
-          <el-input v-model.number="ruleForm.cth" :class="style.addinput" @focus="clear" id="contentA"></el-input>
+          <el-input v-model.number="ruleForm.t_number" :class="style.addinput" @focus="clear" id="contentA"></el-input>
         </el-form-item>
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="ruleForm.name" :class="style.addinput" @focus="clear" id="contentB"></el-input>
+        <el-form-item label="餐台名称" prop="t_name">
+          <el-input v-model="ruleForm.t_name" :class="style.addinput" @focus="clear" id="contentB"></el-input>
         </el-form-item>
-        <el-form-item label="餐台状态" prop="ctzt">
-          <el-input v-model="ruleForm.ctzt" :class="style.addinput" @focus="clear" id="contentB"></el-input>
+        <el-form-item label="餐台状态" prop="t_state">
+          <el-input v-model="ruleForm.t_state" :class="style.addinput" @focus="clear" id="contentC"></el-input>
         </el-form-item>
-        <el-form-item label="类型" prop="type">
-          <el-input v-model="ruleForm.type" :class="style.addinput" @focus="clear" id="contentC"></el-input>
+        <el-form-item label="类型" prop="t_type">
+          <el-input v-model="ruleForm.t_type" :class="style.addinput" @focus="clear" id="contentD"></el-input>
         </el-form-item>
-        <el-form-item label="额定人数" prop="edrs" :rules="[
+        <el-form-item label="额定人数" prop="t_people" :rules="[
           { type: 'number', message: '额定人数必须为数字值'}
         ]">
-          <el-input v-model.number="ruleForm.edrs" :class="style.addinput" @focus="clear" id="contentD"></el-input>
-        </el-form-item>
-        <el-form-item label="是否收取包厢费用" prop="money">
-          <el-input v-model="ruleForm.money" :class="style.addinput" @focus="clear" id="contentE"></el-input>
-        </el-form-item>
-        <el-form-item label="单位" prop="hmony" :rules="[
-          { type: 'number', message: '单位必须为数字值'}
-        ]">
-          <el-input v-model.number="ruleForm.hmoney" :class="style.addinput" @focus="clear" id="contentF"></el-input>
+          <el-input v-model.number="ruleForm.t_people" :class="style.addinput" @focus="clear" id="contentE"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="newAdd('ruleForm')" v-if="tiJiao">提交</el-button>
@@ -54,13 +46,11 @@ export default {
     return {
       style,
       ruleForm:{
-        cth: 0,
-        name: "",
-        ctzt: "",
-        type: "",
-        edrs: 0,
-        money: "",
-        hmoney: ""
+        t_number: "",
+        t_name: "",
+        t_state: "",
+        t_type: "",
+        t_people:"",
       },
       rules: { 
       }
@@ -68,13 +58,11 @@ export default {
   },
   props: {
     addVisible: null,
-    cthEdit: null,
-    nameEdit: null,
-    ctztEdit: null,
-    typeEdit: null,
-    edrsEdit: null,
-    moneyEdit: null,
-    hmoneyEdit: null,
+    t_numberEdit: null,
+    t_nameEdit: null,
+    t_stateEdit: null,
+    t_typeEdit: null,
+    t_peopleEdit: null,
     tiJiao: null
   },
   methods: {
@@ -90,13 +78,11 @@ export default {
           // });
           this.$emit(
             "newAdd",
-            this.ruleForm.cth,
-            this.ruleForm.name,
-            this.ruleForm.ctzt,
-            this.ruleForm.type,
-            this.ruleForm.edrs,
-            this.ruleForm.money,
-            this.ruleForm.hmoney
+            this.ruleForm.t_number,
+            this.ruleForm.t_name,
+            this.ruleForm.t_state,
+            this.ruleForm.t_type,
+            this.ruleForm.t_people,
           );
         } else {
             return false;
@@ -112,13 +98,11 @@ export default {
           // });
           this.$emit(
             "newEdit",
-            this.ruleForm.cth,
-            this.ruleForm.name,
-            this.ruleForm.ctzt,
-            this.ruleForm.type,
-            this.ruleForm.edrs,
-            this.ruleForm.money,
-            this.ruleForm.hmoney
+            this.ruleForm.t_number,
+            this.ruleForm.t_name,
+            this.ruleForm.t_state,
+            this.ruleForm.t_type,
+            this.ruleForm.t_people,
           );
         } else {
             return false;
@@ -129,38 +113,28 @@ export default {
       switch (e.target.id) {
         case "contentA": {
           // console.log(this.cth,document.getElementById("contentA").value )
-          if ((document.getElementById("contentA").value = this.cthEdit))
+          if ((document.getElementById("contentA").value = this.t_numberEdit))
             document.getElementById("contentA").value = "";
           break;
         }
         case "contentB": {
-          if ((document.getElementById("contentB").value = this.nameEdit))
+          if ((document.getElementById("contentB").value = this.t_nameEdit))
             document.getElementById("contentB").value = "";
           break;
         }
         case "contentC": {
-          if ((document.getElementById("contentC").value = this.ctztEdit))
+          if ((document.getElementById("contentC").value = this.t_stateEdit))
             document.getElementById("contentC").value = "";
           break;
         }
         case "contentD": {
-          if ((document.getElementById("contentD").value = this.typeEdit))
+          if ((document.getElementById("contentD").value = this.t_typeEdit))
             document.getElementById("contentD").value = "";
           break;
         }
         case "contentE": {
-          if ((document.getElementById("contentE").value = this.edrsEdit))
+          if ((document.getElementById("contentE").value = this.t_peopleEdit))
             document.getElementById("contentE").value = "";
-          break;
-        }
-        case "contentF": {
-          if ((document.getElementById("contentF").value = this.moneyEdit))
-            document.getElementById("contentF").value = "";
-          break;
-        }
-        case "contentG": {
-          if ((document.getElementById("contentG").value = this.hmoneyEdit))
-            document.getElementById("contentG").value = "";
           break;
         }
       }
@@ -170,49 +144,37 @@ export default {
     }
   },
   mounted() {
-    if (this.cthEdit) {
-      this.ruleForm.cth = this.cthEdit;
+    if (this.t_numberEdit) {
+      this.ruleForm.t_number = this.t_numberEdit;
     }
-    if (this.nameEdit) {
-      this.ruleForm.name = this.nameEdit;
+    if (this.t_nameEdit) {
+      this.ruleForm.t_name = this.t_nameEdit;
     }
-    if (this.ctztEdit) {
-      this.ruleForm.ctzt = this.ctztEdit;
+    if (this.t_stateEdit) {
+      this.ruleForm.t_state = this.t_stateEdit;
     }
-    if (this.typeEdit) {
-      this.ruleForm.type = this.typeEdit;
+    if (this.t_typeEdit) {
+      this.ruleForm.t_type = this.t_typeEdit;
     }
-    if (this.edrsEdit) {
-      this.ruleForm.edrs = this.edrsEdit;
-    }
-    if (this.moneyEdit) {
-      this.ruleForm.money = this.moneyEdit;
-    }
-    if (this.hmoneyEdit) {
-      this.ruleForm.hmoney = this.hmoneyEdit;
+    if (this.t_peopleEdit) {
+      this.ruleForm.t_people = this.t_peopleEdit;
     }
   },
   watch: {
-    cthEdit() {
-      this.ruleForm.cth = this.cthEdit;
+    t_numberEdit() {
+      this.ruleForm.t_number = this.t_numberEdit;
     },
-    nameEdit() {
-      this.ruleForm.name = this.nameEdit;
+    t_nameEdit() {
+      this.ruleForm.t_name = this.t_nameEdit;
     },
-    ctztEdit() {
-      this.ruleForm.ctzt = this.ctztEdit;
+    t_stateEdit() {
+      this.ruleForm.t_state = this.t_stateEdit;
     },
-    typeEdit() {
-      this.ruleForm.type = this.typeEdit;
+    t_typeEdit() {
+      this.ruleForm.t_type = this.t_typeEdit;
     },
-    edrsEdit() {
-      this.ruleForm.edrs = this.edrsEdit;
-    },
-    moneyEdit() {
-      this.ruleForm.money = this.moneyEdit;
-    },
-    hmoneyEdit() {
-      this.ruleForm.hmoney = this.hmoneyEdit;
+    t_peopleEdit() {
+      this.ruleForm.t_people = this.t_peopleEdit;
     }
   }
 };
