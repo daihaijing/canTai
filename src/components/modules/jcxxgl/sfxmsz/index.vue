@@ -11,23 +11,25 @@
         <el-button type="info" plain @click="addSF">新增项目</el-button>
         <el-button type="info" plain @click="backKaitai">返回首页</el-button>
       </div>
-      <price-pay class="table" :shouFeiData="shouFeiData" @modifyData="modifyData" @deleteData="deleteData"></price-pay>
+      <price-pay
+        class="table"
+        :shouFeiData="shouFeiData"
+        @modifyData="modifyData"
+        @deleteData="deleteData"
+      ></price-pay>
       <addShouFei
         :addVisible="addVisible"
         @addCloseEmit="addCloseEmit"
         @newAdd="newAdd"
-        :xmmcEdit="xmmcEdit"
-        :xmbhEdit="xmbhEdit"
-        :xmbmEdit="xmbmEdit"
-        :dlEdit="dlEdit"
-        :xlEdit="xlEdit"
-        :dwEdit="dwEdit"
-        :cbdjEdit="cbdjEdit"
-        :xsdjEdit="xsdjEdit"
-        :sfcykcEdit="sfcykcEdit"
-        :sfcyjfEdit="sfcyjfEdit"
-        :sfcyzkEdit="sfcyzkEdit"
-        :ygtcEdit="ygtcEdit"
+        :m_nameEdit="m_nameEdit"
+        :m_numberEdit="m_numberEdit"
+        :m_simplenameEdit="m_simplenameEdit"
+        :ms_nameEdit="ms_nameEdit"
+        :m_pictureEdit="m_pictureEdit"
+        :m_unitEdit="m_unitEdit"
+        :m_priceEdit="m_priceEdit"
+        :m_stateEdit="m_stateEdit"
+        :m_remarkEdit="m_remarkEdit"
         :tiJiao="tiJiao"
         v-if="addVisible"
         @newEdit="newEdit"
@@ -38,98 +40,30 @@
 
 <script>
 import AddShouFei from "#com/addShouFei";
-import PricePay from "./price-pay"
+import PricePay from "./price-pay";
 import style from "css/jcxxgl.css";
+import { mapActions } from "vuex";
+import { getAllMenu } from "./mutation-types";
+import { addOneMenu } from "./mutation-types";
+import { deleteOneMenu } from "./mutation-types";
+import { updateOneMenu } from "./mutation-types";
+
 export default {
   data() {
     return {
       style,
-      num:"",
-      shouFeiData: [
-        {
-          xmmc: "水煮鱼",
-          xmbh:"001",
-          xmbm: "SZY",
-          dl: "厨部",
-          xl: "热菜",
-          dw: "盘",
-          cbdj: "30",
-          xsdj: "45",
-          sfcykc: "Y",
-          sfcyjf: "Y",
-          sfcyzk: "Y",
-          ygtc: "0",
-        },
-        {
-          xmmc: "大闸蟹",
-          xmbh:"002",
-          xmbm: "DZX",
-          dl: "厨部",
-          xl: "海鲜",
-          dw: "盘",
-          cbdj: "30",
-          xsdj: "45",
-          sfcykc: "Y",
-          sfcyjf: "Y",
-          sfcyzk: "Y",
-          ygtc: "0",
-        },
-        {
-          xmmc: "馒头",
-          xmbh:"003",
-          xmbm: "MT",
-          dl: "厨部",
-          xl: "主食",
-          dw: "个",
-          cbdj: "1",
-          xsdj: "2",
-          sfcykc: "Y",
-          sfcyjf: "Y",
-          sfcyzk: "Y",
-          ygtc: "0",
-        },
-        {
-          xmmc: "蟹黄豆角",
-          xmbh:"004",
-          xmbm: "XHDJ",
-          dl: "厨部",
-          xl: "热菜",
-          dw: "盘",
-          cbdj: "30",
-          xsdj: "45",
-          sfcykc: "Y",
-          sfcyjf: "Y",
-          sfcyzk: "Y",
-          ygtc: "0",
-        },
-        {
-          xmmc: "羊肉串",
-          xmbh:"005",
-          xmbm: "YRC",
-          dl: "厨部",
-          xl: "烧烤",
-          dw: "串",
-          cbdj: "2",
-          xsdj: "4",
-          sfcykc: "Y",
-          sfcyjf: "Y",
-          sfcyzk: "Y",
-          ygtc: "0",
-        },
-      ],
+      num: "",
+      shouFeiData: [],
       addVisible: false,
-      xmmcEdit: "",
-      xmbhEdit:"",
-      xmbmEdit:"",
-      dlEdit: "",
-      xlEdit: "",
-      dwEdit: "",
-      cbdjEdit: "",
-      xsdjEdit: "",
-      sfcykcEdit: "",
-      sfcyjfEdit: "",
-      sfcyzkEdit: "",
-      ygtcEdit: "",
+      m_nameEdit: "",
+      m_numberEdit: "",
+      ms_nameEdit: "",
+      m_simplenameEdit: "",
+      m_pictureEdit: "",
+      m_unitEdit: "",
+      m_priceEdit: "",
+      m_stateEdit: "",
+      m_remarkEdit: "",
       tiJiao: true,
       eData: ""
     };
@@ -139,58 +73,51 @@ export default {
     addSF() {
       this.tiJiao = true;
       this.addVisible = true;
-      this.xmmcEdit = "";
-      this.xmbhEdit = "";
-      this.xmbmEdit = "";
-      this.dlEdit = "";
-      this.xlEdit = "";
-      this.dwEdit = "";
-      this.cbdjEdit = "";
-      this.xsdjEdit = "";
-      this.sfcykcEdit = "";
-      this.sfcyjfEdit = "";
-      this.sfcyzkEdit = "";
-      this.ygtcEdit = "";
+      this.m_nameEdit = "";
+      this.m_numberEdit = "";
+      this.ms_nameEdit = "";
+      this.m_simplenameEdit = "";
+      this.m_pictureEdit = "";
+      this.m_unitEdit = "";
+      this.m_priceEdit = "";
+      this.m_stateEdit = "";
+      this.m_remarkEdit = "";
     },
     //关闭添加弹框
     addCloseEmit() {
       this.addVisible = false;
     },
-    newAdd(xmmc,xmbh,xmbm, dl, xl, dw, cbdj, xsdj, sfcykc, sfcyjf, sfcyzk, ygtc) {
+    newAdd(m_name,m_number,ms_name,m_simplename,m_picture,m_unit,m_price,m_state,m_remark) {
       var newData = {
-        xmmc: xmmc,
-        xmbh: xmbh,
-        xmbm: xmbm,
-        dl: dl,
-        xl: xl,
-        dw: dw,
-        cbdj: cbdj,
-        xsdj: xsdj,
-        sfcykc: sfcykc,
-        sfcyjf: sfcyjf,
-        sfcyzk: sfcyzk,
-        ygtc: ygtc,
+        m_name: m_name,
+        m_number: m_number,
+        ms_name: ms_name,
+        m_simplename: m_simplename,
+        m_picture: m_picture,
+        m_unit: m_unit,
+        m_price: m_price,
+        m_state: m_state,
+        m_remark: m_remark
       };
+      this.addMenu(m_name,m_number,ms_name,m_simplename,m_picture,m_unit,m_price,m_state,m_remark);
       this.shouFeiData.push(newData);
       this.addVisible = false;
     },
-    newEdit(xmmc,xmbh,xmbm, dl, xl, dw, cbdj, xsdj, sfcykc, sfcyjf, sfcyzk, ygtc) {
+    newEdit(m_name,m_number,ms_name,m_simplename,m_picture,m_unit,m_price,m_state,m_remark) {
       var newData = {
-        xmmc: xmmc,
-        xmbh: xmbh,
-        xmbm: xmbm,
-        dl: dl,
-        xl: xl,
-        dw: dw,
-        cbdj: cbdj,
-        xsdj: xsdj,
-        sfcykc: sfcykc,
-        sfcyjf: sfcyjf,
-        sfcyzk: sfcyzk,
-        ygtc: ygtc,
+        m_name: m_name,
+        m_number: m_number,
+        ms_name: ms_name,
+        m_simplename: m_simplename,
+        m_picture: m_picture,
+        m_unit: m_unit,
+        m_price: m_price,
+        m_state: m_state,
+        m_remark: m_remark
       };
       for (let i = 0; i < this.shouFeiData.length; i++) {
         if (this.eData == this.shouFeiData[i]) {
+          this.updateMenu(m_name,m_number,ms_name,m_simplename,m_picture,m_unit,m_price,m_state,m_remark);
           this.shouFeiData.splice(i, 1, newData);
           this.addVisible = false;
         }
@@ -200,6 +127,7 @@ export default {
     deleteData(e) {
       for (let i = 0; i < this.shouFeiData.length; i++) {
         if (e == this.shouFeiData[i]) {
+          this.deleteMenu(e.m_number);
           this.shouFeiData.splice(i, 1);
         }
       }
@@ -208,44 +136,94 @@ export default {
     modifyData(e) {
       this.tiJiao = false;
       this.addVisible = true;
-      this.xmmcEdit = e.xmmc;
-      this.xmbhEdit = e.xmbh;
-      this.xmbmEdit = e.xmbm;
-      this.dlEdit = e.dl;
-      this.xlEdit = e.xl;
-      this.dwEdit = e.dw;
-      this.cbdjEdit = e.cbdj;
-      this.xsdjEdit = e.xsdj;
-      this.sfcykcEdit = e.sfcykc;
-      this.sfcyjfEdit = e.sfcyjf;
-      this.sfcyzkEdit = e.sfcyzk;
-      this.ygtcEdit = e.ygtc;
+
+      this.m_nameEdit = e.m_name;
+      this.m_numberEdit = e.m_number;
+      this.ms_nameEdit = e.ms_name;
+      this.m_simplenameEdit = e.m_simplename;
+      this.m_pictureEdit = e.m_picture;
+      this.m_unitEdit = e.m_unit;
+      this.m_priceEdit = e.m_price;
+      this.m_stateEdit = e.m_state;
+      this.m_remarkEdit = e.m_remark;
       this.eData = e;
     },
     //查询收费项目
-    searchSF(){
+    searchSF() {
       for (let i = 0; i < this.shouFeiData.length; i++) {
         let a = document.getElementsByClassName("shouFeiTable")[0];
         let b = a.getElementsByTagName("tr")[i];
         b.style.background = "#fff";
       }
-      for(let i = 0; i < this.shouFeiData.length;i++){
-        if (this.shouFeiData[i].xmbm == this.num || this.shouFeiData[i].xmbh == this.num){
+      for (let i = 0; i < this.shouFeiData.length; i++) {
+        if (
+          this.shouFeiData[i].m_simplename == this.num ||
+          this.shouFeiData[i].m_number == this.num
+        ) {
           let a = document.getElementsByClassName("shouFeiTable")[0];
-          let b = a.getElementsByTagName("tr")[i+1];
+          let b = a.getElementsByTagName("tr")[i + 1];
           b.style.background = "aquamarine";
         }
-        
       }
     },
     //返回首页
     backKaitai() {
       this.$router.push({ path: "kt" });
+    },
+    //异步通信
+    ...mapActions({
+      getAllMenu,
+      addOneMenu,
+      deleteOneMenu,
+      updateOneMenu
+    }),
+    async getMenu() {
+      let result = await this.getAllMenu();
+      if (!result) return;
+      let data = JSON.parse(result);
+      this.shouFeiData = data;
+    },
+    async addMenu(m_name,m_number,ms_name,m_simplename,m_picture,m_unit,m_price,m_state,m_remark) {
+      let result = await this.addOneMenu({
+        m_name: m_name,
+        m_number: m_number,
+        ms_name: ms_name,
+        m_simplename: m_simplename,
+        m_picture: m_picture,
+        m_unit: m_unit,
+        m_price: m_price,
+        m_state: m_state,
+        m_remark: m_remark
+      });
+      if (result == 1) return;
+    },
+    async deleteMenu(num) {
+      let result = await this.deleteOneMenu({
+        m_number: num
+      });
+      if (result == 1) return;
+    },
+    async updateMenu(m_name,m_number,ms_name,m_simplename,m_picture,m_unit,m_price,m_state,m_remark) {
+      let result = await this.updateOneMenu({
+        m_name: m_name,
+        m_number: m_number,
+        ms_name: ms_name,
+        m_simplename: m_simplename,
+        m_picture: m_picture,
+        m_unit: m_unit,
+        m_price: m_price,
+        m_state: m_state,
+        m_remark: m_remark
+      });
+      if (result == 1) return;
     }
   },
   components: {
     AddShouFei,
     PricePay
+  },
+  created() {
+    this.getMenu();
   }
 };
 </script>

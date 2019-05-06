@@ -2,57 +2,64 @@
   <div>
     <el-tabs class="dcTitle" v-model="activeName2">
       <el-tab-pane label="点餐" class="dianCanTab" name="dc">
-        <el-tabs class="dcTable" v-model="activeName" type="card">
-          <el-tab-pane label="特色菜系" name="1">
-            <div v-if="item.index==1" v-for="(item,index) in dcData2" :class="style.dcIcon" :key="index">
-              <img :class="style.dcimg" :src="item.img" class="dcimg">
+        <el-tabs class="dcTable" v-model="activeName" type="card"  @tab-click="handleClick">
+          <el-tab-pane label="汤类" name="汤类">
+            <div v-for="item in dcSoupTable" :class="style.dcIcon">
+              <img :class="style.dcimg" :src="item.m_picture" class="dcimg">
               <i class="el-icon-minus dcRight" @click="dcRemove(item)"></i>
               <i class="el-icon-plus dcLeft" @click="diancan(item)"></i>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="热菜菜系" name="2">
-            <div v-if="item.index==2" v-for="(item,index) in dcData2" :class="style.dcIcon" :key="index">
-              <img :class="style.dcimg" :src="item.img" class="dcimg">
+          <el-tab-pane label="热菜" name="热菜">
+            <div v-for="item in dcSoupTable" :class="style.dcIcon">
+              <img :class="style.dcimg" :src="item.m_picture" class="dcimg">
               <i class="el-icon-minus dcRight" @click="dcRemove(item)"></i>
               <i class="el-icon-plus dcLeft" @click="diancan(item)"></i>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="凉菜菜系" name="3">
-            <div v-if="item.index==3" v-for="(item,index) in dcData2" :class="style.dcIcon" :key="index">
-              <img :class="style.dcimg" :src="item.img" class="dcimg">
+          <el-tab-pane label="凉菜" name="凉菜">
+            <div v-for="item in dcSoupTable" :class="style.dcIcon">
+              <img :class="style.dcimg" :src="item.m_picture" class="dcimg">
               <i class="el-icon-minus dcRight" @click="dcRemove(item)"></i>
               <i class="el-icon-plus dcLeft" @click="diancan(item)"></i>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="酒水饮料" name="4">
+          <el-tab-pane label="甜点" name="4">
             <div v-if="item.index==4" v-for="(item,index) in dcData2" :class="style.dcIcon" :key="index">
               <img :class="style.dcimg" :src="item.img" class="dcimg">
               <i class="el-icon-minus dcRight"></i>
               <i class="el-icon-plus dcLeft" @click="diancan(item)"></i>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="其他菜品" name="5">
+          <el-tab-pane label="待定" name="5">
             <div v-if="item.index==5" v-for="(item,index) in dcData2" :class="style.dcIcon" :key="index">
               <img :class="style.dcimg" :src="item.img" class="dcimg">
               <i class="el-icon-minus dcRight" @click="dcRemove(item)"></i>
               <i class="el-icon-plus dcLeft" @click="diancan(item)"></i>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="其他菜品" name="6">
+          <el-tab-pane label="饮料类" name="6">
             <div v-if="item.index==6" v-for="(item,index) in dcData2" :class="style.dcIcon" :key="index">
               <img :class="style.dcimg" :src="item.img" class="dcimg">
               <i class="el-icon-minus dcRight"></i>
               <i class="el-icon-plus dcLeft" @click="diancan(item)"></i>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="其他菜品" name="7">
+          <el-tab-pane label="酒水类" name="7">
             <div v-if="item.index==7" v-for="(item,index) in dcData2" :class="style.dcIcon" :key="index">
               <img :class="style.dcimg" :src="item.img" class="dcimg">
               <i class="el-icon-minus dcRight" @click="dcRemove(item)"></i>
               <i class="el-icon-plus dcLeft" @click="diancan(item)"></i>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="其他菜品" name="8">
+          <el-tab-pane label="待定" name="8">
+            <div v-if="item.index==8" v-for="(item,index) in dcData2" :class="style.dcIcon" :key="index">
+              <img :class="style.dcimg" :src="item.img" class="dcimg">
+              <i class="el-icon-minus dcRight" @click="dcRemove(item)"></i>
+              <i class="el-icon-plus dcLeft" @click="diancan(item)"></i>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="烧烤类" name="9">
             <div v-if="item.index==8" v-for="(item,index) in dcData2" :class="style.dcIcon" :key="index">
               <img :class="style.dcimg" :src="item.img" class="dcimg">
               <i class="el-icon-minus dcRight" @click="dcRemove(item)"></i>
@@ -81,17 +88,24 @@ import style from "css/kaitai.css";
 import Vue from "vue";
 import XfqdTable from "./xfqd-table"
 import Send from "./send"
+import { mapActions } from "vuex";
+import { getAllMenuByMSname } from "./mutation-types";
+// import { addOneMenu } from "./mutation-types";
+// import { deleteOneMenu } from "./mutation-types";
+// import { updateOneMenu } from "./mutation-types";
 export default {
   data() {
     return {
       style,
-      activeName: "1",
+      activeName: "汤类",
       activeName2:"dc",
+      //汤类列表
+      dcSoupTable:[],
       tableData: [],
       dcData: [],
       dcData2: [
         {
-          index: "1",
+          hello: "1",
           img: "static/assets/empty.png",
           name: "点心",
           num: "001",
@@ -101,7 +115,7 @@ export default {
           price: "20"
         },
         {
-          index: "1",
+          hello: "1",
           img: "static/assets/empty.png",
           name: "点心",
           num: "002",
@@ -111,7 +125,7 @@ export default {
           price: "20"
         },
         {
-          index: "1",
+          hello: "1",
           img: "static/assets/empty.png",
           name: "点心",
           num: "003",
@@ -121,7 +135,7 @@ export default {
           price: "20"
         },
         {
-          index: "1",
+          hello: "1",
           img: "static/assets/empty.png",
           name: "点心",
           num: "004",
@@ -131,7 +145,7 @@ export default {
           price: "20"
         },
         {
-          index: "1",
+          hello: "1",
           img: "static/assets/empty.png",
           name: "点心",
           num: "005",
@@ -141,7 +155,7 @@ export default {
           price: "20"
         },
         {
-          index: "1",
+          hello: "1",
           img: "static/assets/empty.png",
           name: "点心",
           num: "006",
@@ -151,7 +165,7 @@ export default {
           price: "20"
         },
         {
-          index: "1",
+          hello: "1",
           img: "static/assets/empty.png",
           name: "点心",
           num: "007",
@@ -161,7 +175,7 @@ export default {
           price: "20"
         },
         {
-          index: "2",
+          hello: "2",
           img: "static/assets/empty.png",
           name: "点心",
           num: "008",
@@ -171,7 +185,7 @@ export default {
           price: "20"
         },
         {
-          index: "2",
+          hello: "2",
           img: "static/assets/empty.png",
           name: "点心",
           num: "009",
@@ -181,7 +195,7 @@ export default {
           price: "20"
         },
         {
-          index: "3",
+          hello: "3",
           img: "static/assets/name.jpg",
           name: "点心",
           num: "010",
@@ -287,7 +301,60 @@ export default {
           message: '总共消费'+countMoney+'元',
           type: 'success'
       });
-    }
+    },
+    //异步通信
+    ...mapActions({
+      getAllMenuByMSname,
+      // addOneMenu,
+      // deleteOneMenu,
+      // updateOneMenu
+    }),
+    async getMenu(name) {
+      
+      let result = await this.getAllMenuByMSname({
+        ms_name:name,
+      });
+      if (!result) return;
+      this.dcSoupTable = JSON.parse(result);
+      console.log(this.dcSoupTable);
+    },
+    handleClick(tab, event) {
+      this.getMenu(this.activeName);
+    },
+    // async addMenu(m_name,m_number,ms_name,m_simplename,m_picture,m_unit,m_price,m_state,m_remark) {
+    //   let result = await this.addOneMenu({
+    //     m_name: m_name,
+    //     m_number: m_number,
+    //     ms_name: ms_name,
+    //     m_simplename: m_simplename,
+    //     m_picture: m_picture,
+    //     m_unit: m_unit,
+    //     m_price: m_price,
+    //     m_state: m_state,
+    //     m_remark: m_remark
+    //   });
+    //   if (result == 1) return;
+    // },
+    // async deleteMenu(num) {
+    //   let result = await this.deleteOneMenu({
+    //     m_number: num
+    //   });
+    //   if (result == 1) return;
+    // },
+    // async updateMenu(m_name,m_number,ms_name,m_simplename,m_picture,m_unit,m_price,m_state,m_remark) {
+    //   let result = await this.updateOneMenu({
+    //     m_name: m_name,
+    //     m_number: m_number,
+    //     ms_name: ms_name,
+    //     m_simplename: m_simplename,
+    //     m_picture: m_picture,
+    //     m_unit: m_unit,
+    //     m_price: m_price,
+    //     m_state: m_state,
+    //     m_remark: m_remark
+    //   });
+    //   if (result == 1) return;
+    // }
   },
   components:{
     XfqdTable,
@@ -300,6 +367,8 @@ export default {
     if(this.tableData.length>0){
       this.allPayAble = false;
     }
+    this.getMenu('汤类');
+    //console.log(dcSoupTable);
   },
   watch:{
     dcData(){
@@ -314,6 +383,10 @@ export default {
         this.allPayAble = false;
       }
     }
+  },
+  created(){
+    
+    //console.log(this.dcSoupTable);
   }
 };
 </script>

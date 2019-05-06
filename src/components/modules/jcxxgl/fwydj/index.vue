@@ -9,17 +9,15 @@
       <el-button type="info" plain @click="searchFWY">查询服务员</el-button>
       <el-button type="info" plain @click="addFWY">新增服务员</el-button>
       <el-button type="info" plain @click="backToKaiTai">返回首页</el-button>
-      <el-table :data="tableData" style="width: 100%" class="FWYtable">
-        <el-table-column prop="xh" label="序号" width="80"></el-table-column>
-        <el-table-column prop="name" label="姓名" width="100"></el-table-column>
-        <el-table-column prop="sex" label="性别" width="100"></el-table-column>
-        <el-table-column prop="age" label="年龄" width="100"></el-table-column>
-        <el-table-column prop="gw" label="岗位" width="100"></el-table-column>
-        <el-table-column prop="bmmc" label="部门名称" width="100"></el-table-column>
-        <el-table-column prop="pnum" label="联系方式" width="180"></el-table-column>
-        <el-table-column prop="id" label="身份证号" width="180"></el-table-column>
-        <el-table-column prop="pyjsm" label="拼音检索码" width="100"></el-table-column>
-        <el-table-column prop="jtzz" label="家庭住址" width="250"></el-table-column>
+      <el-table :data="staffData" style="width: 100%" class="FWYtable" height="596">
+        <el-table-column prop="s_id" label="员工ID" align="center"></el-table-column>
+        <el-table-column prop="s_name" label="员工姓名" align="center"></el-table-column>
+        <el-table-column prop="s_sex" label="员工性别" align="center"></el-table-column>
+        <el-table-column prop="s_age" label="员工年龄" align="center"></el-table-column>
+        <el-table-column prop="s_time" label="添加时间" align="center"></el-table-column>
+        <el-table-column prop="s_position" label="职位" align="center"></el-table-column>
+        <el-table-column prop="s_state" label="状态" align="center"></el-table-column>
+        <el-table-column prop="s_phone" label="联系电话" align="center"></el-table-column>
         <el-table-column label="操作" fixed="right" width="90">
           <template slot-scope="scope" style="float:left">
             <el-button type="text" size="small" @click="modifyData(scope.row)">修改</el-button>
@@ -32,16 +30,13 @@
         @addCloseEmit="addCloseEmit" 
         @newAdd="newAdd"
         @newEdit="newEdit"
-        :xhEdit="xhEdit"
-        :nameEdit="nameEdit"
-        :sexEdit="sexEdit"
-        :ageEdit="ageEdit"
-        :gwEdit="gwEdit"
-        :bmmcEdit="bmmcEdit"
-        :pnumEdit="pnumEdit"
-        :idEdit="idEdit"
-        :pyjsmEdit="pyjsmEdit"
-        :jtzzEdit="jtzzEdit"
+        :s_idEdit="s_idEdit"
+        :s_nameEdit="s_nameEdit"
+        :s_sexEdit="s_sexEdit"
+        :s_ageEdit="s_ageEdit"
+        :s_positionEdit="s_positionEdit"
+        :s_stateEdit="s_stateEdit"
+        :s_phoneEdit="s_phoneEdit"
         :tiJiao="tiJiao"
         v-if="addVisible">
       </addFuWuYuan>
@@ -52,72 +47,28 @@
 <script>
 import AddFuWuYuan from "#com/addFuWuYuan";
 import style from "css/jcxxgl.css";
+import { mapActions } from "vuex";
+import { getAllStaff } from "./mutation-types";
+import { addOneStaff } from "./mutation-types";
+import { deleteOneStaff } from "./mutation-types";
+import { updateOneStaff } from "./mutation-types";
 export default {
   data() {
     return {
       num:"",
+      nowTime:"",
       style,
-      tableData: [
-        {
-          xh: "1",
-          name: "程二狗",
-          sex: "男",
-          age: "23",
-          gw: "服务员",
-          bmmc: "人事部",
-          pnum: "12138",
-          id: "666666",
-          pyjsm: "CEG",
-          jtzz: "象牙山庄"
-        },
-        {
-          xh: "2",
-          name: "程二狗",
-          sex: "男",
-          age: "23",
-          gw: "服务员",
-          bmmc: "人事部",
-          pnum: "12138",
-          id: "666666",
-          pyjsm: "CEG",
-          jtzz: "象牙山庄"
-        },
-        {
-          xh: "3",
-          name: "程二狗",
-          sex: "男",
-          age: "23",
-          gw: "服务员",
-          bmmc: "人事部",
-          pnum: "12138",
-          id: "666666",
-          pyjsm: "CEG",
-          jtzz: "象牙山庄"
-        },
-        {
-          xh: "4",
-          name: "程二狗",
-          sex: "男",
-          age: "23",
-          gw: "服务员",
-          bmmc: "人事部",
-          pnum: "12138",
-          id: "666666",
-          pyjsm: "CEG",
-          jtzz: "象牙山庄"
-        }
-      ],
+      staffData: [],
+      staffData2:[],
       addVisible: false,
-      xhEdit: "",
-      nameEdit: "",
-      sexEdit: "",
-      ageEdit: "",
-      gwEdit: "",
-      bmmcEdit: "",
-      pnumEdit: "",
-      idEdit: "",
-      pyjsmEdit: "",
-      jtzzEdit: "",
+      s_idEdit: "",
+      s_nameEdit: "",
+      s_sexEdit: "",
+      s_ageEdit: "",
+      s_timeEdit: "",
+      s_positionEdit: "",
+      s_stateEdit: "",
+      s_phoneEdit: "",
       tiJiao:true,
       eData:"",
     };
@@ -125,13 +76,14 @@ export default {
   methods: {
     //添加服务员
     searchFWY(){
-      for(let i = 0;i < this.tableData.length;i++){
+      //console.log(this.staffData)
+      for(let i = 0;i < this.staffData.length;i++){
         let a = document.getElementsByClassName("FWYtable")[0];
         let b = a.getElementsByTagName("tr")[i];
         b.style.background = "#fff";
       };
-      for(let i = 0;i < this.tableData.length;i++){
-        if(this.tableData[i].xh == this.num || this.tableData[i].name == this.num){
+      for(let i = 0;i < this.staffData.length;i++){
+        if(this.staffData[i].s_id == this.num || this.staffData[i].s_name == this.num){
           let a = document.getElementsByClassName("FWYtable")[0];
           let b = a.getElementsByTagName("tr")[i+1];
           b.style.background = "aquamarine";
@@ -144,47 +96,60 @@ export default {
     addCloseEmit() {
       this.addVisible = false;
     },
-    newAdd(xh, name, sex, age, gw, bmmc, pnum, id, pyjsm, jtzz) {
-      var newData = {
-        xh: xh,
-        name: name,
-        sex: sex,
-        age: age,
-        gw: gw,
-        bmmc: bmmc,
-        pnum: pnum,
-        id: id,
-        pyjsm: pyjsm,
-        jtzz: jtzz
+    newAdd(s_id,s_name,s_sex,s_age,s_position,s_state,s_phone) {
+      var newData2 = {
+        s_id:s_id,
+        s_name:s_name,
+        s_sex:s_sex,
+        s_age:s_age,
+        s_position:s_position,
+        s_state:s_state,
+        s_phone:s_phone
       };
-      this.tableData.push(newData);
+      var newData = {
+        s_id:s_id,
+        s_name:s_name,
+        s_sex:s_sex,
+        s_age:s_age,
+        s_time:this.nowTime,
+        s_position:s_position,
+        s_state:s_state,
+        s_phone:s_phone
+      };
+      //把input的值 存到临时的 staffData2 中
+      this.staffData2.push(newData2);
+      this.staffData.push(newData);
+      //console.log(this.staffData2);
+      //向后台发送请求
+      this.addStaff();
+      //关闭弹框
       this.addVisible = false;
     },
-    newEdit(xh, name, sex, age, gw, bmmc, pnum, id, pyjsm, jtzz) {
+    newEdit(s_id,s_name,s_sex,s_age,s_position,s_state,s_phone) {
       var newData = {
-        xh: xh,
-        name: name,
-        sex: sex,
-        age: age,
-        gw: gw,
-        bmmc: bmmc,
-        pnum: pnum,
-        id: id,
-        pyjsm: pyjsm,
-        jtzz: jtzz
+        s_id:s_id,
+        s_name:s_name,
+        s_sex:s_sex,
+        s_age:s_age,
+        s_time:this.nowTime,
+        s_position:s_position,
+        s_state:s_state,
+        s_phone:s_phone,
       };
-      for (let i = 0; i < this.tableData.length; i++) {
-        if (this.eData == this.tableData[i]) {
-          this.tableData.splice(i, 1, newData);
+      this.updateStaff(s_id,s_name,s_sex,s_age,s_position,s_state,s_phone);
+      for (let i = 0; i < this.staffData.length; i++) {
+        if (this.eData == this.staffData[i]) {
+          this.staffData.splice(i, 1, newData);
           this.addVisible = false;
         }
       }
     },
     //删除服务员
     deleteData(e) {
-      for (let i = 0; i < this.tableData.length; i++) {
-        if (e == this.tableData[i]) {
-          this.tableData.splice(i, 1);
+      for (let i = 0; i < this.staffData.length; i++) {
+        if (e == this.staffData[i]) {
+          this.deleteStaff(e.s_id);
+          this.staffData.splice(i, 1);
         }
       }
     },
@@ -193,26 +158,104 @@ export default {
       this.tiJiao = false;
       this.addVisible = true;
 
-      this.xhEdit = e.xh; 
-      this.nameEdit = e.name;
-      this.sexEdit = e.sex;
-      this.ageEdit = e.age;
-      this.gwEdit = e.gw;
-      this.bmmcEdit = e.bmmc;
-      this.pnumEdit = e.pnum;
-      this.idEdit = e.id;
-      this.pyjsmEdit = e.pyjsm;
-      this.jtzzEdit = e.jtzz;
+      this.s_idEdit = e.s_id; 
+      this.s_nameEdit = e.s_name;
+      this.s_sexEdit = e.s_sex;
+      this.s_ageEdit = e.s_age;
+      this.s_positionEdit = e.s_position;
+      this.s_stateEdit = e.s_state;
+      this.s_phoneEdit = e.s_phone;
       this.eData = e;
     },
     //返回首页
     backToKaiTai() {
       this.$router.push({ path: "kt" });
-    }
+    },
+    //异步通信
+    ...mapActions({
+        getAllStaff,
+        addOneStaff,
+        deleteOneStaff,
+        updateOneStaff,
+        
+    }),
+    async getData() {
+      let result = await this.getAllStaff();
+      if (!result) return;
+      let data = JSON.parse(result);
+      this.staffData = data;
+    },
+    async addStaff(){
+      let result = await this.addOneStaff({
+        s_id:this.staffData2[0].s_id,
+        s_name:this.staffData2[0].s_name,
+        s_sex:this.staffData2[0].s_sex,
+        s_age:this.staffData2[0].s_age,
+        s_position:this.staffData2[0].s_position,
+        s_state:this.staffData2[0].s_state,
+        s_phone:this.staffData2[0].s_phone,
+      });
+      if (result == 1) return;
+    },
+    async deleteStaff(num){
+      let result = await this.deleteOneStaff({
+        s_id:num,
+      });
+      if (result == 1) return;
+    },
+    async updateStaff(s_id,s_name,s_sex,s_age,s_position,s_state,s_phone){
+      let result = await this.updateOneStaff({
+        s_id:s_id,
+        s_name:s_name,
+        s_sex:s_sex,
+        s_age:s_age,
+        s_position:s_position,
+        s_state:s_state,
+        s_phone:s_phone,
+      });
+      if (result == 1) return;
+    },
+    // 获取当前时间函数
+    timeFormate(timeStamp) {
+      let year = new Date(timeStamp).getFullYear();
+      let month =
+        new Date(timeStamp).getMonth() + 1 < 10
+          ? "0" + (new Date(timeStamp).getMonth() + 1)
+          : new Date(timeStamp).getMonth() + 1;
+      let date =
+        new Date(timeStamp).getDate() < 10
+          ? "0" + new Date(timeStamp).getDate()
+          : new Date(timeStamp).getDate();
+      let hh =
+        new Date(timeStamp).getHours() < 10
+          ? "0" + new Date(timeStamp).getHours()
+          : new Date(timeStamp).getHours();
+      let mm =
+        new Date(timeStamp).getMinutes() < 10
+          ? "0" + new Date(timeStamp).getMinutes()
+          : new Date(timeStamp).getMinutes();
+      // let ss =new Date(timeStamp).getSeconds() < 10? "0" + new Date(timeStamp).getSeconds(): new Date(timeStamp).getSeconds();
+      // return year + "年" + month + "月" + date +"日"+" "+hh+":"+mm ;
+      this.nowTime =
+        year + "-" + month + "-" + date +" " + hh + ":" + mm;
+      // console.log(this.nowTime);
+    },
+    // 定时器函数
+    nowTimes() {
+      this.timeFormate(new Date());
+      setInterval(this.nowTimes, 30 * 1000);
+    },
+  },
+  created(){
+    this.getData();
   },
   //注册组件
   components: {
     AddFuWuYuan
+  },
+  mounted(){
+    //获取时间
+    this.nowTimes();
   }
 };
 </script>

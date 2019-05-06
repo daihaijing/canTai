@@ -1,11 +1,1 @@
-/**
- * mutations
- */
-
-/**
- * actions
- */
-
-/**
- * getters
- */
+export const getAllStaff='ygxxgl/getAllStaff'

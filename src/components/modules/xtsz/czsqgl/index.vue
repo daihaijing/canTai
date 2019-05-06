@@ -15,12 +15,24 @@
       </div>-->
       <table>
         <tr>
-          <th>userName</th>
-          <th>userPsw</th>
+          <th>s_id</th>
+          <th>s_name</th>
+          <th>s_sex</th>
+          <th>s_age</th>
+          <th>s_time</th>
+          <th>s_position</th>
+          <th>s_state</th>
+          <th>s_phone</th>
         </tr>
-        <tr v-for="item in userData" :key="item.username">
-          <td>{{item.username}}</td>
-          <td>{{item.userpassword}}</td>
+        <tr v-for="item in userData" :key="item.s_id">
+          <td>{{item.s_id}}</td>
+          <td>{{item.s_name}}</td>
+          <td>{{item.s_sex}}</td>
+          <td>{{item.s_age}}</td>
+          <td>{{item.s_time}}</td>
+          <td>{{item.s_position}}</td>
+          <td>{{item.s_state}}</td>
+          <td>{{item.s_phone}}</td>
         </tr>
       </table>
     </div>
