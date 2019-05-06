@@ -22,11 +22,10 @@
           <el-input v-model="ruleForm.t_state" :class="style.addinput" @focus="clear" id="contentC"></el-input>
         </el-form-item>
         <el-form-item label="类型" prop="t_type">
-          <el-input v-model="ruleForm.t_type" :class="style.addinput" @focus="clear" id="contentD"></el-input>
+          <el-input v-model="ruleForm.t_type" :class="style.addinput" @focus="clear" id="contentD" ></el-input>
         </el-form-item>
         <el-form-item label="额定人数" prop="t_people" :rules="[
-          { type: 'number', message: '额定人数必须为数字值'}
-        ]">
+          { type: 'number', message: '额定人数必须为数字值'}]">
           <el-input v-model.number="ruleForm.t_people" :class="style.addinput" @focus="clear" id="contentE"></el-input>
         </el-form-item>
         <el-form-item>

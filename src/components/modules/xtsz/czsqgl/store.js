@@ -5,7 +5,7 @@ const getters = {};
 const mutations = {};
 const actions = {
   [TYPES.getAllUser]:(context,args) =>
-     sysClient.getData('http://localhost:8081/getAllUser',args),
+     sysClient.getData('http://localhost:8081/staff/getAllStaff',args),
 };
 export default {
   state,

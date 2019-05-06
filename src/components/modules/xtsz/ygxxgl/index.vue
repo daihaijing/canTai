@@ -1,55 +1,49 @@
 <template>
   <div>
-    <ul>
-      <li>查询条件</li>
-      <li>
-        <span>会员卡号</span>
-        <input type="text">
-      </li>
-      <li>
-        <span>会员密码</span>
-        <input type="text">
-        <button>查询</button>
-      </li>
-      <li>会员信息</li>
-      <li>
-        <span>会员名称</span>
-        <input type="text">
-      </li>
-      <li>
-        <span>联系电话</span>
-        <input type="text">
-      </li>
-      <li>
-        <span>联系地址</span>
-        <input type="text">
-      </li>
-      <li>
-        <span>可兑换积分</span>
-        <input type="text">
-      </li>
-      <li>
-        <span>准备兑换积分</span>
-        <input type="text">
-      </li>
-      <li>
-        <span>备注</span>
-        <input type="text">
-      </li>
-      <li>
-        <button>兑换</button>
-        <button>返回</button>
-      </li>
-    </ul>
+    <div :class="style.title">
+      <span :class="style.txtView">员工信息管理</span>
+    </div>
+    <div :class="style.content">
+      <el-table class="staffTable" :data="staffData" border height="500">
+        <el-table-column prop="s_id" label="员工ID" align="center"></el-table-column>
+        <el-table-column prop="s_name" label="员工姓名" align="center"></el-table-column>
+        <el-table-column prop="s_sex" label="员工性别" align="center"></el-table-column>
+        <el-table-column prop="s_age" label="员工年龄" align="center"></el-table-column>
+        <el-table-column prop="s_time" label="添加时间" align="center"></el-table-column>
+        <el-table-column prop="s_position" label="职位" align="center"></el-table-column>
+        <el-table-column prop="s_state" label="状态" align="center"></el-table-column>
+        <el-table-column prop="s_phone" label="联系电话" align="center"></el-table-column>
+      </el-table>
+    </div>
   </div>
 </template>
 
 <script>
+import style from "css/xtsz.css";
+import { mapActions } from "vuex";
+import { getAllStaff } from "./mutation-types";
 export default {
   data() {
     return {
-      
+      style,
+      staffData:"",
     };
+  },
+  methods:{
+    //获取员工信息的异步通信
+    ...mapActions({
+        getAllStaff,
+    }),
+    async getData() {
+      let result = await this.getAllStaff();
+      if (!result) return;
+      console.log(result);
+      let data = JSON.parse(result);
+      this.staffData = data;
+    },
+  },
+  created(){
+    this.getData();
   }
 };
 </script>

@@ -11,35 +11,26 @@
         ref="ruleForm"
         label-width="100px"
         class="demo-ruleForm">
-        <el-form-item label="序号" prop="xh">
-          <el-input v-model="ruleForm.xh" :class="style.addinput" @focus="clear" id="contentA"></el-input>
+        <el-form-item label="员工ID" prop="s_id">
+          <el-input v-model="ruleForm.s_id" :class="style.addinput" @focus="clear" id="contentA"></el-input>
         </el-form-item>
-        <el-form-item label="姓名" prop="name">
-          <el-input v-model="ruleForm.name" :class="style.addinput" @focus="clear" id="contentB"></el-input>
+        <el-form-item label="员工姓名" prop="s_name">
+          <el-input v-model="ruleForm.s_name" :class="style.addinput" @focus="clear" id="contentB"></el-input>
         </el-form-item>
-        <el-form-item label="性别" prop="sex">
-          <el-input v-model="ruleForm.sex" :class="style.addinput" @focus="clear" id="contentC"></el-input>
+        <el-form-item label="性别" prop="s_sex">
+          <el-input v-model="ruleForm.s_sex" :class="style.addinput" @focus="clear" id="contentC"></el-input>
         </el-form-item>
-        <el-form-item label="年龄" prop="age">
-          <el-input v-model="ruleForm.age" :class="style.addinput" @focus="clear" id="contentD"></el-input>
+        <el-form-item label="年龄" prop="s_age">
+          <el-input v-model="ruleForm.s_age" :class="style.addinput" @focus="clear" id="contentD"></el-input>
         </el-form-item>
-        <el-form-item label="岗位" prop="gw">
-          <el-input v-model="ruleForm.gw" :class="style.addinput" @focus="clear" id="contentE"></el-input>
+        <el-form-item label="职位" prop="s_position">
+          <el-input v-model="ruleForm.s_position" :class="style.addinput" @focus="clear" id="contentE"></el-input>
         </el-form-item>
-        <el-form-item label="部门名称" prop="bmmc">
-          <el-input v-model="ruleForm.bmmc" :class="style.addinput" @focus="clear" id="contentF"></el-input>
+        <el-form-item label="状态" prop="s_state">
+          <el-input v-model="ruleForm.s_state" :class="style.addinput" @focus="clear" id="contentF"></el-input>
         </el-form-item>
-        <el-form-item label="联系方式" prop="pnum">
-          <el-input v-model="ruleForm.pnum" :class="style.addinput" @focus="clear" id="contentG"></el-input>
-        </el-form-item>
-        <el-form-item label="身份证号" prop="id">
-          <el-input v-model="ruleForm.id" :class="style.addinput" @focus="clear" id="contentH"></el-input>
-        </el-form-item>
-        <el-form-item label="拼音检索码" prop="pyjsm">
-          <el-input v-model="ruleForm.pyjsm" :class="style.addinput" @focus="clear" id="contentI"></el-input>
-        </el-form-item>
-        <el-form-item label="家庭住址" prop="jtzz">
-          <el-input v-model="ruleForm.jtzz" :class="style.addinput" @focus="clear" id="contentJ"></el-input>
+        <el-form-item label="联系方式" prop="s_phone">
+          <el-input v-model="ruleForm.s_phone" :class="style.addinput" @focus="clear" id="contentG"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="newAdd" v-if="tiJiao">提交</el-button>
@@ -58,117 +49,91 @@ export default {
     return {
       style,
       ruleForm: {
-        xh: "",
-        name: "",
-        sex: "",
-        age: "",
-        gw: "",
-        bmmc: "",
-        pnum: "",
-        id: "",
-        pyjsm: "",
-        jtzz: ""
+        s_id:"",
+        s_name:"",
+        s_sex:"",
+        s_age:"",
+        s_position:"",
+        s_state:"",
+        s_phone:"",
       },
       rules: {}
     };
   },
   props: {
     addVisible: null,
-    xhEdit: null,
-    nameEdit: null,
-    sexEdit: null,
-    ageEdit: null,
-    gwEdit: null,
-    bmmcEdit: null,
-    pnumEdit: null,
-    idEdit: null,
-    pyjsmEdit: null,
-    jtzzEdit: null,
+    s_idEdit: null,
+    s_nameEdit: null,
+    s_sexEdit: null,
+    s_ageEdit: null,
+    s_positionEdit: null,
+    s_stateEdit: null,
+    s_phoneEdit: null,
     tiJiao: null
   },
   methods: {
+    
     addCloseEmit() {
       this.$emit("addCloseEmit");
     },
     newAdd() {
       this.$emit(
         "newAdd",
-        this.ruleForm.xh,
-        this.ruleForm.name,
-        this.ruleForm.sex,
-        this.ruleForm.age,
-        this.ruleForm.gw,
-        this.ruleForm.bmmc,
-        this.ruleForm.pnum,
-        this.ruleForm.id,
-        this.ruleForm.pyjsm,
-        this.ruleForm.jtzz
+        this.ruleForm.s_id,
+        this.ruleForm.s_name,
+        this.ruleForm.s_sex,
+        this.ruleForm.s_age,
+        this.ruleForm.s_position,
+        this.ruleForm.s_state,
+        this.ruleForm.s_phone,
       );
     },
     newEdit() {
       this.$emit(
         "newEdit",
-        this.ruleForm.xh,
-        this.ruleForm.name,
-        this.ruleForm.sex,
-        this.ruleForm.age,
-        this.ruleForm.gw,
-        this.ruleForm.bmmc,
-        this.ruleForm.pnum,
-        this.ruleForm.id,
-        this.ruleForm.pyjsm,
-        this.ruleForm.jtzz
+        this.ruleForm.s_id,
+        this.ruleForm.s_name,
+        this.ruleForm.s_sex,
+        this.ruleForm.s_age,
+        this.ruleForm.s_position,
+        this.ruleForm.s_state,
+        this.ruleForm.s_phone
       );
     },
     clear(e) {
       switch (e.target.id) {
         case "contentA": {
-          if ((document.getElementById("contentA").value = this.xhEdit))
+          if ((document.getElementById("contentA").value = this.s_idEdit))
             document.getElementById("contentA").value = "";
           break;
         }
         case "contentB": {
-          if ((document.getElementById("contentB").value = this.nameEdit))
+          if ((document.getElementById("contentB").value = this.s_nameEdit))
             document.getElementById("contentB").value = "";
           break;
         }
         case "contentC": {
-          if ((document.getElementById("contentC").value = this.sexEdit))
+          if ((document.getElementById("contentC").value = this.s_sexEdit))
             document.getElementById("contentC").value = "";
           break;
         }
         case "contentD": {
-          if ((document.getElementById("contentD").value = this.ageEdit))
+          if ((document.getElementById("contentD").value = this.s_ageEdit))
             document.getElementById("contentD").value = "";
           break;
         }
         case "contentE": {
-          if ((document.getElementById("contentE").value = this.gwEdit))
+          if ((document.getElementById("contentE").value = this.s_positionEdit))
             document.getElementById("contentE").value = "";
           break;
         }
         case "contentF": {
-          if ((document.getElementById("contentF").value = this.bmmcEdit))
+          if ((document.getElementById("contentF").value = this.s_stateEdit))
             document.getElementById("contentF").value = "";
           break;
         }
         case "contentG": {
-          if ((document.getElementById("contentG").value = this.pnumEdit))
-            document.getElementById("contentG").value = "";
-          break;
-        }
-        case "contentH": {
-          if ((document.getElementById("contentE").value = this.idEdit))
-            document.getElementById("contentE").value = "";
-          break;
-        }
-        case "contentI": {
-          if ((document.getElementById("contentF").value = this.pyjsmEdit))
-            document.getElementById("contentF").value = "";
-          break;
-        }
-        case "contentJ": {
-          if ((document.getElementById("contentG").value = this.jtzzEdit))
+          if ((document.getElementById("contentG").value = this.s_phoneEdit))
             document.getElementById("contentG").value = "";
           break;
         }
@@ -176,71 +141,53 @@ export default {
     },
     resetForm(formName) {
         this.$refs[formName].resetFields();
-    }
+    },
   },
   mounted(){
-    if (this.xhEdit) {
-      this.ruleForm.xh = this.xhEdit;
+    if (this.s_idEdit) {
+      this.ruleForm.s_id = this.s_idEdit;
     }
-    if (this.nameEdit) {
-      this.ruleForm.name = this.nameEdit;
+    if (this.s_nameEdit) {
+      this.ruleForm.s_name = this.s_nameEdit;
     }
-    if (this.sexEdit) {
-      this.ruleForm.sex = this.sexEdit;
+    if (this.s_sexEdit) {
+      this.ruleForm.s_sex = this.s_sexEdit;
     }
-    if (this.ageEdit) {
-      this.ruleForm.age = this.ageEdit;
+    if (this.s_ageEdit) {
+      this.ruleForm.s_age = this.s_ageEdit;
     }
-    if (this.gwEdit) {
-      this.ruleForm.gw = this.gwEdit;
+    if (this.s_positionEdit) {
+      this.ruleForm.s_position = this.s_positionEdit;
     }
-    if (this.bmmcEdit) {
-      this.ruleForm.bmmc = this.bmmcEdit;
+    if (this.s_stateEdit) {
+      this.ruleForm.s_state = this.s_stateEdit;
     }
-    if (this.pnumEdit) {
-      this.ruleForm.pnum = this.pnumEdit;
-    }
-    if (this.idEdit) {
-      this.ruleForm.id = this.idEdit;
-    }
-    if (this.pyjsmEdit) {
-      this.ruleForm.pyjsm = this.pyjsmEdit;
-    }
-    if (this.jtzzEdit) {
-      this.ruleForm.jtzz = this.jtzzEdit;
+    if (this.s_phoneEdit) {
+      this.ruleForm.s_phone = this.s_phoneEdit;
     }
   },
   watch: {
-    xhEdit() {
-      this.ruleForm.xh = this.xhEdit;
+    c_idEdit() {
+      this.ruleForm.c_id = this.c_idEdit;
     },
-    nameEdit() {
-      this.ruleForm.name = this.nameEdit;
+    c_nameEdit() {
+      this.ruleForm.c_name = this.c_nameEdit;
     },
-    sexEdit() {
-      this.ruleForm.sex = this.sexEdit;
+    c_sexEdit() {
+      this.ruleForm.c_sex = this.c_sexEdit;
     },
-    ageEdit() {
-      this.ruleForm.age = this.ageEdit;
+    c_ageEdit() {
+      this.ruleForm.c_age = this.c_ageEdit;
     },
-    gwEdit() {
-      this.ruleForm.gw = this.gwEdit;
+    s_positionEdit() {
+      this.ruleForm.s_position = this.s_positionEdit;
     },
-    bmmcEdit() {
-      this.ruleForm.bmmc = this.bmmcEdit;
+    s_stateEdit() {
+      this.ruleForm.s_state = this.s_stateEdit;
     },
-    pnumEdit() {
-      this.ruleForm.pnum = this.pnumEdit;
-    },
-    idEdit() {
-      this.ruleForm.id = this.idEdit;
-    },
-    pyjsmEdit() {
-      this.ruleForm.pyjsm = this.pyjsmEdit;
-    },
-    jtzzEdit() {
-      this.ruleForm.jtzz = this.jtzzEdit;
-    },
+    s_phoneEdit() {
+      this.ruleForm.s_phone = this.s_phoneEdit;
+    }
   }
 };
 </script>

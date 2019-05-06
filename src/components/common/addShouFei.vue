@@ -1,7 +1,8 @@
 <template>
   <el-dialog :visible.sync="addVisible" @close="addCloseEmit">
     <div :class="style.title">
-      <span :class="style.txtView">新增项目</span>
+      <span :class="style.txtView" v-if="tiJiao">新增项目</span>
+      <span :class="style.txtView" v-else>修改项目</span>
     </div>
     <div :class="style.content">
       <el-form
@@ -9,42 +10,34 @@
         :rules="rules"
         ref="ruleForm"
         label-width="100px"
-        class="demo-ruleForm">
-        <el-form-item label="项目名称" prop="xmmc">
-          <el-input v-model="ruleForm.xmmc" placeholder="请输入项目名称" @focus="clear"></el-input>
+        class="demo-ruleForm"
+      >
+        <el-form-item label="项目名称" prop="m_name">
+          <el-input v-model="ruleForm.m_name" @focus="clear" id="contentA"></el-input>
         </el-form-item>
-        <el-form-item label="项目编号" prop="xmbh">
-          <el-input v-model="ruleForm.xmbh" placeholder="请输入项目编号" @focus="clear"></el-input>
+        <el-form-item label="项目编号" prop="m_number">
+          <el-input v-model="ruleForm.m_number" @focus="clear" id="contentB"></el-input>
         </el-form-item>
-        <el-form-item label="项目编码" prop="xmbm">
-          <el-input v-model="ruleForm.xmbm" placeholder="请输入项目编码" @focus="clear"></el-input>
+        <el-form-item label="项目编码" prop="m_simplename">
+          <el-input v-model="ruleForm.m_simplename" @focus="clear" id="contentC"></el-input>
         </el-form-item>
-        <el-form-item label="大类" prop="dl">
-          <el-input v-model="ruleForm.dl" placeholder="请输入项目大类" @focus="clear"></el-input>
+        <el-form-item label="项目类别" prop="ms_name">
+          <el-input v-model="ruleForm.ms_name" @focus="clear" id="contentD"></el-input>
         </el-form-item>
-        <el-form-item label="小类" prop="xl">
-          <el-input v-model="ruleForm.xl" placeholder="请输入项目小类" @focus="clear"></el-input>
+        <el-form-item label="项目图标" prop="m_picture">
+          <el-input v-model="ruleForm.m_picture" @focus="clear" id="contentE"></el-input>
         </el-form-item>
-        <el-form-item label="单位" prop="dw">
-          <el-input v-model="ruleForm.dw" placeholder="请输入项目单位" @focus="clear"></el-input>
+        <el-form-item label="单位" prop="m_unit">
+          <el-input v-model="ruleForm.m_unit" @focus="clear" id="contentF"></el-input>
         </el-form-item>
-        <el-form-item label="成本单价" prop="cbdj">
-          <el-input v-model="ruleForm.cbdj" placeholder="请输入成本单价" @focus="clear"></el-input>
+        <el-form-item label="单价" prop="m_price">
+          <el-input v-model="ruleForm.m_price" @focus="clear" id="contentG"></el-input>
         </el-form-item>
-        <el-form-item label="销售单价" prop="xsdj">
-          <el-input v-model="ruleForm.xsdj" placeholder="请输入销售单价" @focus="clear"></el-input>
+        <el-form-item label="项目状态" prop="m_state">
+          <el-input v-model="ruleForm.m_state" @focus="clear" id="contentH"></el-input>
         </el-form-item>
-        <el-form-item label="是否参与库存" prop="sfcykc">
-          <el-input v-model="ruleForm.sfcykc" @focus="clear"></el-input>
-        </el-form-item>
-        <el-form-item label="是否参与折扣" prop="sfcyzk">
-          <el-input v-model="ruleForm.sfcyzk" @focus="clear"></el-input>
-        </el-form-item>
-        <el-form-item label="是否参与积分" prop="sfcyjf">
-          <el-input v-model="ruleForm.sfcyjf" @focus="clear"></el-input>
-        </el-form-item>
-        <el-form-item label="员工提成" prop="ygtc">
-          <el-input v-model="ruleForm.ygtc" placeholder="请输入员工提成" @focus="clear"></el-input>
+        <el-form-item label="项目备注" prop="m_remark">
+          <el-input v-model="ruleForm.m_remark" @focus="clear" id="contentI"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="newAdd" v-if="tiJiao">提交</el-button>
@@ -52,46 +45,6 @@
           <el-button @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
       </el-form>
-      <!-- <ul>
-        <li>
-          <el-input v-model="xmmc" id="content" placeholder="项目名称:" @focus="clear"></el-input>
-        </li>
-        <li>
-          <el-input v-model="xmbh" id="content" placeholder="项目编号:" @focus="clear"></el-input>
-        </li>
-        <li>
-          <el-input v-model="xmbm" id="content" placeholder="项目编码:" @focus="clear"></el-input>
-        </li>
-        <li>
-          <el-input v-model="dl" id="content" placeholder="大类" @focus="clear"></el-input>
-        </li>
-        <li>
-          <el-input v-model="xl" id="content" placeholder="小类" @focus="clear"></el-input>
-        </li>
-        <li>
-          <el-input v-model="dw" id="content" placeholder="单位" @focus="clear"></el-input>
-        </li>
-        <li>
-          <el-input v-model="cbdj" id="content" placeholder="成本单价" @focus="clear"></el-input>
-        </li>
-        <li>
-          <el-input v-model="xsdj" id="content" placeholder="销售单价" @focus="clear"></el-input>
-        </li>
-        <li>
-          <el-input v-model="sfcykc" id="content" placeholder="是否参与库存" @focus="clear"></el-input>
-        </li>
-        <li>
-          <el-input v-model="sfcyzk" id="content" placeholder="是否参与折扣" @focus="clear"></el-input>
-        </li>
-        <li>
-          <el-input v-model="sfcyjf" id="content" placeholder="是否参与积分" @focus="clear"></el-input>
-        </li>
-        <li>
-          <el-input v-model="ygtc" placeholder="员工提成" @focus="clear"></el-input>
-        </li>
-      </ul>
-      <el-button type="primary" @click="newAdd" v-if="tiJiao">提交</el-button>
-      <el-button type="primary" @click="newEdit" v-else>修改</el-button> -->
     </div>
   </el-dialog>
 </template>
@@ -102,46 +55,31 @@ export default {
   data() {
     return {
       style,
-      // xmmc: "",
-      // xmbh: "",
-      // xmbm: "",
-      // dl: "",
-      // xl: "",
-      // dw: "",
-      // cbdj: "",
-      // xsdj: "",
-      // sfcykc: "",
-      // sfcyjf: "",
-      // sfcyzk: "",
-      // ygtc: "",
       flag: true,
       ruleForm: {
-        xmmc: "",
-        xmbh: "",
-        xmbm: "",
-        dl: "",
-        xl: "",
-        dw: "",
-        cbdj: "",
-        xsdj: "",
-        sfcykc: "",
-        sfcyjf: "",
-        sfcyzk: "",
-        ygtc: ""
+        m_name: "",
+        m_number: "",
+        ms_name: "",
+        m_simplename: "",
+        m_picture: "",
+        m_unit: "",
+        m_price: "",
+        m_state: "",
+        m_remark: ""
       },
       rules: {
-        xmmc: [
-          { required: true, message: "请输入项目名称", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
-        ],
-        xmbh: [
-          { required: true, message: "请输入项目编号", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
-        ],
-        xmbm: [
-          { required: true, message: "请输入项目编码", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
-        ]
+        // xmmc: [
+        //   { required: true, message: "请输入项目名称", trigger: "blur" },
+        //   { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
+        // ],
+        // xmbh: [
+        //   { required: true, message: "请输入项目编号", trigger: "blur" },
+        //   { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
+        // ],
+        // xmbm: [
+        //   { required: true, message: "请输入项目编码", trigger: "blur" },
+        //   { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
+        // ]
       }
     };
   },
@@ -152,137 +90,153 @@ export default {
     newAdd() {
       this.$emit(
         "newAdd",
-        this.ruleForm.xmmc,
-        this.ruleForm.xmbh,
-        this.ruleForm.xmbm,
-        this.ruleForm.dl,
-        this.ruleForm.xl,
-        this.ruleForm.dw,
-        this.ruleForm.cbdj,
-        this.ruleForm.xsdj,
-        this.ruleForm.sfcykc,
-        this.ruleForm.sfcyjf,
-        this.ruleForm.sfcyzk,
-        this.ruleForm.ygtc
+        this.ruleForm.m_name,
+        this.ruleForm.m_number,
+        this.ruleForm.m_simplename,
+        this.ruleForm.ms_name,
+        this.ruleForm.m_picture,
+        this.ruleForm.m_unit,
+        this.ruleForm.m_price,
+        this.ruleForm.m_state,
+        this.ruleForm.m_remark
       );
     },
     newEdit() {
       this.$emit(
         "newEdit",
-        this.ruleForm.xmmc,
-        this.ruleForm.xmbh,
-        this.ruleForm.xmbm,
-        this.ruleForm.dl,
-        this.ruleForm.xl,
-        this.ruleForm.dw,
-        this.ruleForm.cbdj,
-        this.ruleForm.xsdj,
-        this.ruleForm.sfcykc,
-        this.ruleForm.sfcyjf,
-        this.ruleForm.sfcyzk,
-        this.ruleForm.ygtc
+        this.ruleForm.m_name,
+        this.ruleForm.m_number,
+        this.ruleForm.m_simplename,
+        this.ruleForm.ms_name,
+        this.ruleForm.m_picture,
+        this.ruleForm.m_unit,
+        this.ruleForm.m_price,
+        this.ruleForm.m_state,
+        this.ruleForm.m_remark
       );
     },
-    clear() {
-      if (this.flag) {
-        document.getElementById("content").value = "";
-        this.flag = false;
+    clear(e) {
+      switch (e.target.id) {
+        case "contentA": {
+          if ((document.getElementById("contentA").value = this.m_nameEdit))
+            document.getElementById("contentA").value = "";
+          break;
+        }
+        case "contentB": {
+          if ((document.getElementById("contentB").value = this.m_numberEdit))
+            document.getElementById("contentB").value = "";
+          break;
+        }
+        case "contentC": {
+          if ((document.getElementById("contentC").value = this.m_simplenameEdit))
+            document.getElementById("contentC").value = "";
+          break;
+        }
+        case "contentD": {
+          if ((document.getElementById("contentD").value = this.ms_nameEdit))
+            document.getElementById("contentD").value = "";
+          break;
+        }
+        case "contentE": {
+          if ((document.getElementById("contentE").value = this.m_pictureEdit))
+            document.getElementById("contentE").value = "";
+          break;
+        }
+        case "contentF": {
+          if ((document.getElementById("contentF").value = this.m_unitEdit))
+            document.getElementById("contentF").value = "";
+          break;
+        }
+        case "contentG": {
+          if ((document.getElementById("contentG").value = this.m_priceEdit))
+            document.getElementById("contentG").value = "";
+          break;
+        }
+        case "contentH": {
+          if ((document.getElementById("contentH").value = this.m_stateEdit))
+            document.getElementById("contentH").value = "";
+          break;
+        }
+        case "contentI": {
+          if ((document.getElementById("contentI").value = this.m_remarkEdit))
+            document.getElementById("contentI").value = "";
+          break;
+        }
       }
     },
     resetForm(formName) {
-        this.$refs[formName].resetFields();
+      this.$refs[formName].resetFields();
     }
   },
   props: {
-    xmmcEdit: null,
-    xmbhEdit: null,
-    xmbmEdit: null,
-    dlEdit: null,
-    xlEdit: null,
-    dwEdit: null,
-    cbdjEdit: null,
-    xsdjEdit: null,
-    sfcykcEdit: null,
-    sfcyjfEdit: null,
-    sfcyzkEdit: null,
-    ygtcEdit: null,
+    m_nameEdit: null,
+    m_numberEdit: null,
+    ms_nameEdit: null,
+    m_simplenameEdit: null,
+    m_pictureEdit: null,
+    m_unitEdit: null,
+    m_priceEdit: null,
+    m_stateEdit: null,
+    m_remarkEdit: null,
     addVisible: null,
     tiJiao: null
   },
   mounted() {
-    if (this.xmmcEdit) {
-      this.ruleForm.xmmc = this.xmmcEdit;
+    if (this.m_nameEdit) {
+      this.ruleForm.m_name = this.m_nameEdit;
     }
-    if (this.xmbhEdit) {
-      this.ruleForm.xmbh = this.xmbhEdit;
+    if (this.m_numberEdit) {
+      this.ruleForm.m_number = this.m_numberEdit;
     }
-    if (this.xmbmEdit) {
-      this.ruleForm.xmbm = this.xmbmEdit;
+    if (this.m_simplenameEdit) {
+      this.ruleForm.m_simplename = this.m_simplenameEdit;
     }
-    if (this.dlEdit) {
-      this.ruleForm.dl = this.dlEdit;
+    if (this.ms_nameEdit) {
+      this.ruleForm.ms_name = this.ms_nameEdit;
     }
-    if (this.xlEdit) {
-      this.ruleForm.xl = this.xlEdit;
+    if (this.m_pictureEdit) {
+      this.ruleForm.m_picture = this.m_pictureEdit;
     }
-    if (this.dwEdit) {
-      this.ruleForm.dw = this.dwEdit;
+    if (this.m_unitEdit) {
+      this.ruleForm.m_unit = this.m_unitEdit;
     }
-    if (this.cbdjEdit) {
-      this.ruleForm.cbdj = this.cbdjEdit;
+    if (this.m_priceEdit) {
+      this.ruleForm.m_price = this.m_priceEdit;
     }
-    if (this.xsdjEdit) {
-      this.ruleForm.xsdj = this.xsdjEdit;
+    if (this.m_stateEdit) {
+      this.ruleForm.m_state = this.m_stateEdit;
     }
-    if (this.sfcykcEdit) {
-      this.ruleForm.sfcykc = this.sfcykcEdit;
-    }
-    if (this.sfcyjfEdit) {
-      this.ruleForm.sfcyjf = this.sfcyjfEdit;
-    }
-    if (this.sfcyzkEdit) {
-      this.ruleForm.sfcyzk = this.sfcyzkEdit;
-    }
-    if (this.ygtcEdit) {
-      this.ruleForm.ygtc = this.ygtcEdit;
+    if (this.m_remarkEdit) {
+      this.ruleForm.m_remark = this.m_remarkEdit;
     }
   },
   watch: {
-    xmmcEdit() {
-      this.ruleForm.xmmc = this.xmmcEdit;
+    m_nameEdit() {
+      this.ruleForm.m_name = this.m_nameEdit;
     },
-    xmbhEdit() {
-      this.ruleForm.xmbh = this.xmbhEdit;
+    m_numberEdit() {
+      this.ruleForm.m_number = this.m_numberEdit;
     },
-    xmbmEdit() {
-      this.ruleForm.xmbm = this.xmbmEdit;
+    m_simplenameEdit() {
+      this.ruleForm.m_simplename = this.m_simplenameEdit;
     },
-    dlEdit() {
-      this.ruleForm.dl = this.dlEdit;
+    ms_nameEdit() {
+      this.ruleForm.ms_name = this.ms_nameEdit;
     },
-    xlEdit() {
-      this.ruleForm.xl = this.xlEdit;
+    m_pictureEdit() {
+      this.ruleForm.m_picture = this.m_pictureEdit;
     },
-    dwEdit() {
-      this.ruleForm.dw = this.dwEdit;
+    m_unitEdit() {
+      this.ruleForm.m_unit = this.m_unitEdit;
     },
-    cbdjEdit() {
-      this.ruleForm.cbdj = this.cbdjEdit;
+    m_priceEdit() {
+      this.ruleForm.m_price = this.m_priceEdit;
     },
-    xsdjEdit() {
-      this.ruleForm.xsdj = this.xsdjEdit;
+    m_stateEdit() {
+      this.ruleForm.m_state = this.m_stateEdit;
     },
-    sfcykcEdit() {
-      this.ruleForm.sfcykc = this.sfcykcEdit;
-    },
-    sfcyjfEdit() {
-      this.ruleForm.sfcyjf = this.sfcyjfEdit;
-    },
-    sfcyzkEdit() {
-      this.ruleForm.sfcyzk = this.sfcyzkEdit;
-    },
-    ygtcEdit() {
-      this.ruleForm.ygtc = this.ygtcEdit;
+    m_remarkEdit() {
+      this.ruleForm.m_remark = this.m_remarkEdit;
     }
   }
 };
