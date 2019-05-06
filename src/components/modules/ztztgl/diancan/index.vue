@@ -9,6 +9,8 @@
               <i class="el-icon-minus dcRight" @click="dcRemove(item)"></i>
               <i class="el-icon-plus dcLeft" @click="diancan(item)"></i>
             </div>
+            <i class="el-icon-minus dcRight" @click="dcRemove(item)"></i>
+            <i class="el-icon-plus dcLeft" @click="diancan(item)"></i>
           </el-tab-pane>
           <el-tab-pane label="热菜" name="热菜">
             <div v-for="item in dcSoupTable" :class="style.dcIcon">
