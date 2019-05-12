@@ -109,22 +109,37 @@
 }
 /***登录弹框样式****/
 :global(.loginDiv .el-dialog){
-  width: 500px;
+  width: 585px;
   height: 500px;
   margin: 0 auto;
   margin-top: 15vh;
+  background: url('../../static/assets/login.jpg') center center no-repeat;
+  background-size: 100% 100%;
+}
+:global(.loginDiv .el-form-item__label){
+  text-align: center;
+}
+:global(.loginDiv form){
+  background: rgba(255,255,255,1);
+  height: 237px;
+  margin: 0 auto;
+  margin-top: 58px;
+  padding-top: 20px;
+  border-radius: 10px;
+
 }
 :global(.loginInput){
-  width: 400px;
+  width: 225px;
 }
 :global(.loginInput input){
   height: 38px;
   line-height: 38px;
-  width: 400px;
+  width: 225px;
   padding-right:30px;
 }
 :global(.loginButton){
-  margin-left: 158px;
+  margin-left: 40px;
+  height: 38px;
 }
 /* 套餐设置 表格 css */
 :global(.TCTable){
@@ -304,4 +319,13 @@
   position: absolute;
   top: -3px;
   right: 1px;
+}
+/* 填写管理员密码 */
+:global(.guanLi .el-dialog__body){
+  padding-top: 0px;
+}
+:global(.guanLi .el-dialog__body span){
+  font-size: 14px;
+  display: block;
+  margin-bottom: 10px;
 }

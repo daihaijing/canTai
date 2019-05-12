@@ -1,33 +1,25 @@
 <template>
     <el-dialog :visible.sync="isLogin" @close="loginEmit" class="loginDiv">
-        <!-- <el-form :model="dynamicValidateForm" status-icon ref="dynamicValidateForm" label-width="100px" class="demo-dynamic" :rules="rules">
-            <el-form-item prop="userName">
+        <el-form :model="dynamicValidateForm" status-icon ref="dynamicValidateForm" label-width="100px" class="demo-dynamic" :rules="rules" style="width: 353px;">
+            <div style="text-align:center;margin-bottom:17px;font-size:20px;color:rgb(255, 208, 75);">登录</div>
+            <el-form-item prop="userName" label="用户名">
                 <el-input class="loginInput" v-model="dynamicValidateForm.userName"></el-input>
             </el-form-item>
-            <el-form-item prop="passWord">
+            <el-form-item prop="passWord" label="密码">
                 <el-input class="loginInput" type="password" v-model="dynamicValidateForm.passWord"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button @click="upUser('dynamicValidateForm')" class="loginButton">登录</el-button>
+                <el-button @click="upUser('dynamicValidateForm')" class="loginButton">确定</el-button>
             </el-form-item>
-        </el-form> -->
-        <div style="text-align:center;">
-            <img src="static/assets/slogan.jpg" width="251">
-        </div>
-        <div style="text-align:center;" id="login">
-            <span>登录</span>
-            <span>注册</span>
-        </div>
-        <div>
-            <el-input type="text"></el-input>
-            <el-input type="password"></el-input>
-        </div>
+        </el-form>
     </el-dialog>
 </template>
 
 <script>
 //import utils from "@/util/utils"
 import Crypto from "@/Crypto"
+import { mapActions } from "vuex";
+import {getLogin} from "./mutation-types";
 export default {
     //name:'login',
     data(){
@@ -67,6 +59,9 @@ export default {
             }
         }
     },
+     ...mapActions({
+      getLogin,
+    }),
     props:{
         isLogin:null
     },
@@ -86,33 +81,35 @@ export default {
         loginEmit(){
             this.$emit("loginEmit");
         },
+        async loginEmitData(){
+            let result = await this.getLogin({
+                userName:this.dynamicValidateForm.userName,
+                passWord:this.dynamicValidateForm.passWord,
+            })
+            if(!result) return;
+            let data = result;
+            // let data = '前台';
+            var user = {};
+            user.userName = this.dynamicValidateForm.userName;
+            user.passWord = escape(Crypto.set(this.dynamicValidateForm.passWord));
+            user.time = Date.parse(new Date()) + 2592000000;
+            user.status = data;
+            localStorage.setItem("user",JSON.stringify(user));
+            this.isLogin = false;
+            location.reload();
+        },
         upUser(formName){
             this.$refs[formName].validate((valid) => {
                 if(valid){
-                    this.$notify({
-                        title: '成功',
-                        message: '登录成功'
-                    });
-                    var user = {};
-                    user.userName = this.dynamicValidateForm.userName;
-                    user.password = escape(Crypto.set(this.dynamicValidateForm.password));
-                    localStorage.setItem("user",JSON.stringify(user));
-                    this.isLogin = false;
-                    location.reload();
+                    this.loginEmitData();
                 } else {
                     return false;
                 }
             });
         } 
     },
-    updated(){
-        // this.nextTick(()=>{
-        //     if($('#login')){
-        //         $('#login span').click(()=>{
-
-        //         })
-        //     }
-        // })
+    mounted(){
+        
     }
 }
 </script>

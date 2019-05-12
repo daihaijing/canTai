@@ -25,6 +25,7 @@ import {
   }
   const actions = {
       [TYPES.getWeatherata]:(context,args) => sysClient.getData('http://wthrcdn.etouch.cn/weather_mini',args),
+      [TYPES.getLogin]:(context,args) => sysClient.getData('',args),
   }
   export default {
     modules:{

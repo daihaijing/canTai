@@ -1,4 +1,5 @@
-export const getWeatherata = 'home/getWeatherata'
+export const getWeatherata = 'main/getWeatherata'
+export const getLogin = 'main/getLogin'
 /**
  * mutations
  */

@@ -12,6 +12,8 @@ const actions = {
     sysClient.getData('http://localhost:8081/staff/deleteOneStaff',args),
   [TYPES.updateOneStaff]:(context,args) =>
     sysClient.getData('http://localhost:8081/staff/updateOneStaff',args),
+    [TYPES.guanLiPasswordData]:(context,args) =>
+    sysClient.getData('',args),
 };
 export default {
   state,

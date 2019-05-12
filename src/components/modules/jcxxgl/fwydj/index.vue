@@ -41,9 +41,16 @@
         :s_positionEdit="s_positionEdit"
         :s_stateEdit="s_stateEdit"
         :s_phoneEdit="s_phoneEdit"
+        :s_passwordEdit="s_passwordEdit"
         :tiJiao="tiJiao"
         v-if="addVisible">
       </addFuWuYuan>
+      <el-dialog
+        title="提示"
+        :visible.sync="dialogVisible"
+        width="30%" class="guanLi" style="margin-top: 28vh !important;">
+        <el-input type="password" v-model="guanLiPssword" placeholder="请输入管理员密码" @keyup.enter.native="guanLiEmit"></el-input>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -52,10 +59,7 @@
 import AddFuWuYuan from "#com/addFuWuYuan";
 import style from "css/jcxxgl.css";
 import { mapActions } from "vuex";
-import { getAllStaff } from "./mutation-types";
-import { addOneStaff } from "./mutation-types";
-import { deleteOneStaff } from "./mutation-types";
-import { updateOneStaff } from "./mutation-types";
+import { getAllStaff,addOneStaff,deleteOneStaff,updateOneStaff,guanLiPasswordData } from "./mutation-types";
 export default {
   data() {
     return {
@@ -75,6 +79,9 @@ export default {
       s_phoneEdit: "",
       tiJiao:true,
       eData:"",
+      newData:{},
+      dialogVisible:false,
+      guanLiPassword:"",
     };
   },
   methods: {
@@ -95,12 +102,19 @@ export default {
       }
     },
     addFWY() {
-      this.addVisible = true;
+      if(localStorage.getItem('user')){
+        if(JSON.parse(localStorage.getItem('user')).status!='管理员'){
+          this.dialogVisible = true;
+        }else{
+          this.tiJiao = true;
+          this.addVisible = true;
+        }
+      }
     },
     addCloseEmit() {
       this.addVisible = false;
     },
-    newAdd(s_id,s_name,s_sex,s_age,s_position,s_state,s_phone) {
+    newAdd(s_id,s_name,s_sex,s_age,s_position,s_state,s_phone,s_password) {
       var newData2 = {
         s_id:s_id,
         s_name:s_name,
@@ -108,9 +122,10 @@ export default {
         s_age:s_age,
         s_position:s_position,
         s_state:s_state,
-        s_phone:s_phone
+        s_phone:s_phone,
+        s_password:s_password,
       };
-      var newData = {
+      this.newData = {
         s_id:s_id,
         s_name:s_name,
         s_sex:s_sex,
@@ -122,12 +137,9 @@ export default {
       };
       //把input的值 存到临时的 staffData2 中
       this.staffData2.push(newData2);
-      this.staffData.push(newData);
       //console.log(this.staffData2);
       //向后台发送请求
       this.addStaff();
-      //关闭弹框
-      this.addVisible = false;
     },
     newEdit(s_id,s_name,s_sex,s_age,s_position,s_state,s_phone) {
       var newData = {
@@ -141,12 +153,6 @@ export default {
         s_phone:s_phone,
       };
       this.updateStaff(s_id,s_name,s_sex,s_age,s_position,s_state,s_phone);
-      for (let i = 0; i < this.staffData.length; i++) {
-        if (this.eData == this.staffData[i]) {
-          this.staffData.splice(i, 1, newData);
-          this.addVisible = false;
-        }
-      }
     },
     //删除服务员
     deleteData(e) {
@@ -159,17 +165,24 @@ export default {
     },
     //修改服务员
     modifyData(e) {
-      this.tiJiao = false;
-      this.addVisible = true;
+      if(localStorage.getItem('user')){
+        if(JSON.parse(localStorage.getItem('user')).status!='管理员'){
+          this.dialogVisible = true;
+        }else{
+          this.tiJiao = false;
+          this.addVisible = true;
 
-      this.s_idEdit = e.s_id; 
-      this.s_nameEdit = e.s_name;
-      this.s_sexEdit = e.s_sex;
-      this.s_ageEdit = e.s_age;
-      this.s_positionEdit = e.s_position;
-      this.s_stateEdit = e.s_state;
-      this.s_phoneEdit = e.s_phone;
-      this.eData = e;
+          this.s_idEdit = e.s_id; 
+          this.s_nameEdit = e.s_name;
+          this.s_sexEdit = e.s_sex;
+          this.s_ageEdit = e.s_age;
+          this.s_positionEdit = e.s_position;
+          this.s_stateEdit = e.s_state;
+          this.s_phoneEdit = e.s_phone;
+          this.s_passwordEdit = e.s_password;
+          this.eData = e;
+        }
+      }
     },
     //返回首页
     backToKaiTai() {
@@ -181,7 +194,7 @@ export default {
         addOneStaff,
         deleteOneStaff,
         updateOneStaff,
-        
+        guanLiPasswordData
     }),
     async getData() {
       let result = await this.getAllStaff();
@@ -198,8 +211,12 @@ export default {
         s_position:this.staffData2[0].s_position,
         s_state:this.staffData2[0].s_state,
         s_phone:this.staffData2[0].s_phone,
+        s_password:this.staffData2[0].s_password,
       });
       if (result == 1) return;
+      this.staffData.push(this.newData);
+      //关闭弹框
+      this.addVisible = false;
     },
     async deleteStaff(num){
       let result = await this.deleteOneStaff({
@@ -218,6 +235,21 @@ export default {
         s_phone:s_phone,
       });
       if (result == 1) return;
+      for (let i = 0; i < this.staffData.length; i++) {
+        if (this.eData == this.staffData[i]) {
+          this.staffData.splice(i, 1, newData);
+          this.addVisible = false;
+        }
+      }
+    },
+    async getGuanLiPass(){
+      let result = await this.guanLiPasswordData({
+        password:this.guanLiPassword
+      })
+      if(!result) return;
+      let data = JSON.parse(result);
+      this.dialogVisible = false;
+      this.addVisible = true;
     },
     // 获取当前时间函数
     timeFormate(timeStamp) {
@@ -249,6 +281,10 @@ export default {
       this.timeFormate(new Date());
       setInterval(this.nowTimes, 30 * 1000);
     },
+    //提交管理员密码
+    guanLiEmit(){
+      this.getGuanLiPass();
+    }
   },
   created(){
     this.getData();

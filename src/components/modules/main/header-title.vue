@@ -22,7 +22,7 @@
 <script>
 import style from "@/css/main";
 import BMap from "BMap";
-import { getWeatherata } from "./mutation-types";
+import { getWeatherata} from "./mutation-types";
 import { mapActions } from "vuex";
 export default {
   data() {
@@ -68,7 +68,7 @@ export default {
   methods: {
     //获取当前城市的天气
     ...mapActions({
-      getWeatherata
+      getWeatherata,
     }),
     //登录
     loginPlease(){
@@ -151,7 +151,12 @@ export default {
     //获取地点
     this.dz();
     if (localStorage.getItem("user")) {
-      this.userName = JSON.parse(localStorage.getItem("user")).userName;
+      let time = JSON.parse(localStorage.getItem("user")).time;
+      if (Date.parse(new Date()) > time){
+        localStorage.setItem("user", "");
+      }else{
+        this.userName = JSON.parse(localStorage.getItem("user")).userName;
+      }
     }
   }
 };

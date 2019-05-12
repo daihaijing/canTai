@@ -43,8 +43,14 @@ export default {
   watch: {},
   mounted() {
     if (localStorage.getItem("user")) {
-      this.isLogin = false;
-      this.isUser = false;
+      let time = JSON.parse(localStorage.getItem("user")).time;
+      if(Date.parse(new Date()) <= time){
+        this.isLogin = false;
+        this.isUser = false;
+      }else{
+        this.isLogin = true;
+        this.isUser = false;
+      }
     } else {
       this.isLogin = true;
       this.isUser = false;

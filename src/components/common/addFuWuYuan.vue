@@ -32,8 +32,14 @@
         <el-form-item label="联系方式" prop="s_phone">
           <el-input v-model="ruleForm.s_phone" :class="style.addinput" @focus="clear" id="contentG"></el-input>
         </el-form-item>
+        <el-form-item label="密码" prop="s_password">
+          <el-input v-model="ruleForm.s_password" :class="style.addinput"  id="contentH" type="password"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="s_checkPass">
+          <el-input type="password" v-model="ruleForm.s_checkPass" :class="style.addinput" id="contentI"></el-input>
+        </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="newAdd" v-if="tiJiao">提交</el-button>
+          <el-button type="primary" @click="newAdd('ruleForm')" v-if="tiJiao">提交</el-button>
           <el-button type="primary" @click="newEdit" v-else>修改</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
@@ -46,6 +52,29 @@
 import style from "css/jcxxgl.css";
 export default {
   data() {
+    let validatePass = (rule, value, callback) =>{
+        if(value == ''){
+            callback(new Error('请输入密码'))
+        }else{
+            if(value.length<6||value.length>10){
+                callback(new Error('密码长度为6-10位'))
+            }else if(!/^[A-Za-z0-9]+$/.test(value))
+            {
+                callback(new Error('只能含有数字或字母，不能包含特殊字符'))
+            }else{
+                callback();
+            }
+        }
+    }
+    let validatePass2 = (rule, value, callback) => {
+      if (value == '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value != this.ruleForm.s_password) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    };
     return {
       style,
       ruleForm: {
@@ -56,8 +85,17 @@ export default {
         s_position:"",
         s_state:"",
         s_phone:"",
+        s_password:"",
+        s_checkPass:""
       },
-      rules: {}
+      rules: {
+        s_password:[
+            {validator: validatePass, trigger: 'blur' }
+        ],
+        s_checkPass: [
+          { validator: validatePass2, trigger: 'blur' }
+        ],
+      }
     };
   },
   props: {
@@ -69,24 +107,32 @@ export default {
     s_positionEdit: null,
     s_stateEdit: null,
     s_phoneEdit: null,
-    tiJiao: null
+    s_passwordEdit:null,
+    tiJiao: null,
   },
   methods: {
     
     addCloseEmit() {
       this.$emit("addCloseEmit");
     },
-    newAdd() {
-      this.$emit(
-        "newAdd",
-        this.ruleForm.s_id,
-        this.ruleForm.s_name,
-        this.ruleForm.s_sex,
-        this.ruleForm.s_age,
-        this.ruleForm.s_position,
-        this.ruleForm.s_state,
-        this.ruleForm.s_phone,
-      );
+    newAdd(formName) {
+      this.$refs[formName].validate((valid) => {
+        if(valid){
+          this.$emit(
+            "newAdd",
+            this.ruleForm.s_id,
+            this.ruleForm.s_name,
+            this.ruleForm.s_sex,
+            this.ruleForm.s_age,
+            this.ruleForm.s_position,
+            this.ruleForm.s_state,
+            this.ruleForm.s_phone,
+            this.ruleForm.s_password,
+          );
+        } else {
+            return false;
+        }
+      });
     },
     newEdit() {
       this.$emit(
@@ -165,6 +211,10 @@ export default {
     if (this.s_phoneEdit) {
       this.ruleForm.s_phone = this.s_phoneEdit;
     }
+    if (this.passwordEdit) {
+      this.ruleForm.passwordEdit = this.passwordEdit;
+      this.ruleForm.s_checkPass = this.passwordEdit;
+    }
   },
   watch: {
     c_idEdit() {
@@ -187,6 +237,10 @@ export default {
     },
     s_phoneEdit() {
       this.ruleForm.s_phone = this.s_phoneEdit;
+    },
+    passwordEdit(){
+      this.ruleForm.s_password = this.passwordEdit;
+      this.ruleForm.s_checkPass = this.passwordEdit;
     }
   }
 };
