@@ -62,8 +62,7 @@
         <el-menu-item-group>
           <el-menu-item index="cprk" :disabled="isUser">产品入库</el-menu-item>
           <el-menu-item index="cpck" :disabled="isUser">产品出库</el-menu-item>
-          <el-menu-item index="kcpd" :disabled="isUser">库存盘点</el-menu-item>
-          <el-menu-item index="kccx" :disabled="isUser">库存查询</el-menu-item>
+          <el-menu-item index="kcpd" :disabled="isUser">库存查询</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="5">

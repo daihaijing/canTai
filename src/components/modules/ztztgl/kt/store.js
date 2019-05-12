@@ -8,6 +8,21 @@ const actions = {
      sysClient.getData('http://localhost:8081/table/getAllTable',args),
   [TYPES.updateOneTable]:(context,args) =>
      sysClient.getData('http://localhost:8081/table/updateOneTable',args),
+  [TYPES.deleteOneReserve]:(context,args) =>
+     sysClient.getData('http://localhost:8081/reserve/deleteOneReserve',args),
+  [TYPES.updateTableState]:(context,args) =>
+   sysClient.getData('http://localhost:8081/table/updateTableState',args),
+  [TYPES.addOneNewOrder]:(context,args) =>
+    sysClient.getData('http://localhost:8081/order/addOneNewOrder',args),
+  [TYPES.deleteOneOrder]:(context,args) =>
+    sysClient.getData('http://localhost:8081/order/deleteOneOrder',args),
+  [TYPES.deleteOneOrderItemByOTnumber]:(context,args) =>
+      sysClient.getData('http://localhost:8081/order/deleteOneOrderItemByOTnumber',args),
+  [TYPES.getOneOrderByOnumber]:(context,args) =>
+      sysClient.getData('http://localhost:8081/order/getOneOrderByOnumber',args),
+  [TYPES.getAllStaff]:(context,args) =>
+      sysClient.getData('http://localhost:8081/staff/getAllStaff',args),
+      
 };
 export default {
   state,

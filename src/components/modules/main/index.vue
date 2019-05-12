@@ -47,7 +47,7 @@ export default {
       this.isUser = false;
     } else {
       this.isLogin = true;
-      this.isUser = true;
+      this.isUser = false;
     }
   }
 };

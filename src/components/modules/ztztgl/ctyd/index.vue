@@ -54,8 +54,7 @@ import Vue from 'vue';
 import style from "css/kaitai.css";
 import bus from "@/bus.js";
 import { mapActions } from 'vuex';
-import { getAllTable } from './mutation-types';
-import { addOneReserve } from './mutation-types';
+import { getAllTable,addOneReserve } from './mutation-types';
 export default {
   data() {
     let validatePass = (rule, value, callback) =>{

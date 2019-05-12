@@ -4,7 +4,7 @@ const state = {};
 const getters = {};
 const mutations = {};
 const actions = {
-  [TYPES.getCpckData]:(context,args) => sysClient.getData('',args),
+ 
 };
 export default {
   state,

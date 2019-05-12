@@ -1,24 +1,27 @@
 <template>
     <el-dialog :visible.sync="isLogin" @close="loginEmit" class="loginDiv">
-        <el-form :model="dynamicValidateForm" status-icon ref="dynamicValidateForm" label-width="100px" class="demo-dynamic" :rules="rules" style="width:700px;margin:0 auto;margin-top:20px;padding-left: 92px;">
-            <el-form-item prop="userName" label="用户名">
+        <!-- <el-form :model="dynamicValidateForm" status-icon ref="dynamicValidateForm" label-width="100px" class="demo-dynamic" :rules="rules">
+            <el-form-item prop="userName">
                 <el-input class="loginInput" v-model="dynamicValidateForm.userName"></el-input>
             </el-form-item>
-            <el-form-item prop="passWord" label="密码">
+            <el-form-item prop="passWord">
                 <el-input class="loginInput" type="password" v-model="dynamicValidateForm.passWord"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button @click="upUser('dynamicValidateForm')" class="loginButton">登录</el-button>
             </el-form-item>
-        </el-form>
-
-        <!-- <form>
-            <label for="username">用户名</label>
-            <input type="text" v-model.trim="loginData.username" name="username">
-            <label for="password">密码</label>
-            <input type="text" v-model.trim="loginData.password" name="password">
-            <input type="button" value="登陆" @click="doLogin">
-        </form> -->
+        </el-form> -->
+        <div style="text-align:center;">
+            <img src="static/assets/slogan.jpg" width="251">
+        </div>
+        <div style="text-align:center;" id="login">
+            <span>登录</span>
+            <span>注册</span>
+        </div>
+        <div>
+            <el-input type="text"></el-input>
+            <el-input type="password"></el-input>
+        </div>
     </el-dialog>
 </template>
 
@@ -101,6 +104,15 @@ export default {
                 }
             });
         } 
+    },
+    updated(){
+        // this.nextTick(()=>{
+        //     if($('#login')){
+        //         $('#login span').click(()=>{
+
+        //         })
+        //     }
+        // })
     }
 }
 </script>

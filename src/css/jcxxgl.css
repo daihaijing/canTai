@@ -27,7 +27,7 @@
 
 
 .inputView{
-  width: auto;
+  width: auto !important;
 }
 
 .inputView input{
@@ -58,4 +58,12 @@
 }
 .allResDiv{
   text-align: center;
+}
+.shouFei{
+  width: 523px;
+  margin: 0 auto;
+}
+.shouFeiFw{
+  width: 595px;
+  margin: 0 auto;
 }

@@ -4,27 +4,31 @@
       <span :class="style.txtView">服务员登记</span>
     </div>
     <div :class="style.content">
-      <span :class="style.txtView">服务员姓名/编号:</span>
-      <el-input :class="style.inputView" v-model="num" @keyup.enter.native="searchFWY"></el-input>
-      <el-button type="info" plain @click="searchFWY">查询服务员</el-button>
-      <el-button type="info" plain @click="addFWY">新增服务员</el-button>
-      <el-button type="info" plain @click="backToKaiTai">返回首页</el-button>
-      <el-table :data="staffData" style="width: 100%" class="FWYtable" height="596">
-        <el-table-column prop="s_id" label="员工ID" align="center"></el-table-column>
-        <el-table-column prop="s_name" label="员工姓名" align="center"></el-table-column>
-        <el-table-column prop="s_sex" label="员工性别" align="center"></el-table-column>
-        <el-table-column prop="s_age" label="员工年龄" align="center"></el-table-column>
-        <el-table-column prop="s_time" label="添加时间" align="center"></el-table-column>
-        <el-table-column prop="s_position" label="职位" align="center"></el-table-column>
-        <el-table-column prop="s_state" label="状态" align="center"></el-table-column>
-        <el-table-column prop="s_phone" label="联系电话" align="center"></el-table-column>
-        <el-table-column label="操作" fixed="right" width="90">
-          <template slot-scope="scope" style="float:left">
-            <el-button type="text" size="small" @click="modifyData(scope.row)">修改</el-button>
-            <el-button type="text" size="small" @click="deleteData(scope.row)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+      <div :class="style.shouFeiFw">
+        <span :class="style.txtView">服务员姓名/编号:</span>
+        <el-input :class="style.inputView" v-model="num" @keyup.enter.native="searchFWY"></el-input>
+        <el-button type="info" plain @click="searchFWY">查询服务员</el-button>
+        <el-button type="info" plain @click="addFWY">新增服务员</el-button>
+        <el-button type="info" plain @click="backToKaiTai">返回首页</el-button>
+      </div>
+      <div class="table">
+        <el-table :data="staffData" style="width: 100%;margin-top:10px" class="FWYtable" height="596">
+          <el-table-column prop="s_id" label="员工ID" align="center"></el-table-column>
+          <el-table-column prop="s_name" label="员工姓名" align="center"></el-table-column>
+          <el-table-column prop="s_sex" label="员工性别" align="center"></el-table-column>
+          <el-table-column prop="s_age" label="员工年龄" align="center"></el-table-column>
+          <el-table-column prop="s_time" label="添加时间" align="center"></el-table-column>
+          <el-table-column prop="s_position" label="职位" align="center"></el-table-column>
+          <el-table-column prop="s_state" label="状态" align="center"></el-table-column>
+          <el-table-column prop="s_phone" label="联系电话" align="center"></el-table-column>
+          <el-table-column label="操作" fixed="right" width="90">
+            <template slot-scope="scope" style="float:left">
+              <el-button type="text" size="small" @click="modifyData(scope.row)">修改</el-button>
+              <el-button type="text" size="small" @click="deleteData(scope.row)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
       <addFuWuYuan 
         :addVisible="addVisible" 
         @addCloseEmit="addCloseEmit" 

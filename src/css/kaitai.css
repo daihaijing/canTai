@@ -46,13 +46,22 @@
 .inputView {
   width: auto !important;
 }
-
+.inputCustomers{
+  width: auto !important;
+}
 .inputView input {
   /* 输入框input css */
   width: 100px;
   height: 26px;
   color: #333;
   margin-left: 20px;
+}
+.inputCustomers input {
+  /* 输入框input css */
+  width: 45px;
+  height: 26px;
+  color: #333;
+  margin-left: 5px;
 }
 
 /* 点餐界面css */

@@ -4,7 +4,7 @@
       <span :class="style.txtView">收费项目设置</span>
     </div>
     <div :class="style.content">
-      <div>
+      <div :class="style.shouFei">
         <span :class="style.txtView">项目名称：</span>
         <el-input :class="style.inputView" v-model="num" @keyup.enter.native="searchSF"></el-input>
         <el-button type="info" plain @click="searchSF">查询项目</el-button>

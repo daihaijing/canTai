@@ -11,12 +11,12 @@
           <el-input :class="style.inputView" v-model="name" @change="nameChange"></el-input>
         </div>
         <div style="margin-top:5px;">
-          <span :class="style.txtView">入库数量：</span>
-          <el-input :class="style.inputView" v-model="num" style="margin-left:23px;"></el-input>
+          <span :class="style.txtView">{{countRu}}数量：</span>
+          <el-input :class="style.inputView" v-model="d_count" style="margin-left:23px;"></el-input>
         </div>
         <div style="margin-top:5px;">
           <span :class="style.txtView">单价：</span>
-          <el-input :class="style.inputView" v-model="price" style="margin-left:55px;"></el-input>
+          <el-input :class="style.inputView" v-model="d_price" style="margin-left:55px;"></el-input>
         </div>
         <div style="margin-top:5px;">
           <span :class="style.txtView">查看类别:</span>
@@ -30,19 +30,19 @@
           </el-select>
           <el-button type="info" plain @click="select">-></el-button>
         </div>
-        <product-store :tableData="tableData" class="table" @deleteData="deleteData" v-loading="loading"></product-store>
+        <product-store :tableData="tableData" style="margin-top:10px"  class="kcTable" @deleteData="deleteData" v-loading="loading"></product-store>
       </div>
       <div :class="style.rkRight">
-        <span :class="style.txtView">产品入库单</span>
+        <span :class="style.txtView">产品{{countRu}}单</span>
         <div style="margin-top:10px;">
           <span :class="style.txtView">单据号：</span>
           <span>{{nowNum}}</span>
-          <span :class="style.txtView">入库人员：</span>
+          <span :class="style.txtView">{{countRu}}人员：</span>
           <span>{{people}}</span>
-          <span :class="style.txtView">入库日期：</span>
+          <span :class="style.txtView">{{countRu}}日期：</span>
           <span>{{nowTime}}</span>
         </div>
-        <product-store :tableData="tableData2" class="table" @deleteData="deleteData2"></product-store>
+        <product-store :tableData="tableData2" :isPrice="isPriceTrue" class="addTable" @deleteData="deleteData2"></product-store>
         <div style="text-align:center;">
           <el-button type="info" plain @click="add" v-if="flag =='add'">入库</el-button>
           <el-button type="info" plain @click="del" v-else-if="flag=='del'">出库</el-button>
@@ -56,68 +56,62 @@
 <script>
 import style from "@/css/kcgl.css";
 import ProductStore from "./product-store";
+// import { mapActions } from "vuex";
+// import { addOneDepository } from "./mutation-types";
 export default {
   data() {
     return {
       style,
-      name: "",
-      num: 0,
-      price: 0,
-      type: "all",
+      name:"",
+      d_price:"",
+      d_count:"",
+      type: "",
       people: "",
       date: "",
       nowTime:"",
       nowNum:"",
-      // tableData: [
-      //   {
-      //     jsm: "WHH",
-      //     xmmc: "哇哈哈",
-      //     dw: "瓶",
-      //     cplb: "猪",
-      //     jhdj: "1",
-      //     rksl: "20"
-      //   },
-      //   {
-      //     jsm: "BS",
-      //     xmmc: "哇哈哈",
-      //     dw: "瓶",
-      //     cplb: "饮料",
-      //     jhdj: "1",
-      //     rksl: "20"
-      //   },{
-      //     jsm: "EJL",
-      //     xmmc: "哇哈哈",
-      //     dw: "瓶",
-      //     cplb: "猪",
-      //     jhdj: "1",
-      //     rksl: "20"
-      //   },{
-      //     jsm: "EJL",
-      //     xmmc: "哇哈哈",
-      //     dw: "瓶",
-      //     cplb: "饮料",
-      //     jhdj: "1",
-      //     rksl: "20"
-      //   }
-      // ],
       options: [
         {
-          value: "all",
+          value: "",
           label: "全部"
         },
         {
-          value: "pig",
-          label: "猪"
+          value: "后厨",
+          label: "后厨"
         },
         {
-          value: "water",
-          label: "饮料"
+          value: "前台",
+          label: "前台"
+        },
+        {
+          value: "保洁",
+          label: "保洁"
         },
       ],
       tableData2: [],
+      isPriceTrue:true,
     };
   },
   methods: {
+    // ...mapActions({
+    //   addOneDepository
+    // }),
+    // //根据编号或者检索码查询
+    // async addDepository(d_number,d_name,d_simplename,d_unit,d_type,d_price,d_count,d_real){
+    //   let result = await this.addOneDepository({
+    //     d_number:d_number,
+    //     d_name:d_name,
+    //     d_simplename:d_simplename,
+    //     d_unit:d_unit,
+    //     d_type:d_type,
+    //     d_price:d_price,
+    //     d_count:d_count,
+    //     d_real:d_real,
+    //   });
+    //   if (!result) return;
+    //   let data = JSON.parse(result);
+    //   this.tableData = data;
+    // },
     //检索码改变
     nameChange(){
       this.$emit("nameChange",this.name);
@@ -131,17 +125,19 @@ export default {
       // this.tableData2 = this.tableData;这样写会使两个数据占据同样位置的内存，操纵一个另外一个也会跟着改变
       this.tableData.map((item,index)=>{
         let a = {};
-        a.jsm = item.jsm;
-        a.xmmc = item.xmmc;
-        a.dw = item.dw;
-        a.cplb = item.cplb;
-        a.jhdj = item.jhdj;
-        a.rksl = item.rksl;
+        a.d_number = item.d_number;
+        a.d_name = item.d_name;
+        a.d_simplename = item.d_simplename;
+        a.d_unit = item.d_unit;
+        a.d_type = item.d_type;
+        a.d_price = this.d_price;
+        a.d_count = this.d_count;
+        a.d_real = "";
         this.tableData2.push(a);
       })
       this.tableData2.map((item, index) => {
-        item.jhdj = this.price == '' ? 0 : this.price;
-        item.rksl = this.num == '' ? 0 :this.num;
+        item.d_price = this.d_price == '' ? 0 : this.d_price;
+        item.d_count = this.d_count == '' ? 0 :this.d_count;
       });
     },
     //入库
@@ -209,6 +205,7 @@ export default {
     flag:null,
     tableData:null,
     loading:null,
+    countRu:null,
   },
   mounted() {
     if (localStorage.getItem("user")) {

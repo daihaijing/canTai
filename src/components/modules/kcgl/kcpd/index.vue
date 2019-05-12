@@ -6,7 +6,7 @@
     <div :class="style.content">
       <div :class="style.kccxEmit">
         <span :class="style.txtView">商品类别：</span>
-        <el-select v-model="value" placeholder="请选择" class="rkSelect" style="margin-left:10px;">
+        <el-select v-model="type" placeholder="请选择" class="rkSelect" style="margin-left:10px;" @change="typeChange">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -14,16 +14,12 @@
             :value="item.value"
           ></el-option>
         </el-select>
-        <div :class="style.buttonEmit">
-          <el-button type="info" plain @click="find">查询</el-button>
-          <el-button type="info" plain @click="finish">盘点完成</el-button>
-          <el-button type="info" plain @click="backKT" style="float: right;margin-right: 5%;">返回</el-button>
-        </div>
+        <span :class="style.txtView">项目编号/检索码：</span>
+        <el-input :class="style.inputView" v-model="msg" @keyup.enter.native="find(msg)"></el-input>
+        <el-button type="info" plain @click="find(msg)">查询</el-button>
+        <el-button type="info" plain @click="backKT" style="float: right;margin-right: 5%;">返回</el-button>
       </div>
-      <product-store :tableData="tableData" class="table" :flag="flag"></product-store>
-      <div :class="style.tip">
-        <span>提示：先查询数据，再在盘点实际数量框内输入实际数量，最后点击”盘点完成“按钮！</span>
-      </div>
+      <product-store  :tableData="tableData" class="pdTable" style="margin-top:10px" :flag="flag"></product-store>
     </div>
   </div>
 </template>
@@ -31,61 +27,71 @@
 <script>
 import style from "css/kcgl.css";
 import ProductStore from "./../product-store"; 
+import { mapActions } from "vuex";
+import { getOneDepository,getSomeDepositoryByDtype } from "../cprk/mutation-types";
 export default {
   data() {
     return {
       style,
-      options: [{
-          value: '选项1',
-          label: '啤酒'
-        }, {
-          value: '选项2',
-          label: '饮料'
-        }, {
-          value: '选项3',
-          label: '调味料'
-        }, {
-          value: '选项4',
-          label: '面粉'
-        }, {
-          value: '选项5',
-          label: '餐具'
-        }],
-      value: '',
-      tableData: [
+      options: [
         {
-          jsm: "WHH",
-          xmmc: "哇哈哈",
-          dw: "瓶",
-          cplb: "猪",
-          jhdj: "1",
-          rksl: "20"
+          value: "",
+          label: "全部"
         },
         {
-          jsm: "BS",
-          xmmc: "哇哈哈",
-          dw: "瓶",
-          cplb: "饮料",
-          jhdj: "1",
-          rksl: "20"
-        },{
-          jsm: "EJL",
-          xmmc: "哇哈哈",
-          dw: "瓶",
-          cplb: "猪",
-          jhdj: "1",
-          rksl: "20"
-        }
+          value: "后厨",
+          label: "后厨"
+        },
+        {
+          value: "前台",
+          label: "前台"
+        },
+        {
+          value: "保洁",
+          label: "保洁"
+        },
       ],
+      value: '',
+      tableData: [],
       flag:"analy",
+      type:"",
+      msg:"",
     };
   },
   methods:{
-    find(){
-
+    ...mapActions({
+      getOneDepository,
+      getSomeDepositoryByDtype,
+    }),
+    //根据编号或者检索码查询
+    async getDepository(msg){
+      let result = await this.getOneDepository({
+        msg:msg,
+      });
+      if (!result) return;
+      let data = JSON.parse(result);
+      this.tableData = data;
     },
-    finish(){
-
+    //根据类别查询
+    async getDepositoryDtype(d_type){
+      let result = await this.getSomeDepositoryByDtype({
+        d_type:d_type,
+      });
+      if (!result) return;
+      let data = JSON.parse(result);
+      this.tableData = data;
+    },
+    //类型改变
+    typeChange(val){
+      this.type = val;
+      this.tableData = [];
+      this.getDepositoryDtype(val);
+    },
+    //按项目编号或者检索码查询
+    find(val){
+      this.simplename = val;
+      this.tableData = [];
+      this.getDepository(val);
     },
     backKT(){
       this.$router.push({path:'kt'});
@@ -93,6 +99,9 @@ export default {
   },
   components:{
     ProductStore,
+  },
+  created(){
+    this.getDepositoryDtype(this.type);
   }
 };
 </script>

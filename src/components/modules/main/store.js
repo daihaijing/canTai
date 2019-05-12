@@ -9,6 +9,9 @@ import sfxmsz from '../jcxxgl/sfxmsz/store';
 import kt from '../ztztgl/kt/store';
 import diancan from '../ztztgl/diancan/store';
 import ctyd from '../ztztgl/ctyd/store';
+import qtsy from '../ztztgl/qtsy/store';
+//kcgl
+import cprk from '../kcgl/cprk/store';
 import {
     sysClient
   } from '@/clients/hprose-client'
@@ -34,10 +37,14 @@ import {
       kt,
       diancan,
       ctyd,
+      qtsy,
 
       //系统设置 axios
       czsqgl,
       ygxxgl,
+
+      //库存管理
+      cprk,
       
     },
     state,

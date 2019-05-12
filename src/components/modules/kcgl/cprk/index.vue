@@ -1,12 +1,12 @@
 <template>
-  <kuCun :keyName="keyName" :flag="flag" :tableData="tableData" :loading="loading" @typeChange="typeChange" 
+  <kuCun :keyName="keyName" :flag="flag" :countRu="countRu" :tableData="tableData" :loading="loading" @typeChange="typeChange" 
   @nameChange="nameChange" @deleteData="deleteData"></kuCun>
 </template>
 
 <script>
-import KuCun from "#mod/kcgl/kuCun.vue"
+import KuCun from "#mod/kcgl/kuCun.vue";
 import { mapActions } from "vuex";
-import { getCprkData } from "./mutation-types";
+import { getOneDepository,getSomeDepositoryByDtype } from "./mutation-types";
 export default {
   data(){
     return{
@@ -16,37 +16,46 @@ export default {
       loading:false,
       simplename:"",
       type:"",
+      countRu:"入库",
     }
   },
   components:{
     KuCun
   },
-  metoods:{
+  methods:{
     ...mapActions({
-      getCprkData
+      getOneDepository,
+      getSomeDepositoryByDtype,
     }),
-    async getData() {
-      this.loading = true;
-      let result = await this.getCprkData({
-        d_simplename:this.simplename,
-        d_type:this.type,
+    //根据编号或者检索码查询
+    async getDepository(msg){
+      let result = await this.getOneDepository({
+        msg:msg,
       });
       if (!result) return;
       let data = JSON.parse(result);
       this.tableData = data;
-      this.loading = false;
+    },
+    //根据类别查询
+    async getDepositoryDtype(d_type){
+      let result = await this.getSomeDepositoryByDtype({
+        d_type:d_type,
+      });
+      if (!result) return;
+      let data = JSON.parse(result);
+      this.tableData = data;
     },
     //检索码改变
     nameChange(val){
       this.simplename = val;
       this.tableData = [];
-      this.getData();
+      this.getDepository(val);
     },
     //类型改变
     typeChange(val){
       this.type = val;
       this.tableData = [];
-      this.getData();
+      this.getDepositoryDtype(val);
     },
     //删除待操作数据
     deleteData(val){
@@ -57,10 +66,8 @@ export default {
       }
     }
   },
-  
   created(){
-    this.getData();
-
+    this.getDepositoryDtype(this.type);
   }
 }
 </script>

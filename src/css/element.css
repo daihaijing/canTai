@@ -73,15 +73,46 @@
 :global(.canTaiTable th){
   padding:5px auto;
 }
+:global(.canTaiTable  .el-table__body-wrapper){
+  max-height: 535px;
+  overflow-y: auto;
+}
+:global(.shouFeiTable  .el-table__fixed-body-wrapper){
+  max-height: 535px;
+  overflow-y: auto;
+}
+:global(.shouFeiTable  .el-table__body-wrapper){
+  max-height: 535px;
+  overflow-y: auto;
+}
+:global(.FWYtable  .el-table__fixed-body-wrapper){
+  max-height: 535px;
+  overflow-y: auto;
+}
+:global(.FWYtable  .el-table__body-wrapper){
+  max-height: 535px;
+  overflow-y: auto;
+}
 /*****ctyd路由样式******/
 :global(.inputCtyd input){
   height: 38px;
   line-height: 38px;
   width: 205px;
 }
+:global(.pdTable  .el-table__body-wrapper){
+  max-height: 540px;
+  overflow-y: auto;
+}
+:global(.kcTable  .el-table__body-wrapper){
+  max-height: 415px;
+  overflow-y: auto;
+}
 /***登录弹框样式****/
-:global(.loginDiv){
-  width: 1600px;
+:global(.loginDiv .el-dialog){
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+  margin-top: 15vh;
 }
 :global(.loginInput){
   width: 400px;

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-table :data="tableData" border max-height="650" class="canTaiTable">
+        <el-table :data="tableData" border  class="canTaiTable">
             <el-table-column prop="t_number" label="餐台号" align="center"></el-table-column>
             <el-table-column prop="t_name" label="名称"  align="center"></el-table-column>
             <el-table-column prop="t_state" label="状态"  align="center"></el-table-column>

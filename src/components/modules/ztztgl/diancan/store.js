@@ -6,12 +6,16 @@ const mutations = {};
 const actions = {
   [TYPES.getAllMenuByMSname]:(context,args) =>
     sysClient.getData('http://localhost:8081/menu/getAllMenuByMSname',args),
-//   [TYPES.addOneMenu]:(context,args) =>
-//     sysClient.getData('http://localhost:8081/menu/addOneMenu',args),
-//   [TYPES.deleteOneMenu]:(context,args) =>
-//     sysClient.getData('http://localhost:8081/menu/deleteOneMenu',args),
-//   [TYPES.updateOneMenu]:(context,args) =>
-//     sysClient.getData('http://localhost:8081/menu/updateOneMenu',args),
+  [TYPES.addOneOrderItem]:(context,args) =>
+    sysClient.getData('http://localhost:8081/order/addOneOrderItem',args),
+  [TYPES.addOneNewOrder]:(context,args) =>
+    sysClient.getData('http://localhost:8081/order/addOneNewOrder',args),
+  [TYPES.getAllOrderItemByOnumber]:(context,args) =>
+    sysClient.getData('http://localhost:8081/order/getAllOrderItemByOnumber',args),
+  [TYPES.getOneOrderByOnumber]:(context,args) =>
+    sysClient.getData('http://localhost:8081/order/getOneOrderByOnumber',args),
+  [TYPES.addOneBill]:(context,args) =>
+    sysClient.getData('http://localhost:8081/bill/addOneBill',args),
 };
 export default {
   state,

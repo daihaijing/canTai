@@ -26,7 +26,6 @@ import hyxfcx from "../hyxxgl/hyxfcx/router"
 import cprk from "../kcgl/cprk/router"
 import cpck from "../kcgl/cpck/router"
 import kcpd from "../kcgl/kcpd/router"
-import kccx from "../kcgl/kccx/router"
 //信息查询管理
 import mbjzmxcx from "../xxcxgl/mbjzmxcx/router"
 import ryycx from "../xxcxgl/ryycx/router"
@@ -79,7 +78,6 @@ export default {
     cprk,
     cpck,
     kcpd,
-    kccx,
     //信息查询管理
     mbjzmxcx,
     ryycx,

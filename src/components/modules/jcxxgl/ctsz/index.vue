@@ -31,16 +31,11 @@
 import AddCanTai from "#com/addCanTai";
 import style from "css/jcxxgl.css";
 import AllRes from "./all-res"
-<<<<<<< HEAD
-import { mapActions } from "vuex";
-import { addOneTable,deleteOneTable,getAllTable } from "./mutation-types";
-=======
 import { mapActions } from 'vuex';
 import { getAllTable } from './mutation-types';
 import { deleteOneTable } from './mutation-types';
 import { addOneTable } from './mutation-types';
 import { updateOneTable } from './mutation-types';
->>>>>>> master
 export default {
   data() {
     return {
@@ -165,15 +160,6 @@ export default {
     backToKaiTai() {
       this.$router.push({ path: "kt" });
     },
-<<<<<<< HEAD
-    async getAllTableData(){
-      this.loading = true;
-      let result = await this.getAllTable();
-      if (!result) return;
-      let data = JSON.parse(result);
-      this.tableData = data;
-      this.loading = false;
-=======
     // getData() {
     //   axios
     //     .get("http://localhost:8081/getAllTable")
@@ -227,7 +213,6 @@ export default {
         t_people:parseInt(t_people),
       });
       if (result == 1) return;
->>>>>>> master
     }
   },
   created(){
