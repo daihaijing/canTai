@@ -52,7 +52,7 @@ export default {
         location.reload();
       }
       if(command == 'pwd'){
-        //
+        this.$emit('openXiuGai');
       }
     },
     // 获取当前时间函数

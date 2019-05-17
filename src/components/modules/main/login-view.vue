@@ -73,9 +73,10 @@ export default {
         s_id: this.dynamicValidateForm.userName,
         s_password: this.dynamicValidateForm.passWord
       });
-      //if (!result) return;
+      if (!result) return;
       if (result) {
         var data = JSON.parse(result);
+        var data = result;
         let s_position = data.s_position;
         var user = {};
         user.userName = data.s_name;

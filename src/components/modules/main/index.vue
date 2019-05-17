@@ -1,10 +1,11 @@
 <template>
   <div :class="style.layout">
     <left-menu :class="style.left" :isUser="isUser"></left-menu>
-    <header-title @login="login"></header-title>
+    <header-title @login="login" @openXiuGai="openXiuGai"></header-title>
     <title-menu :isUser="isUser"></title-menu>
     <router-view :class="style.content"></router-view>
     <login-view :isLogin="isLogin" @loginEmit="loginEmit"></login-view>
+    <set-password :settingVisible="settingVisible" @back="back" @loginEmit="back" class="xiugai" v-if="settingVisible"></set-password>
   </div>
 </template>
 
@@ -15,7 +16,7 @@ import LeftMenu from "./left-menu";
 import HeaderTitle from "./header-title";
 import TitleMenu from "./title-menu";
 import LoginView from "./login-view";
-
+import SetPassword from "#com/setPassword"
 
 export default {
   data() {
@@ -23,13 +24,15 @@ export default {
       style,
       isLogin: false,
       isUser:true,
+      settingVisible:false,
     };
   },
   components: {
     LeftMenu,
     HeaderTitle,
     TitleMenu,
-    LoginView
+    LoginView,
+    SetPassword
   },
   computed: {},
   methods: {
@@ -38,6 +41,12 @@ export default {
     },
     login(){
       this.isLogin = true;
+    },
+    back(){
+      this.settingVisible = false;
+    },
+    openXiuGai(){
+      this.settingVisible = true;
     }
   },
   watch: {},

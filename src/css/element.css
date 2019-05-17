@@ -329,3 +329,16 @@
   display: block;
   margin-bottom: 10px;
 }
+/* 修改密码 */
+:global(.setPassword .el-dialog){
+  width: 500px;
+  border: 5px solid #12203D;
+  border-radius: 13px;
+}
+:global(.setPassword form){
+  width: 334px;
+  margin: 0 auto;
+}
+:global(.setPassword .el-form-item__label){
+  color:rgb(255, 208, 75);
+}
