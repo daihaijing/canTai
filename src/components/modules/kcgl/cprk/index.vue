@@ -6,7 +6,7 @@
 <script>
 import KuCun from "#mod/kcgl/kuCun.vue";
 import { mapActions } from "vuex";
-import { getOneDepository,getSomeDepositoryByDtype } from "./mutation-types";
+import { getOneDepository,getSomeDepositoryByDtype,updateOneDepositoryDcount } from "./mutation-types";
 export default {
   data(){
     return{
@@ -26,6 +26,7 @@ export default {
     ...mapActions({
       getOneDepository,
       getSomeDepositoryByDtype,
+      updateOneDepositoryDcount,
     }),
     //根据编号或者检索码查询
     async getDepository(msg){

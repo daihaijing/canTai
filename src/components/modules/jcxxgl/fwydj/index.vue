@@ -12,7 +12,12 @@
         <el-button type="info" plain @click="backToKaiTai">返回首页</el-button>
       </div>
       <div class="table">
-        <el-table :data="staffData" style="width: 100%;margin-top:10px" class="FWYtable" height="596">
+        <el-table
+          :data="staffData"
+          style="width: 100%;margin-top:10px"
+          class="FWYtable"
+          height="585"
+        >
           <el-table-column prop="s_id" label="员工ID" align="center"></el-table-column>
           <el-table-column prop="s_name" label="员工姓名" align="center"></el-table-column>
           <el-table-column prop="s_sex" label="员工性别" align="center"></el-table-column>
@@ -29,9 +34,9 @@
           </el-table-column>
         </el-table>
       </div>
-      <addFuWuYuan 
-        :addVisible="addVisible" 
-        @addCloseEmit="addCloseEmit" 
+      <addFuWuYuan
+        :addVisible="addVisible"
+        @addCloseEmit="addCloseEmit"
         @newAdd="newAdd"
         @newEdit="newEdit"
         :s_idEdit="s_idEdit"
@@ -43,13 +48,23 @@
         :s_phoneEdit="s_phoneEdit"
         :s_passwordEdit="s_passwordEdit"
         :tiJiao="tiJiao"
-        v-if="addVisible">
-      </addFuWuYuan>
+        v-if="addVisible"
+      ></addFuWuYuan>
       <el-dialog
         title="提示"
         :visible.sync="dialogVisible"
-        width="30%" class="guanLi" style="margin-top: 28vh !important;">
-        <el-input type="password" v-model="guanLiPssword" placeholder="请输入管理员密码" @keyup.enter.native="guanLiEmit"></el-input>
+        width="30%"
+        class="guanLi"
+        style="margin-top: 28vh !important;"
+      >
+        <el-input
+          type="password"
+          v-model="guanLiPassword"
+          placeholder="请输入管理员密码"
+          @keyup.enter.native="guanLiEmit"
+        ></el-input>
+        <span style="color:red;margin-top:15px" v-if="isRightPsw">{{loginMessage}}</span>
+        <!-- <el-button type="success" icon="el-icon-check" circle @click="guanLiEmit" plain></el-button> -->
       </el-dialog>
     </div>
   </div>
@@ -59,15 +74,21 @@
 import AddFuWuYuan from "#com/addFuWuYuan";
 import style from "css/jcxxgl.css";
 import { mapActions } from "vuex";
-import { getAllStaff,addOneStaff,deleteOneStaff,updateOneStaff,guanLiPasswordData } from "./mutation-types";
+import {
+  getAllStaff,
+  addOneStaff,
+  deleteOneStaff,
+  updateOneStaff,
+  getAdminPassword
+} from "./mutation-types";
 export default {
   data() {
     return {
-      num:"",
-      nowTime:"",
+      num: "",
+      nowTime: "",
       style,
       staffData: [],
-      staffData2:[],
+      staffData2: [],
       addVisible: false,
       s_idEdit: "",
       s_nameEdit: "",
@@ -77,112 +98,182 @@ export default {
       s_positionEdit: "",
       s_stateEdit: "",
       s_phoneEdit: "",
-      tiJiao:true,
-      eData:"",
-      newData:{},
-      dialogVisible:false,
-      guanLiPassword:"",
+      s_passwordEdit: "",
+      tiJiao: true,
+      eData: "",
+      newData: {},
+      dialogVisible: false,
+      guanLiPassword: "", //记录管理员密码
+      loginMessage: "", //显示密码错误
+      isRightPsw: false, //标记密码是否输入正确
+      isDel: false, //标记是否点击删除按钮
+      s_id: "" //记录员工ID
     };
   },
   methods: {
-    //添加服务员
-    searchFWY(){
+    searchFWY() {
       //console.log(this.staffData)
-      for(let i = 0;i < this.staffData.length;i++){
+      for (let i = 0; i < this.staffData.length; i++) {
         let a = document.getElementsByClassName("FWYtable")[0];
         let b = a.getElementsByTagName("tr")[i];
         b.style.background = "#fff";
-      };
-      for(let i = 0;i < this.staffData.length;i++){
-        if(this.staffData[i].s_id == this.num || this.staffData[i].s_name == this.num){
+      }
+      for (let i = 0; i < this.staffData.length; i++) {
+        if (
+          this.staffData[i].s_id == this.num ||
+          this.staffData[i].s_name == this.num
+        ) {
           let a = document.getElementsByClassName("FWYtable")[0];
-          let b = a.getElementsByTagName("tr")[i+1];
+          let b = a.getElementsByTagName("tr")[i + 1];
           b.style.background = "aquamarine";
         }
       }
     },
+    //添加服务员
     addFWY() {
-      if(localStorage.getItem('user')){
-        if(JSON.parse(localStorage.getItem('user')).status!='管理员'){
+      let loginUser = JSON.parse(localStorage.getItem("user"));
+      if (localStorage.getItem("user")) {
+        if (loginUser.s_position != "经理") {
           this.dialogVisible = true;
-        }else{
+        } else {
           this.tiJiao = true;
           this.addVisible = true;
+          this.isRightPsw = false;
         }
       }
     },
     addCloseEmit() {
       this.addVisible = false;
     },
-    newAdd(s_id,s_name,s_sex,s_age,s_position,s_state,s_phone,s_password) {
-      var newData2 = {
-        s_id:s_id,
-        s_name:s_name,
-        s_sex:s_sex,
-        s_age:s_age,
-        s_position:s_position,
-        s_state:s_state,
-        s_phone:s_phone,
-        s_password:s_password,
-      };
-      this.newData = {
-        s_id:s_id,
-        s_name:s_name,
-        s_sex:s_sex,
-        s_age:s_age,
-        s_time:this.nowTime,
-        s_position:s_position,
-        s_state:s_state,
-        s_phone:s_phone
-      };
-      //把input的值 存到临时的 staffData2 中
-      this.staffData2.push(newData2);
-      //console.log(this.staffData2);
-      //向后台发送请求
-      this.addStaff();
-    },
-    newEdit(s_id,s_name,s_sex,s_age,s_position,s_state,s_phone) {
+    newAdd(
+      s_id,
+      s_name,
+      s_sex,
+      s_age,
+      s_position,
+      s_state,
+      s_phone,
+      s_password
+    ) {
       var newData = {
-        s_id:s_id,
-        s_name:s_name,
-        s_sex:s_sex,
-        s_age:s_age,
-        s_time:this.nowTime,
-        s_position:s_position,
-        s_state:s_state,
-        s_phone:s_phone,
+        s_id: s_id,
+        s_name: s_name,
+        s_sex: s_sex,
+        s_age: s_age,
+        s_time: this.nowTime,
+        s_position: s_position,
+        s_state: s_state,
+        s_phone: s_phone,
+        s_password: s_password
       };
-      this.updateStaff(s_id,s_name,s_sex,s_age,s_position,s_state,s_phone);
+      this.staffData.push(newData);
+      //向后台发送请求
+      this.addStaff(
+        s_id,
+        s_name,
+        s_sex,
+        s_age,
+        s_position,
+        s_state,
+        s_phone,
+        s_password
+      );
+      //关闭弹框
+      this.addVisible = false;
+    },
+    newEdit(
+      s_id,
+      s_name,
+      s_sex,
+      s_age,
+      s_position,
+      s_state,
+      s_phone,
+      s_password
+    ) {
+      var newData = {
+        s_id: s_id,
+        s_name: s_name,
+        s_sex: s_sex,
+        s_age: s_age,
+        s_time: this.nowTime,
+        s_position: s_position,
+        s_state: s_state,
+        s_phone: s_phone,
+        s_password: s_password
+      };
+      this.staffData2.push(newData);
+      for (let i = 0; i < this.staffData.length; i++) {
+        if (this.staffData[i].s_id == this.staffData2[0].s_id) {
+          this.staffData[i].s_name = this.staffData2[0].s_name;
+          this.staffData[i].s_sex = this.staffData2[0].s_sex;
+          this.staffData[i].s_age = this.staffData2[0].s_age;
+          this.staffData[i].s_time = this.staffData2[0].s_time;
+          this.staffData[i].s_position = this.staffData2[0].s_position;
+          this.staffData[i].s_state = this.staffData2[0].s_state;
+          this.staffData[i].s_phone = this.staffData2[0].s_phone;
+          this.staffData[i].s_password = this.staffData2[0].s_password;
+        }
+      }
+      this.updateStaff(
+        s_id,
+        s_name,
+        s_sex,
+        s_age,
+        s_position,
+        s_state,
+        s_phone,
+        s_password
+      );
+      this.s_idEdit = "";
+      this.s_nameEdit = "";
+      this.s_sexEdit = "";
+      this.s_ageEdit = "";
+      this.s_positionEdit = "";
+      this.s_stateEdit = "";
+      this.s_phoneEdit = "";
+      this.s_passwordEdit = "";
+      this.eData = "";
+      //关闭弹框
+      this.addVisible = false;
     },
     //删除服务员
     deleteData(e) {
-      for (let i = 0; i < this.staffData.length; i++) {
-        if (e == this.staffData[i]) {
-          this.deleteStaff(e.s_id);
-          this.staffData.splice(i, 1);
+      if (localStorage.getItem("user")) {
+        if (JSON.parse(localStorage.getItem("user")).s_position != "经理") {
+          this.s_id = e.s_id;
+          this.isDel = true;
+          this.dialogVisible = true;
+        } else {
+          for (let i = 0; i < this.staffData.length; i++) {
+            if (e == this.staffData[i]) {
+              this.deleteStaff(e.s_id);
+              this.staffData.splice(i, 1);
+            }
+          }
         }
       }
     },
     //修改服务员
     modifyData(e) {
-      if(localStorage.getItem('user')){
-        if(JSON.parse(localStorage.getItem('user')).status!='管理员'){
+      if (localStorage.getItem("user")) {
+        if (JSON.parse(localStorage.getItem("user")).s_position != "经理") {
           this.dialogVisible = true;
-        }else{
-          this.tiJiao = false;
+        } else {
           this.addVisible = true;
-
-          this.s_idEdit = e.s_id; 
-          this.s_nameEdit = e.s_name;
-          this.s_sexEdit = e.s_sex;
-          this.s_ageEdit = e.s_age;
-          this.s_positionEdit = e.s_position;
-          this.s_stateEdit = e.s_state;
-          this.s_phoneEdit = e.s_phone;
-          this.s_passwordEdit = e.s_password;
-          this.eData = e;
         }
       }
+      this.tiJiao = false;
+
+      this.s_idEdit = e.s_id;
+      this.s_nameEdit = e.s_name;
+      this.s_sexEdit = e.s_sex;
+      this.s_ageEdit = e.s_age;
+      this.s_positionEdit = e.s_position;
+      this.s_stateEdit = e.s_state;
+      this.s_phoneEdit = e.s_phone;
+      this.s_passwordEdit = e.s_password;
+      this.eData = e;
     },
     //返回首页
     backToKaiTai() {
@@ -190,11 +281,11 @@ export default {
     },
     //异步通信
     ...mapActions({
-        getAllStaff,
-        addOneStaff,
-        deleteOneStaff,
-        updateOneStaff,
-        guanLiPasswordData
+      getAllStaff,
+      addOneStaff,
+      deleteOneStaff,
+      updateOneStaff,
+      getAdminPassword
     }),
     async getData() {
       let result = await this.getAllStaff();
@@ -202,54 +293,73 @@ export default {
       let data = JSON.parse(result);
       this.staffData = data;
     },
-    async addStaff(){
+    async addStaff(
+      s_id,
+      s_name,
+      s_sex,
+      s_age,
+      s_position,
+      s_state,
+      s_phone,
+      s_password
+    ) {
       let result = await this.addOneStaff({
-        s_id:this.staffData2[0].s_id,
-        s_name:this.staffData2[0].s_name,
-        s_sex:this.staffData2[0].s_sex,
-        s_age:this.staffData2[0].s_age,
-        s_position:this.staffData2[0].s_position,
-        s_state:this.staffData2[0].s_state,
-        s_phone:this.staffData2[0].s_phone,
-        s_password:this.staffData2[0].s_password,
+        s_id: s_id,
+        s_name: s_name,
+        s_sex: s_sex,
+        s_age: s_age,
+        s_position: s_position,
+        s_state: s_state,
+        s_phone: s_phone,
+        s_password: s_password
       });
       if (result == 1) return;
-      this.staffData.push(this.newData);
-      //关闭弹框
-      this.addVisible = false;
     },
-    async deleteStaff(num){
+    async deleteStaff(num) {
       let result = await this.deleteOneStaff({
-        s_id:num,
+        s_id: num
       });
       if (result == 1) return;
     },
-    async updateStaff(s_id,s_name,s_sex,s_age,s_position,s_state,s_phone){
+    async updateStaff(
+      s_id,
+      s_name,
+      s_sex,
+      s_age,
+      s_position,
+      s_state,
+      s_phone,
+      s_password
+    ) {
       let result = await this.updateOneStaff({
-        s_id:s_id,
-        s_name:s_name,
-        s_sex:s_sex,
-        s_age:s_age,
-        s_position:s_position,
-        s_state:s_state,
-        s_phone:s_phone,
+        s_id: s_id,
+        s_name: s_name,
+        s_sex: s_sex,
+        s_age: s_age,
+        s_position: s_position,
+        s_state: s_state,
+        s_phone: s_phone,
+        s_password: s_password
       });
-      if (result == 1) return;
-      for (let i = 0; i < this.staffData.length; i++) {
-        if (this.eData == this.staffData[i]) {
-          this.staffData.splice(i, 1, newData);
-          this.addVisible = false;
-        }
-      }
+      if (result != 1) return;
     },
-    async getGuanLiPass(){
-      let result = await this.guanLiPasswordData({
-        password:this.guanLiPassword
-      })
-      if(!result) return;
-      let data = JSON.parse(result);
-      this.dialogVisible = false;
-      this.addVisible = true;
+    //判断输入的管理员密码是否正确
+    async getGuanLiPass() {
+      let result = await this.getAdminPassword({
+        s_password: this.guanLiPassword
+      });
+      //if (result == 0) return;
+      //**************** */
+      //let data = JSON.parse(result);
+      if (result == 1) {
+        if(!this.isDel){
+          this.addVisible = true;
+        }
+        this.dialogVisible = false;
+      } else {
+        this.isRightPsw = true;
+        this.loginMessage = "密码错误";
+      }
     },
     // 获取当前时间函数
     timeFormate(timeStamp) {
@@ -272,8 +382,7 @@ export default {
           : new Date(timeStamp).getMinutes();
       // let ss =new Date(timeStamp).getSeconds() < 10? "0" + new Date(timeStamp).getSeconds(): new Date(timeStamp).getSeconds();
       // return year + "年" + month + "月" + date +"日"+" "+hh+":"+mm ;
-      this.nowTime =
-        year + "-" + month + "-" + date +" " + hh + ":" + mm;
+      this.nowTime = year + "-" + month + "-" + date + " " + hh + ":" + mm;
       // console.log(this.nowTime);
     },
     // 定时器函数
@@ -282,18 +391,26 @@ export default {
       setInterval(this.nowTimes, 30 * 1000);
     },
     //提交管理员密码
-    guanLiEmit(){
+    guanLiEmit() {
       this.getGuanLiPass();
+      if(this.s_id != ""){
+        for (let i = 0; i < this.staffData.length; i++) {
+            if (this.s_id == this.staffData[i].s_id) {
+              this.deleteStaff(this.s_id);
+              this.staffData.splice(i, 1);
+            }
+        }
+      }
     }
   },
-  created(){
+  created() {
     this.getData();
   },
   //注册组件
   components: {
     AddFuWuYuan
   },
-  mounted(){
+  mounted() {
     //获取时间
     this.nowTimes();
   }

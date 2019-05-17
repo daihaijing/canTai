@@ -1,7 +1,8 @@
 <template>
   <el-dialog :visible.sync="addVisible" @close="addCloseEmit">
     <div :class="style.title">
-      <span :class="style.txtView">新增餐台</span>
+      <span :class="style.txtView" v-if="tiJiao">新增餐台</span>
+      <span :class="style.txtView" v-else>修改餐台</span>
     </div>
     <div :class="style.content">
       <el-form

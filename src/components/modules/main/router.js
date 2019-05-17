@@ -2,7 +2,7 @@ import main from './index' //懒加载
 //基础信息管理
 import ctsz from "../jcxxgl/ctsz/router"
 import sfxmsz from "../jcxxgl/sfxmsz/router"
-import tcsz from "../jcxxgl/tcsz/router"
+//import tcsz from "../jcxxgl/tcsz/router"
 import fwydj from "../jcxxgl/fwydj/router"
 //桌台状态管理
 import kt from "../ztztgl/kt/router"
@@ -11,17 +11,7 @@ import ctyd from "../ztztgl/ctyd/router"
 import qtsy from "../ztztgl/qtsy/router"
 import zdcx from "../ztztgl/zdcx/router"
 import hbct from "../ztztgl/hbct/router"
-import jfdh from "../ztztgl/jfdh/router"
-//会员信息管理
-import blxk from "../hyxxgl/blxk/router"
-import hycz from "../hyxxgl/hycz/router"
-import tkgl from "../hyxxgl/tkgl/router"
-import fkcx from "../hyxxgl/fkcx/router"
-import czcx from "../hyxxgl/czcx/router"
-import hyyecx from "../hyxxgl/hyyecx/router"
-import tkcx from "../hyxxgl/tkcx/router"
-import hysrcx from "../hyxxgl/hysrcx/router"
-import hyxfcx from "../hyxxgl/hyxfcx/router"
+// ..............................................................
 //库存管理
 import cprk from "../kcgl/cprk/router"
 import cpck from "../kcgl/cpck/router"
@@ -36,12 +26,10 @@ import xsqsfx from "../xxcxgl/xsqsfx/router"
 import jfdhcx from "../xxcxgl/jfdhcx/router"
 import xfjfsccx from "../xxcxgl/xfjfsccx/router"
 //系统设置
-import ygxxgl from "../xtsz/ygxxgl/router"
-import czsqgl from "../xtsz/czsqgl/router"
-import czyrzcx from "../xtsz/czyrzcx/router"
-import bz from "../xtsz/bz/router"
-import zc from "../xtsz/zc/router"
-import tc from "../xtsz/tc/router"
+import bzsm from "../xtsz/bzsm/router"
+import qxgl from "../xtsz/qxgl/router"
+import xgmm from "../xtsz/xgmm/router"
+import xtcsh from "../xtsz/xtcsh/router"
 
 export default {
   name: "main",
@@ -54,7 +42,7 @@ export default {
     //基础信息管理
     ctsz,
     sfxmsz,
-    tcsz,
+    //tcsz,
     fwydj,
     // 桌台状态管理
     kt,
@@ -63,17 +51,7 @@ export default {
     qtsy,
     zdcx,
     hbct,
-    jfdh,
-    //会员信息管理
-    blxk,
-    hycz,
-    tkgl,
-    fkcx,
-    czcx,
-    hyyecx,
-    tkcx,
-    hysrcx,
-    hyxfcx,
+    //.............................
     //库存管理
     cprk,
     cpck,
@@ -88,11 +66,9 @@ export default {
     jfdhcx,
     xfjfsccx,
     //系统设置
-    ygxxgl,
-    czsqgl,
-    czyrzcx,
-    bz,
-    zc,
-    tc,
+    bzsm,
+    qxgl,
+    xgmm,
+    xtcsh,
   ],
 };

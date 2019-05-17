@@ -16,6 +16,8 @@ const actions = {
     sysClient.getData('http://localhost:8081/order/getOneOrderByOnumber',args),
   [TYPES.addOneBill]:(context,args) =>
     sysClient.getData('http://localhost:8081/bill/addOneBill',args),
+  [TYPES.deleteOneOrderItemByOInumber]:(context,args) =>
+    sysClient.getData('http://localhost:8081/order/deleteOneOrderItemByOInumber',args),
 };
 export default {
   state,

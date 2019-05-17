@@ -9,7 +9,13 @@
       <el-button type="info" plain @click="searchCanTai">查询餐台</el-button>
       <el-button type="info" plain @click="addct">新增餐台</el-button>
       <el-button type="info" plain @click="backToKaiTai">返回首页</el-button>
-      <all-res class="table" :tableData="tableData" @modifyData="modifyData" @deleteData="deleteData" v-loading="loading"></all-res>
+      <all-res
+        class="table"
+        :tableData="tableData"
+        @modifyData="modifyData"
+        @deleteData="deleteData"
+        v-loading="loading"
+      ></all-res>
       <addCanTai
         :addVisible="addVisible"
         @addCloseEmit="addCloseEmit"
@@ -23,6 +29,23 @@
         @newEdit="newEdit"
         v-if="addVisible"
       ></addCanTai>
+      <el-dialog
+        title="提示"
+        :visible.sync="dialogVisible"
+        width="30%"
+        class="guanLi"
+        style="margin-top: 28vh !important;"
+      >
+        <el-input
+          type="password"
+          v-model="guanLiPassword"
+          placeholder="请输入管理员密码"
+          @keyup.enter.native="guanLiEmit"
+          @input="clearInput"
+        ></el-input>
+        <span style="color:red;margin-top:15px" v-if="isRightPsw">{{loginMessage}}</span>
+        <!-- <el-button type="success" icon="el-icon-check" circle @click="guanLiEmit" plain></el-button> -->
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -30,17 +53,20 @@
 <script>
 import AddCanTai from "#com/addCanTai";
 import style from "css/jcxxgl.css";
-import AllRes from "./all-res"
-import { mapActions } from 'vuex';
-import { getAllTable } from './mutation-types';
-import { deleteOneTable } from './mutation-types';
-import { addOneTable } from './mutation-types';
-import { updateOneTable } from './mutation-types';
+import AllRes from "./all-res";
+import { mapActions } from "vuex";
+import {
+  getAllTable,
+  deleteOneTable,
+  addOneTable,
+  updateOneTable,
+  getAdminPassword
+} from "./mutation-types";
 export default {
   data() {
     return {
       style,
-      tableData:[],
+      tableData: [],
       addVisible: false,
       t_numberEdit: "",
       t_nameEdit: "",
@@ -50,20 +76,61 @@ export default {
       tiJiao: true,
       num: "",
       eData: "",
-      loading:false,
+      loading: false,
+      dialogVisible: false, //控制输入管理员密码弹框是否出现
+      guanLiPassword: "", //记录管理员密码
+      loginMessage: "", //显示密码错误
+      isRightPsw: false, //标记密码是否输入正确
+      isDel: false, //标记是否点击删除按钮
+      t_number: "" //记录选择的餐台号
     };
   },
   methods: {
     ...mapActions({
       addOneTable,
       deleteOneTable,
-      getAllTable
+      getAllTable,
+      getAdminPassword
     }),
+    //判断输入的管理员密码是否正确
+    async getGuanLiPass() {
+      let result = await this.getAdminPassword({
+        s_password: this.guanLiPassword
+      });
+      if (result == 1) {
+        if (!this.isDel) {
+          this.addVisible = true;
+        }
+        this.dialogVisible = false;
+      } else {
+        this.isRightPsw = true;
+        this.loginMessage = "密码错误";
+      }
+    },
+    //提交管理员密码
+    guanLiEmit() {
+      this.getGuanLiPass();
+      if (this.t_number != "") {
+        for (let i = 0; i < this.tableData.length; i++) {
+          if (this.t_number == this.tableData[i].t_number) {
+            this.deleteTable(this.t_number);
+            this.tableData.splice(i, 1);
+          }
+        }
+      }
+    },
     //添加餐台
     addct() {
+      if (localStorage.getItem("user")) {
+        if (JSON.parse(localStorage.getItem("user")).s_position != "经理") {
+          this.dialogVisible = true;
+        } else {
+          this.addVisible = true;
+          this.isRightPsw = false;
+        }
+      }
       this.tiJiao = true;
-      this.addVisible = true;
-
+      //this.addVisible = true;
       this.t_numberEdit = "";
       this.t_nameEdit = "";
       this.t_stateEdit = "";
@@ -79,45 +146,45 @@ export default {
         t_name: t_name,
         t_state: t_state,
         t_type: t_type,
-        t_people: t_people,
+        t_people: t_people
       };
-      this.addTable(newData.t_number, newData.t_name, newData.t_state, newData.t_type, newData.t_people);
+      this.addTable(t_number, t_name, t_state, t_type, t_people);
       this.tableData.push(newData);
       this.addVisible = false;
-      this.addDate(t_number, t_name, t_state, t_type, t_people);
     },
-    async addDate(t_number, t_name, t_state, t_type, t_people){
-      let result = await this.addOneTable({
-        t_number: t_number,
-        t_name: t_name + "号桌",
-        t_state: t_state,
-        t_type: t_type,
-        t_people: t_people,
-      })
-      if (!result) return;
-      let data = JSON.parse(result);
-    },
-    newEdit(t_number,t_name,t_state,t_type,t_people) {
+    newEdit(t_number, t_name, t_state, t_type, t_people) {
       var newData = {
         t_number: t_number,
         t_name: t_name,
         t_state: t_state,
         t_type: t_type,
-        t_people: t_people,
+        t_people: t_people
       };
       for (let i = 0; i < this.tableData.length; i++) {
         if (this.eData == this.tableData[i]) {
-          this.updateTable(newData.t_number, newData.t_name, newData.t_state, newData.t_type, newData.t_people);
+          this.updateTable(
+            newData.t_number,
+            newData.t_name,
+            newData.t_state,
+            newData.t_type,
+            newData.t_people
+          );
           this.tableData.splice(i, 1, newData);
           this.addVisible = false;
         }
       }
-  
     },
     //修改餐台
     modifyData(e) {
+      this.guanLiPassword = "";
+      if (localStorage.getItem("user")) {
+        if (JSON.parse(localStorage.getItem("user")).s_position != "经理") {
+          this.dialogVisible = true;
+        } else {
+          this.addVisible = true;
+        }
+      }
       this.tiJiao = false;
-      this.addVisible = true;
 
       this.t_numberEdit = e.t_number;
       this.t_nameEdit = e.t_name;
@@ -128,20 +195,20 @@ export default {
     },
     //删除餐台
     deleteData(e) {
-      for (let i = 0; i < this.tableData.length; i++) {
-        if (e == this.tableData[i]) {
-          this.deleteTable(e.t_number);
-          this.tableData.splice(i, 1);
+      if (localStorage.getItem("user")) {
+        if (JSON.parse(localStorage.getItem("user")).s_position != "经理") {
+          this.t_number = e.t_number;
+          this.isDel = true;
+          this.dialogVisible = true;
+        } else {
+          for (let i = 0; i < this.tableData.length; i++) {
+            if (e == this.tableData[i]) {
+              this.deleteTable(e.t_number);
+              this.tableData.splice(i, 1);
+            }
+          }
         }
       }
-      this.deleteDataTable(e);
-    },
-    async deleteDataTable(e){
-      let result = await this.deleteOneTable({
-        t_number:e.t_number
-      })
-      if (!result) return;
-      let data = JSON.parse(result);
     },
     searchCanTai() {
       for (let i = 0; i < this.tableData.length; i++) {
@@ -160,68 +227,61 @@ export default {
     backToKaiTai() {
       this.$router.push({ path: "kt" });
     },
-    // getData() {
-    //   axios
-    //     .get("http://localhost:8081/getAllTable")
-    //     .then(response => {
-    //       this.tableData = response.data;
-    //       console.log(response);
-    //     })
-    //     .catch(error => {
-    //       console.log(error);
-    //     });
-    // },
     //axios异步通信
     ...mapActions({
       getAllTable,
       deleteOneTable,
       addOneTable,
-      updateOneTable,
+      updateOneTable
     }),
     //获取所有餐台
-    async getTable(){
+    async getTable() {
       let result = await this.getAllTable();
-      if(!result) return;
+      if (!result) return;
       let data = JSON.parse(result);
       this.tableData = data;
     },
     //根据餐台号删除一条餐台
-    async deleteTable(num){
+    async deleteTable(num) {
       let result = await this.deleteOneTable({
-        t_number:num,
+        t_number: num
       });
       if (result == 1) return;
     },
     //添加餐台
-    async addTable(t_number, t_name, t_state, t_type, t_people){
+    async addTable(t_number, t_name, t_state, t_type, t_people) {
       let result = await this.addOneTable({
-        t_number:parseInt(t_number),
-        t_name:t_name,
-        t_state:t_state,
-        t_type:t_type,
-        t_people:parseInt(t_people),
-      });
-      if(result == 1) return;
-    },
-    //根据餐台号修改餐台
-    async updateTable(t_number, t_name, t_state, t_type, t_people){
-      let result = await this.updateOneTable({
-        t_number:parseInt(t_number),
-        t_name:t_name,
-        t_state:t_state,
-        t_type:t_type,
-        t_people:parseInt(t_people),
+        t_number: parseInt(t_number),
+        t_name: t_name,
+        t_state: t_state,
+        t_type: t_type,
+        t_people: parseInt(t_people)
       });
       if (result == 1) return;
+    },
+    //根据餐台号修改餐台
+    async updateTable(t_number, t_name, t_state, t_type, t_people) {
+      let result = await this.updateOneTable({
+        t_number: parseInt(t_number),
+        t_name: t_name,
+        t_state: t_state,
+        t_type: t_type,
+        t_people: parseInt(t_people)
+      });
+      if (result == 1) return;
+    },
+    //当输入密码框内容改变时，错误提示消失
+    clearInput(){
+      this.loginMessage = "";
     }
   },
-  created(){
+  created() {
     this.getTable();
   },
   components: {
     AddCanTai,
     AllRes
-  },
+  }
 };
 </script>
 

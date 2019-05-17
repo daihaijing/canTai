@@ -1,6 +1,3 @@
-//xtsz
-import czsqgl from '../xtsz/czsqgl/store';
-import ygxxgl from '../xtsz/ygxxgl/store';
 //jcxxgl
 import ctsz from '../jcxxgl/ctsz/store';
 import fwydj from '../jcxxgl/fwydj/store';
@@ -12,6 +9,10 @@ import ctyd from '../ztztgl/ctyd/store';
 import qtsy from '../ztztgl/qtsy/store';
 //kcgl
 import cprk from '../kcgl/cprk/store';
+//xtsz
+import xgmm from '../xtsz/xgmm/store';
+//xxcxgl
+import mbjzmxcx from '../xxcxgl/mbjzmxcx/store';
 import {
     sysClient
   } from '@/clients/hprose-client'
@@ -24,8 +25,10 @@ import {
   const mutations = {
   }
   const actions = {
-      [TYPES.getWeatherata]:(context,args) => sysClient.getData('http://wthrcdn.etouch.cn/weather_mini',args),
-      [TYPES.getLogin]:(context,args) => sysClient.getData('',args),
+      [TYPES.getWeatherata]:(context,args) => 
+        sysClient.getData('http://wthrcdn.etouch.cn/weather_mini',args),
+      [TYPES.getLogin]:(context,args) => 
+        sysClient.getData('http://localhost:8081/staff/getOneStaffByIdAndPsw',args),
   }
   export default {
     modules:{
@@ -40,12 +43,14 @@ import {
       ctyd,
       qtsy,
 
-      //系统设置 axios
-      czsqgl,
-      ygxxgl,
-
       //库存管理
       cprk,
+
+      //系统设置
+      xgmm,
+
+      //信息查询管理
+      mbjzmxcx,
       
     },
     state,

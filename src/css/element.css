@@ -109,7 +109,7 @@
 }
 /***登录弹框样式****/
 :global(.loginDiv .el-dialog){
-  width: 585px;
+  width: 750px;
   height: 500px;
   margin: 0 auto;
   margin-top: 15vh;

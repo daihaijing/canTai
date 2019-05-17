@@ -16,17 +16,6 @@
             </el-form-item>
             <el-form-item label="登记时间:" required>
               <span>{{nowTime}}</span>
-              <!-- <el-col style="width:205px;">
-                <el-form-item prop="value3">
-                  <el-date-picker style="width:205px;height:38px;line-height:38px;" v-model="dynamicValidateForm.value3" align="right" type="date" placeholder="选择日期" :picker-options="pickerOptions1"></el-date-picker>
-                </el-form-item>
-              </el-col>
-              <el-col class="line" style="width:50px;text-align:center;">-</el-col>
-              <el-col style="width:205px;">
-                <el-form-item prop="value4">
-                  <el-time-picker style="width:205px;height:38px;line-height:38px;" v-model="dynamicValidateForm.value4" :picker-options="{selectableRange: '00:00:00 - 23:59:59'}" placeholder="选择时间"></el-time-picker>
-                </el-form-item>
-              </el-col> -->
             </el-form-item>
             <el-form-item prop="r_order" label="预定餐次:">
               <el-select v-model="dynamicValidateForm.r_order" clearable placeholder="请选择" class="inputCtyd">

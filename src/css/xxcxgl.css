@@ -1,4 +1,4 @@
-/* 系统设置模块 CSS */
+/* 信息查询管理模块 CSS */
 /* 内容显示面板的标题/内容/span/el-input的公用css */
 .title {
     /* 标题css */
@@ -40,9 +40,4 @@
     width: 205px;
     height: 38px;
     color: #333;
-  }
-  .form{
-    width: 600px;
-    margin: 0 auto;
-    margin-top: 15px;
   }

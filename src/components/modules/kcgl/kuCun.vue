@@ -56,8 +56,8 @@
 <script>
 import style from "@/css/kcgl.css";
 import ProductStore from "./product-store";
-// import { mapActions } from "vuex";
-// import { addOneDepository } from "./mutation-types";
+import { mapActions } from "vuex";
+import { updateOneDepositoryDcount } from "../kcgl/cprk/mutation-types";
 export default {
   data() {
     return {
@@ -90,28 +90,10 @@ export default {
       ],
       tableData2: [],
       isPriceTrue:true,
+      isIO:"",//标记入库Or出库
     };
   },
   methods: {
-    // ...mapActions({
-    //   addOneDepository
-    // }),
-    // //根据编号或者检索码查询
-    // async addDepository(d_number,d_name,d_simplename,d_unit,d_type,d_price,d_count,d_real){
-    //   let result = await this.addOneDepository({
-    //     d_number:d_number,
-    //     d_name:d_name,
-    //     d_simplename:d_simplename,
-    //     d_unit:d_unit,
-    //     d_type:d_type,
-    //     d_price:d_price,
-    //     d_count:d_count,
-    //     d_real:d_real,
-    //   });
-    //   if (!result) return;
-    //   let data = JSON.parse(result);
-    //   this.tableData = data;
-    // },
     //检索码改变
     nameChange(){
       this.$emit("nameChange",this.name);
@@ -142,11 +124,26 @@ export default {
     },
     //入库
     add(){
-      
+      this.isIO == "入库";
+      for(let i = 0;i<this.tableData2.length;i++){
+        this.updateDepository(
+          this.tableData2[i].d_number,
+          this.tableData2[i].d_price,
+          this.tableData2[i].d_count
+        )
+      }
     },
     //出库
     del(){
-
+      this.isIO == "入库";
+      for(let i = 0;i<this.tableData2.length;i++){
+        this.updateDepository(
+          this.tableData2[i].d_number,
+          this.tableData2[i].d_price,
+          this.tableData2[i].d_count
+        )
+      }
+      ///////////出库数量减少    
     },
     //查询
     find(){
@@ -198,7 +195,23 @@ export default {
     nowTimes() {
       this.timeFormate(new Date());
       setInterval(this.nowTimes, 30 * 1000);
-    }
+    },
+    ...mapActions({
+      updateOneDepositoryDcount,
+    }),
+    //修改库存
+    async updateDepository(d_number,d_price,d_count){
+      let result = await this.updateOneDepositoryDcount({
+        d_number:d_number,
+        d_price:d_price,
+        d_count:d_count,
+      });
+      if (result == 1){
+        alert(this.isIO + "成功！");
+      }else{
+        alert(this.isIO + "失败，请检查！");
+      }
+    },
   },
   props:{
     keyName:null,

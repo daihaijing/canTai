@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="tableData2" border max-height="580">
+    <el-table :data="orderItemTable" border max-height="580">
       <el-table-column prop="oi_number" label="点餐明细编号" align="center"></el-table-column>
       <el-table-column prop="ot_number" label="点餐桌号" align="center"></el-table-column>
       <el-table-column prop="oim_number" label="项目编号" align="center"></el-table-column>
@@ -9,6 +9,12 @@
       <el-table-column prop="oim_price" label="单价" align="center"></el-table-column>
       <el-table-column prop="oim_count" label="数量" align="center"></el-table-column>
       <el-table-column prop="oim_taste" label="口味说明" align="center"></el-table-column>
+      <el-table-column label="操作" align="center">
+        <template slot-scope="scope">
+          <!-- <el-button type="text" size="small" @click="modifyData(scope.row)">修改</el-button> -->
+          <el-button type="text" size="small" @click="deleteOrderItem(scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <el-button type="info" plain @click="payment" class="xfBtn" :disabled="allPayAble">结算</el-button>
   </div>
@@ -16,12 +22,15 @@
 
 <script>
 import { mapActions } from "vuex";
-import { getAllOrderItemByOnumber } from "./mutation-types";
+import { 
+  getAllOrderItemByOnumber,
+  deleteOneOrderItemByOInumber,
+} from "./mutation-types";
 export default {
   name: "xfqd-table",
   data() {
     return {
-      tableData2: [],
+      orderItemTable: [],
       allPayAble: true //结算按钮是否可以点击
     };
   },
@@ -30,7 +39,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      getAllOrderItemByOnumber
+      getAllOrderItemByOnumber,
+      deleteOneOrderItemByOInumber,
     }),
     payment() {
       this.$emit("payment");
@@ -41,12 +51,32 @@ export default {
         ot_number: ot_number
       });
       if (!result) return;
-      this.tableData2 = JSON.parse(result);
+      this.orderItemTable = JSON.parse(result);
+    },
+    //通过点餐明细编号，删除一条对应的点餐明细信息
+    async deleteOneOrderItem(oi_number){
+      let result = await this.deleteOneOrderItemByOInumber({
+        oi_number:oi_number,
+      });
+      if(result != 1){
+        alert('删除失败，请重试');
+      }else{
+        alert('删除成功');
+      }
+    },
+    //删除一条点餐明细
+    deleteOrderItem(e) {
+      for (let i = 0; i < this.orderItemTable.length; i++) {
+        if (e == this.orderItemTable[i]) {
+          this.deleteOneOrderItem(e.oi_number);
+          this.orderItemTable.splice(i, 1);
+        }
+      }
     }
   },
-  mounted() { 
+  mounted() {
     if (this.tableNumber) this.getOrderItemByOnumber(this.tableNumber);
-    if (this.tableData2.length > 0) {
+    if (this.orderItemTable.length > 0) {
       this.allPayAble = false;
     }
   },
@@ -54,8 +84,8 @@ export default {
     tableNumber() {
       if (this.tableNumber) this.getOrderItemByOnumber(this.tableNumber);
     },
-    tableData2() {
-      if (this.tableData2.length > 0) {
+    orderItemTable() {
+      if (this.orderItemTable.length > 0) {
         this.allPayAble = false;
       }
     }

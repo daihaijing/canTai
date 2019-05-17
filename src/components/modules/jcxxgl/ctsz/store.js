@@ -13,6 +13,8 @@ const actions = {
      sysClient.getData('http://localhost:8081/table/addOneTable',args), 
   [TYPES.updateOneTable]:(context,args) =>
      sysClient.getData('http://localhost:8081/table/updateOneTable',args), 
+  [TYPES.getAdminPassword]:(context,args) =>
+     sysClient.getData('http://localhost:8081/staff/getAdminPassword',args),
 };
 export default {
   state,

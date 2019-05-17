@@ -33,9 +33,9 @@
           <el-input v-model="ruleForm.s_phone" :class="style.addinput" @focus="clear" id="contentG"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="s_password">
-          <el-input v-model="ruleForm.s_password" :class="style.addinput"  id="contentH" type="password"></el-input>
+          <el-input type="password" v-model="ruleForm.s_password" :class="style.addinput"  id="contentH"></el-input>
         </el-form-item>
-        <el-form-item label="确认密码" prop="s_checkPass">
+        <el-form-item label="确认密码" prop="s_checkPass" v-if="tiJiao">
           <el-input type="password" v-model="ruleForm.s_checkPass" :class="style.addinput" id="contentI"></el-input>
         </el-form-item>
         <el-form-item>
@@ -111,7 +111,6 @@ export default {
     tiJiao: null,
   },
   methods: {
-    
     addCloseEmit() {
       this.$emit("addCloseEmit");
     },
@@ -143,7 +142,8 @@ export default {
         this.ruleForm.s_age,
         this.ruleForm.s_position,
         this.ruleForm.s_state,
-        this.ruleForm.s_phone
+        this.ruleForm.s_phone,
+        this.ruleForm.s_password,
       );
     },
     clear(e) {
@@ -183,6 +183,11 @@ export default {
             document.getElementById("contentG").value = "";
           break;
         }
+        case "contentH": {
+          if ((document.getElementById("contentH").value = this.s_passwordEdit))
+            document.getElementById("contentH").value = "";
+          break;
+        }
       }
     },
     resetForm(formName) {
@@ -211,23 +216,23 @@ export default {
     if (this.s_phoneEdit) {
       this.ruleForm.s_phone = this.s_phoneEdit;
     }
-    if (this.passwordEdit) {
-      this.ruleForm.passwordEdit = this.passwordEdit;
-      this.ruleForm.s_checkPass = this.passwordEdit;
+    if (this.s_passwordEdit) {
+      this.ruleForm.s_password = this.s_passwordEdit;
+      this.ruleForm.s_checkPass = this.s_passwordEdit;
     }
   },
   watch: {
-    c_idEdit() {
-      this.ruleForm.c_id = this.c_idEdit;
+    s_idEdit() {
+      this.ruleForm.s_id = this.s_idEdit;
     },
-    c_nameEdit() {
-      this.ruleForm.c_name = this.c_nameEdit;
+    s_nameEdit() {
+      this.ruleForm.s_name = this.s_nameEdit;
     },
-    c_sexEdit() {
-      this.ruleForm.c_sex = this.c_sexEdit;
+    s_sexEdit() {
+      this.ruleForm.s_sex = this.s_sexEdit;
     },
-    c_ageEdit() {
-      this.ruleForm.c_age = this.c_ageEdit;
+    s_ageEdit() {
+      this.ruleForm.s_age = this.s_ageEdit;
     },
     s_positionEdit() {
       this.ruleForm.s_position = this.s_positionEdit;
@@ -238,9 +243,9 @@ export default {
     s_phoneEdit() {
       this.ruleForm.s_phone = this.s_phoneEdit;
     },
-    passwordEdit(){
-      this.ruleForm.s_password = this.passwordEdit;
-      this.ruleForm.s_checkPass = this.passwordEdit;
+    s_passwordEdit(){
+      this.ruleForm.s_password = this.s_passwordEdit;
+      this.ruleForm.s_checkPass = this.s_passwordEdit;
     }
   }
 };

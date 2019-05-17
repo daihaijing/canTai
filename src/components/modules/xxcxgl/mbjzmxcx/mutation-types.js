@@ -1,11 +1,7 @@
-/**
- * mutations
- */
-
-/**
- * actions
- */
-
-/**
- * getters
- */
+export const getAllOrder = 'mbjzmxcx/getAllOrder'
+// export const addOneOrderItem = 'diancan/addOneOrderItem'
+// export const addOneNewOrder = 'diancan/addOneNewOrder'
+// export const getAllOrderItemByOnumber = 'diancan/getAllOrderItemByOnumber'
+// export const getOneOrderByOnumber = 'diancan/getOneOrderByOnumber'
+// export const deleteOneOrderItemByOInumber = 'diancan/deleteOneOrderItemByOInumber'
+// export const addOneBill = 'kt/addOneBill'
