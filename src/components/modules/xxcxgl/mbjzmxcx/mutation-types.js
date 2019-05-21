@@ -1,5 +1,5 @@
 export const getAllOrder = 'mbjzmxcx/getAllOrder'
-// export const addOneOrderItem = 'diancan/addOneOrderItem'
+export const getAllOrderItemByOnumber = 'mbjzmxcx/getAllOrderItemByOnumber'
 // export const addOneNewOrder = 'diancan/addOneNewOrder'
 // export const getAllOrderItemByOnumber = 'diancan/getAllOrderItemByOnumber'
 // export const getOneOrderByOnumber = 'diancan/getOneOrderByOnumber'

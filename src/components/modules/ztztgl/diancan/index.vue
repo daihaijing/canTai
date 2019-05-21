@@ -179,25 +179,6 @@ export default {
         }
       }
     },
-    // searchXM() {
-    //   let a = document.getElementsByClassName("dcimg");
-    //   for (let i = 0; i < a.length; i++) {
-    //     a[i].style.border = "0";
-    //   }
-    //   this.dcSoupTable.map((item, index) => {
-    //     if (
-    //       this.message == item.m_number ||
-    //       this.message == item.m_simplename
-    //     ) {
-    //       this.activeName = item.ms_name;
-    //       for (let i = 0; i < a.length; i++) {
-    //         if (item.m_picture == a[i].attributes[0].nodeValue) {
-    //           a[i].style.border = "2px dashed #aaa";
-    //         }
-    //       }
-    //     }
-    //   });
-    // },
     submitOrder() {
       this.getOrderByOTnumber(this.tableNumber, this.dcData);
     },
@@ -275,11 +256,6 @@ export default {
       let result = await this.getOneOrderByOnumber({
         ot_number: ot_number
       });
-      //if (!result) return;
-      // if (!result){
-      //   console.log("111");
-      //   this.addOrder(this.tableNumber,this.customers,"等待中");
-      // }
       //添加点餐明细
       for (let i = 0; i < val.length; i++) {
         //暂定随机生成8位数字，作为点餐明细编号

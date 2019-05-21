@@ -6,8 +6,8 @@ const mutations = {};
 const actions = {
   [TYPES.getAllOrder]:(context,args) =>
     sysClient.getData('http://localhost:8081/order/getAllOrder',args),
-//   [TYPES.addOneOrderItem]:(context,args) =>
-//     sysClient.getData('http://localhost:8081/order/addOneOrderItem',args),
+  [TYPES.getAllOrderItemByOnumber]:(context,args) =>
+    sysClient.getData('http://localhost:8081/order/getAllOrderItemByOnumber',args),
 //   [TYPES.addOneNewOrder]:(context,args) =>
 //     sysClient.getData('http://localhost:8081/order/addOneNewOrder',args),
 //   [TYPES.getAllOrderItemByOnumber]:(context,args) =>

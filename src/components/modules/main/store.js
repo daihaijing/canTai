@@ -29,6 +29,10 @@ import {
         sysClient.getData('http://wthrcdn.etouch.cn/weather_mini',args),
       [TYPES.getLogin]:(context,args) => 
         sysClient.getData('http://localhost:8081/staff/getOneStaffByIdAndPsw',args),
+      [TYPES.getOneStaffByNameAndPsw]:(context,args) => 
+        sysClient.getData('http://localhost:8081/staff/getOneStaffByNameAndPsw',args),
+      [TYPES.updateStaffPassword]:(context,args) => 
+        sysClient.getData('http://localhost:8081/staff/updateStaffPassword',args),
   }
   export default {
     modules:{

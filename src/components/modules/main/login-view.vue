@@ -73,10 +73,8 @@ export default {
         s_id: this.dynamicValidateForm.userName,
         s_password: this.dynamicValidateForm.passWord
       });
-      if (!result) return;
       if (result) {
         var data = JSON.parse(result);
-        var data = result;
         let s_position = data.s_position;
         var user = {};
         user.userName = data.s_name;
@@ -88,7 +86,10 @@ export default {
         location.reload();
       }else{
         this.dynamicValidateForm.passWord = "";
-        alert("密码错误，请重新输入");
+        this.$notify.error({
+          title: "错误",
+          message: "密码错误,请重新输入！"
+        });
       }
     },
     upUser(formName) {
