@@ -42,7 +42,7 @@
           <span :class="style.txtView">{{countRu}}日期：</span>
           <span>{{nowTime}}</span>
         </div>
-        <product-store :tableData="tableData2" :isPrice="isPriceTrue" class="addTable" @deleteData="deleteData2"></product-store>
+        <product-store :tableData="tableData2" :isPrice="isPriceTrue" class="addTable" @deleteData="deleteData2" ></product-store>
         <div style="text-align:center;">
           <el-button type="info" plain @click="add" v-if="flag =='add'">入库</el-button>
           <el-button type="info" plain @click="del" v-else-if="flag=='del'">出库</el-button>
@@ -57,7 +57,10 @@
 import style from "@/css/kcgl.css";
 import ProductStore from "./product-store";
 import { mapActions } from "vuex";
-import { updateOneDepositoryDcount } from "../kcgl/cprk/mutation-types";
+import { 
+  updateOneDepositoryDcount,
+  reduceOneDepositoryDcount 
+} from "../kcgl/cprk/mutation-types";
 export default {
   data() {
     return {
@@ -132,18 +135,18 @@ export default {
           this.tableData2[i].d_count
         )
       }
+      this.tableData2 = [];
     },
     //出库
     del(){
-      this.isIO == "入库";
+      this.isIO == "出库";
       for(let i = 0;i<this.tableData2.length;i++){
-        this.updateDepository(
+        this.reduceDepository(
           this.tableData2[i].d_number,
-          this.tableData2[i].d_price,
           this.tableData2[i].d_count
         )
       }
-      ///////////出库数量减少    
+      this.tableData2 = [];    
     },
     //查询
     find(){
@@ -198,8 +201,9 @@ export default {
     },
     ...mapActions({
       updateOneDepositoryDcount,
+      reduceOneDepositoryDcount
     }),
-    //修改库存
+    //增加库存
     async updateDepository(d_number,d_price,d_count){
       let result = await this.updateOneDepositoryDcount({
         d_number:d_number,
@@ -207,9 +211,21 @@ export default {
         d_count:d_count,
       });
       if (result == 1){
-        alert(this.isIO + "成功！");
+        alert("入库成功！");
       }else{
-        alert(this.isIO + "失败，请检查！");
+        alert("入库失败，请检查！");
+      }
+    },
+    //减少库存
+    async reduceDepository(d_number,d_count){
+      let result = await this.reduceOneDepositoryDcount({
+        d_number:d_number,
+        d_count:d_count,
+      });
+      if (result == 1){
+        alert("出库成功！");
+      }else{
+        alert("出库失败，请检查！");
       }
     },
   },

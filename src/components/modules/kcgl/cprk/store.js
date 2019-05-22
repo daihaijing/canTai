@@ -10,6 +10,8 @@ const actions = {
     sysClient.getData('http://localhost:8081/depository/getOneDepository',args),
   [TYPES.updateOneDepositoryDcount]:(context,args) =>
     sysClient.getData('http://localhost:8081/depository/updateOneDepositoryDcount',args),
+  [TYPES.reduceOneDepositoryDcount]:(context,args) =>
+    sysClient.getData('http://localhost:8081/depository/reduceOneDepositoryDcount',args),
 };
 export default {
   state,

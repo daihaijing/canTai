@@ -8,10 +8,10 @@ const actions = {
     sysClient.getData('http://localhost:8081/order/getAllOrder',args),
   [TYPES.getAllOrderItemByOnumber]:(context,args) =>
     sysClient.getData('http://localhost:8081/order/getAllOrderItemByOnumber',args),
-//   [TYPES.addOneNewOrder]:(context,args) =>
-//     sysClient.getData('http://localhost:8081/order/addOneNewOrder',args),
-//   [TYPES.getAllOrderItemByOnumber]:(context,args) =>
-//     sysClient.getData('http://localhost:8081/order/getAllOrderItemByOnumber',args),
+  [TYPES.deleteAllMessageByOTnumber]:(context,args) =>
+    sysClient.getData('http://localhost:8081/order/deleteAllMessageByOTnumber',args),
+  [TYPES.updateTableState]:(context,args) =>
+    sysClient.getData('http://localhost:8081/table/updateTableState',args),
 //   [TYPES.getOneOrderByOnumber]:(context,args) =>
 //     sysClient.getData('http://localhost:8081/order/getOneOrderByOnumber',args),
 //   [TYPES.addOneBill]:(context,args) =>

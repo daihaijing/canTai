@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="orderItemTable" border max-height="580">
+    <el-table :data="orderItemTable" border max-height="540">
       <el-table-column prop="oi_number" label="点餐明细编号" align="center"></el-table-column>
       <el-table-column prop="ot_number" label="点餐桌号" align="center"></el-table-column>
       <el-table-column prop="oim_number" label="项目编号" align="center"></el-table-column>

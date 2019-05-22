@@ -6,7 +6,7 @@
           <el-menu-item index="qtsy" :disabled="isUser">前台收银</el-menu-item>
           <el-menu-item index="cprk" :disabled="isUser">商品入库</el-menu-item>
           <el-menu-item index="ctsz" :disabled="isUser">餐台设置</el-menu-item>
-          <!-- <el-menu-item index="tcsz" :disabled="isUser">套餐设置</el-menu-item> -->
+          <el-menu-item index="hbct" :disabled="isUser">合并餐台</el-menu-item>
           <el-menu-item index="zdcx" :disabled="isUser">账单查询</el-menu-item>
         </el-menu>
     </div>

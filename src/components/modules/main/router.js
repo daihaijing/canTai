@@ -18,7 +18,6 @@ import cpck from "../kcgl/cpck/router"
 import kcpd from "../kcgl/kcpd/router"
 //信息查询管理
 import mbjzmxcx from "../xxcxgl/mbjzmxcx/router"
-import ryycx from "../xxcxgl/ryycx/router"
 import flsrcx from "../xxcxgl/flsrcx/router"
 import sfxmxsfx from "../xxcxgl/sfxmxsfx/router"
 import sptdzdcx from "../xxcxgl/sptdzdcx/router"
@@ -28,7 +27,6 @@ import xfjfsccx from "../xxcxgl/xfjfsccx/router"
 //系统设置
 import bzsm from "../xtsz/bzsm/router"
 import qxgl from "../xtsz/qxgl/router"
-import xgmm from "../xtsz/xgmm/router"
 import xtcsh from "../xtsz/xtcsh/router"
 
 export default {
@@ -58,7 +56,6 @@ export default {
     kcpd,
     //信息查询管理
     mbjzmxcx,
-    ryycx,
     flsrcx,
     sfxmxsfx,
     sptdzdcx,
@@ -68,7 +65,6 @@ export default {
     //系统设置
     bzsm,
     qxgl,
-    xgmm,
     xtcsh,
   ],
 };

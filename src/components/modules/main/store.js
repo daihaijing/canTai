@@ -7,10 +7,11 @@ import kt from '../ztztgl/kt/store';
 import diancan from '../ztztgl/diancan/store';
 import ctyd from '../ztztgl/ctyd/store';
 import qtsy from '../ztztgl/qtsy/store';
+import hbct from '../ztztgl/hbct/store';
 //kcgl
 import cprk from '../kcgl/cprk/store';
 //xtsz
-import xgmm from '../xtsz/xgmm/store';
+
 //xxcxgl
 import mbjzmxcx from '../xxcxgl/mbjzmxcx/store';
 import {
@@ -46,12 +47,13 @@ import {
       diancan,
       ctyd,
       qtsy,
+      hbct,
 
       //库存管理
       cprk,
 
       //系统设置
-      xgmm,
+      
 
       //信息查询管理
       mbjzmxcx,

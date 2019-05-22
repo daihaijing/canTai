@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-table :data="tableData" border >
+        <el-table :data="tableData" border>
             <el-table-column prop="d_number" label="项目编号"  align="center"></el-table-column>
             <el-table-column prop="d_name" label="项目名称"  align="center"></el-table-column>
             <el-table-column prop="d_simplename" label="检索码"  align="center"></el-table-column>
@@ -34,7 +34,7 @@ export default {
     methods:{
         deleteData(val){
             this.$emit("deleteData",val);
-        }
+        },
     }
 }
 </script>

@@ -56,13 +56,8 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="mbjzmxcx" :disabled="isUser">点餐明细查询</el-menu-item>
-          <el-menu-item index="ryycx" :disabled="isUser">日营业查询</el-menu-item>
-          <!-- <el-menu-item index="flsrcx" :disabled="isUser">分类收入查询</el-menu-item> -->
           <el-menu-item index="sfxmxsfx" :disabled="isUser">收费项目销售分析</el-menu-item>
-          <!-- <el-menu-item index="sptdzdcx" :disabled="isUser">商品推单增单查询</el-menu-item> -->
           <el-menu-item index="xsqsfx" :disabled="isUser">销售趋势分析</el-menu-item>
-          <!-- <el-menu-item index="jfdhcx" :disabled="isUser">积分兑换查询</el-menu-item> -->
-          <!-- <el-menu-item index="xfjfsccx" :disabled="isUser">消费积分生成查询</el-menu-item> -->
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="6">
@@ -73,7 +68,6 @@
         <el-menu-item-group>
           <el-menu-item index="bzsm" :disabled="isUser">帮助说明</el-menu-item>
           <el-menu-item index="qxgl" :disabled="isUser">权限管理</el-menu-item>
-          <el-menu-item index="xgmm" :disabled="isUser">修改密码</el-menu-item>
           <el-menu-item index="xtcsh" :disabled="isUser">系统初始化</el-menu-item>
         </el-menu-item-group>
       </el-submenu>

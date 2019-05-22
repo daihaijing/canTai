@@ -1,11 +1,7 @@
-/**
- * mutations
- */
-
-/**
- * actions
- */
-
-/**
- * getters
- */
+export const getTableByNumber = 'table/getTableByNumber'
+export const addOneOrderItem = 'hbct/addOneOrderItem'
+export const updateOrderItemOTnumber = 'hbct/updateOrderItemOTnumber'
+export const getAllOrderItemByOnumber = 'hbct/getAllOrderItemByOnumber'
+export const updateTableState = 'hbct/updateTableState'
+export const updateOrderOTnumber = 'hbct/updateOrderOTnumber'
+export const deleteOneOrder = 'hbct/deleteOneOrder'
