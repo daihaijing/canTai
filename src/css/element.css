@@ -342,3 +342,46 @@
 :global(.setPassword .el-form-item__label){
   color:rgb(255, 208, 75);
 }
+/* 收费项目销售分析 */
+:global(.dateFirst){
+  height: 26px;
+  line-height: 26px;
+  position: relative;
+  top: 7px;
+  margin-right: 40px;
+}
+:global(.dateFirst i){
+  position: relative;
+  bottom: 5px;
+}
+:global(.dateFirst .el-icon-date:before){
+  position: relative;
+  bottom: 1px;
+}
+:global(.dateFirst .el-range-separator){
+  line-height: 18px;
+}
+:global(.timeData){
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  top: 6px;
+  margin-left: 50px;
+}
+:global(.timeData span){
+  float: left;
+  width: 74px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  font-size: 14px;
+}
+:global(.timeData span:first-child){
+  border-right: 0;
+}
+:global(.sfTable  .el-table__body-wrapper){
+  max-height: 240px;
+  overflow-y: auto;
+}
