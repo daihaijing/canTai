@@ -24,7 +24,11 @@
         </div>
       </div>
       <Table :tableData="tableData" class="sfTable" style="margin-top:10px"></Table>
-      <Trend></Trend>
+      <div>
+        <div v-for="{item,index} in zhexian" :key="index">
+          <Trend :item="item"></Trend>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -111,6 +115,25 @@ export default {
       begin:"",//起始时间时间戳
       end:"",//终止时间时间戳
       sort:"",
+      zhexian:[{
+        date:'2019-01-01',
+        num:500,
+      },{
+        date:'2019-01-01',
+        num:500,
+      },{
+        date:'2019-01-01',
+        num:500,
+      },{
+        date:'2019-01-01',
+        num:500,
+      },{
+        date:'2019-01-01',
+        num:500,
+      },{
+        date:'2019-01-01',
+        num:500,
+      }]
     }
   },
   methods:{

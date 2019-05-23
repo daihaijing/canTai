@@ -17,6 +17,13 @@ export default {
             // 实例化echarts对象
             this.$nextTick(()=>{
                 let myChart = echarts.init(document.getElementById(this.myChart));
+                // let keys1 = [];
+                // let value1 = [];
+                // for (let p1 in item) {
+                //     if (item.hasOwnProperty(p1))
+                //         keys1.push(p1);
+                //     value1.push(jsonObject1[p1]);
+                // }
                 // 绘制条形图
                     let option = {
                         xAxis: {
@@ -37,17 +44,27 @@ export default {
         },
         
     },
+    props:{
+        item:null,
+    },
     mounted(){
-            this.draw();
+        if(this.item)
+            this.draw(this.item);
+    },
+    watch:{
+        item(){
+            if(this.item)
+                this.draw(this.item);
         }
+    }
 
 }
 </script>
 
 <style>
  .chart {
-        width: 90%;
-        height: 220px;
+        width: 370px;
+        height: 324px;
         position: relative;
         top: -15px;
     }
