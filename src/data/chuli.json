@@ -1,0 +1,45 @@
+[
+    {
+      "mm_type": "热菜",
+      "mm_name": "鱼香肉丝",
+      "mm_count": 41,
+      "mm_money": 555,
+      "mm_time": "2019-05-26 19:15:33.0"
+    },
+    {
+      "mm_type": "热菜",
+      "mm_name": "清炒菜苋",
+      "mm_count": 20,
+      "mm_money": 72,
+      "mm_time": "2019-05-26 18:59:08.0"
+    },
+    {
+      "mm_type": "热菜",
+      "mm_name": "红烧肉",
+      "mm_count": 27,
+      "mm_money": 240,
+      "mm_time": "2019-05-21 18:35:13.0"
+    },
+    {
+      "mm_type": "热菜",
+      "mm_name": "番茄炒蛋",
+      "mm_count": 1,
+      "mm_money": 18,
+      "mm_time": "2019-05-23 19:31:42.0"
+    },
+    {
+      "mm_type": "热菜",
+      "mm_name": "红椒肉片",
+      "mm_count": 6,
+      "mm_money": 25,
+      "mm_time": "2019-05-27 19:19:13.0"
+    },
+    {
+      "mm_type": "热菜",
+      "mm_name": "勇闯天涯",
+      "mm_count": 3,
+      "mm_money": 6,
+      "mm_time": "2019-05-26 18:59:43.0"
+    }
+  ]
+  

@@ -35,9 +35,12 @@
         </div>
       </div>
       <Table :tableData="tableData" class="sfTable" style="margin-top:10px"></Table>
-      <div id="zheXian">
-        <div v-for="{item,index} in zhexian" :key="index" :class="style.zheXian">
-          <Trend :item="item"></Trend>
+      <div style="overflow:hidden;overflow-x:auto;">
+        <div id="zheXian">
+          <div v-for="(item,index) in object2" :key="`${index}`" :class="style.zheXian">
+            <span style="font-size:14px;position:relative;top:20px;">{{item.name}}</span>
+            <Trend :item="item" :sort="sort"></Trend>
+          </div>
         </div>
       </div>
     </div>
@@ -50,10 +53,15 @@ import Table from "./table";
 import Trend from "./trend";
 import { mapActions } from "vuex";
 import { getMarketByTime } from "./mutation-types";
+import zhexiantu from "@/data/zhexian.json"
+import chulitu from "@/data/chuli.json"
+import bus from "@/bus.js"
 export default {
   data() {
     return {
       style,
+      zhexiantu,
+      chulitu,
       options: [
         {
           value: "热菜",
@@ -71,33 +79,9 @@ export default {
       tableData:[],
       begin: "", //起始时间时间戳
       end: "", //终止时间时间戳
-      sort: "",
-      zhexian: [
-        {
-          date: "2019-01-01",
-          num: 500
-        },
-        {
-          date: "2019-01-01",
-          num: 500
-        },
-        {
-          date: "2019-01-01",
-          num: 500
-        },
-        {
-          date: "2019-01-01",
-          num: 500
-        },
-        {
-          date: "2019-01-01",
-          num: 500
-        },
-        {
-          date: "2019-01-01",
-          num: 500
-        }
-      ]
+      sort: "1",
+      zhexian: [],
+      object2:[],
     };
   },
   methods: {
@@ -141,7 +125,19 @@ export default {
         }
       }
       this.tableData = this.tableData1;
-      
+      this.zhexian = this.marketTable;
+      let arrDate = [];
+      let num = [];
+      for(let i in this.tableData){
+        for(let j in this.zhexian){
+          if(this.tableData[i].mm_name == this.zhexian[j].mm_name){
+            let time = this.zhexian[j].mm_time.substring(0,10);
+            arrDate.push(time);
+            num.push(this.zhexian[j].mm_count);
+          }
+        }
+      }
+      console.log(arrDate,num)
     }
   },
   components: {
@@ -149,8 +145,30 @@ export default {
     Trend
   },
   mounted() {
+    this.tableData = this.chulitu;
+    this.zhexian = this.zhexiantu;
+    let object = [];
+      for(let i in this.tableData){
+        for(let j in this.zhexian){
+          if(this.tableData[i].mm_name == this.zhexian[j].mm_name){
+            object.push({name:"",arrDate:[],num:[],price:[]});
+            object[i].name = this.tableData[i].mm_name;
+            let time = this.zhexian[j].mm_time.substring(0,10);
+            object[i].arrDate.push(time);
+            object[i].num.push(this.zhexian[j].mm_count);
+            object[i].price.push(this.zhexian[j].mm_money);
+          }
+        }
+      }
+      for(let i in object){
+        if(object[i].name){
+          this.object2.push(object[i]);
+        }
+      }
+    console.log(this.object2)
     this.$nextTick(() => {
-      // document.getElementById('zheXian').syle.width = this.zhexian.length * 283 + 'px';
+      document.getElementById('zheXian').style.width = this.object2.length * 370 + 'px';
+      document.getElementById('zheXian').style.height = '262px';
       var that = this;
       $(".timeData span").click(function(e) {
         $(this)
@@ -162,11 +180,13 @@ export default {
         if (sort == "数量排序") {
           this.tableData = [];
           this.sort = "1";
+          bus.$emit('sortEmit',this.sort);
           // this.getData();调用请求
         } else {
           this.tableData = [];
           this.sort = "2";
           // this.getData();调用请求
+          bus.$emit('sortEmit',this.sort);
         }
       });
     });
