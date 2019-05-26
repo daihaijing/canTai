@@ -105,7 +105,8 @@ import {
   addOneNewOrder,
   getAllOrderItemByOnumber,
   getOneOrderByOnumber,
-  addOneBill
+  addOneBill,
+  addOneNewMarket
 } from "./mutation-types";
 export default {
   data() {
@@ -200,8 +201,22 @@ export default {
       addOneNewOrder,
       getAllOrderItemByOnumber,
       getOneOrderByOnumber,
-      addOneBill
+      addOneBill,
+      addOneNewMarket,
     }),
+    //添加一条菜品销售记录
+    async addMenuMarket(mm_number,mm_type,mm_name,mm_unit,mm_price,mm_count,mmt_number){
+      let result = await this.addOneNewMarket({
+        mm_number:mm_number,
+        mm_type:mm_type,
+        mm_name:mm_name,
+        mm_unit:mm_unit,
+        mm_price:mm_price,
+        mm_count:mm_count,
+        mmt_number:mmt_number,
+      });
+      if(result != 1) return;
+    },
     //获取指定菜系下的菜品
     async getMenu(name) {
       let result = await this.getAllMenuByMSname({
@@ -274,6 +289,16 @@ export default {
           val[i].m_price,
           val[i].m_count,
           val[i].m_taste
+        );
+        //将当前的点餐信息添加到菜品销售表
+        this.addMenuMarket(
+          oi_number,
+          this.activeName,
+          val[i].m_name,
+          val[i].m_unit,
+          val[i].m_price,
+          val[i].m_count,
+          this.tableNumber
         );
       }
       this.dcData = [];

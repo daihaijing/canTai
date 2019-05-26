@@ -18,6 +18,8 @@ const actions = {
     sysClient.getData('http://localhost:8081/bill/addOneBill',args),
   [TYPES.deleteOneOrderItemByOInumber]:(context,args) =>
     sysClient.getData('http://localhost:8081/order/deleteOneOrderItemByOInumber',args),
+  [TYPES.addOneNewMarket]:(context,args) =>
+    sysClient.getData('http://localhost:8081/menu/addOneNewMarket',args),
 };
 export default {
   state,

@@ -6,7 +6,7 @@
     <div :class="style.content" style="text-align: center;">
       <span :class="style.txtView">桌号：</span>
       <el-input :class="style.inputView" v-model="tableNumber" @keyup.enter.native="searchZH"></el-input>
-      <el-button type="info" plain @click="searchZH" >查询</el-button>
+      <el-button type="info" plain @click="searchZH">查询</el-button>
       <pay-table class="table" :tableData="tableData" :money="money"></pay-table>
       <el-button type="info" plain @click="accounts">结账</el-button>
       <el-button type="info" plain @click="backKT">返回</el-button>
@@ -26,14 +26,20 @@ import style from "css/kaitai.css";
 import PayTable from "./pay-table";
 import AddZhangDan from "#com/addZhangDan";
 import { mapActions } from "vuex";
-import { getAllOrderItemByOnumber,addOneBill,updateTableState } from "./mutation-types";
+import {
+  getAllOrderItemByOnumber,
+  addOneBill,
+  updateTableState,
+  deleteOneOrder,
+  deleteOneOrderItemByOTnumber
+} from "./mutation-types";
 export default {
   data() {
     return {
       style,
       num: "",
-      allOrderItem: [],//保存点餐明细的数组
-      tableData: [],//保存账单明细的数组
+      allOrderItem: [], //保存点餐明细的数组
+      tableData: [], //保存账单明细的数组
       money: 0,
       tableNumber: "",
       flag: 0, //用于标记
@@ -53,16 +59,14 @@ export default {
     //（账单编号（随机生成），桌台编号，应收金额，实收金额
     //，收银员），确认账单信息，点击确定按钮，向数据库添加当前的账单信息
     newAdd(b_number, bt_number, b_ought, b_real, bs_name) {
-      // var newData = {
-      //   b_number: b_number,
-      //   bt_number: bt_number,
-      //   b_ought: b_ought,
-      //   b_real: b_ought,
-      //   bs_name: bs_name
-      // };
       //向数据库添加当前桌台的账单
-      this.addBill(b_number, bt_number, b_ought, b_real,bs_name);
-      
+      this.addBill(b_number, bt_number, b_ought, b_real, bs_name);
+      //删除当前结账的餐台的点餐记录和点餐明细
+      this.deleteOrder(bt_number);
+      //删除当前餐台的点餐明细
+      this.deleteOrderItem(bt_number);
+      this.tableData = [];
+      this.tableNumber = "";
     },
     //查询指定桌号的消费信息
     searchZH() {
@@ -90,49 +94,55 @@ export default {
       getAllOrderItemByOnumber,
       addOneBill,
       updateTableState,
+      deleteOneOrder,
+      deleteOneOrderItemByOTnumber
     }),
     //获取当前桌号的全部点餐明细
     async getOrderItem(t_number) {
       let result = await this.getAllOrderItemByOnumber({
         ot_number: t_number
       });
-      if (!result) return;
       this.allOrderItem = JSON.parse(result);
-      var newData = {
-        bm_name: this.allOrderItem[0].oim_name,
-        bm_unit: this.allOrderItem[0].oim_unit,
-        bm_price: this.allOrderItem[0].oim_price,
-        bm_count: this.allOrderItem[0].oim_count,
-        bm_money:
-          this.allOrderItem[0].oim_price * this.allOrderItem[0].oim_count
-      };
-      this.tableData.push(newData);
-      for (let i = 1; i < this.allOrderItem.length; i++) {
-        this.flag = 0;
-        for (let j = 0; j < this.tableData.length; j++) {
-          if (this.tableData[j].bm_name == this.allOrderItem[i].oim_name) {
-            this.tableData[j].bm_count += this.allOrderItem[i].oim_count;
-            (this.tableData[j].bm_money =
-              this.tableData[j].bm_count * this.tableData[j].bm_price),
-              (this.flag = 1);
+      if ( this.allOrderItem.length!=0) {
+        var newData = {
+          bm_name: this.allOrderItem[0].oim_name,
+          bm_unit: this.allOrderItem[0].oim_unit,
+          bm_price: this.allOrderItem[0].oim_price,
+          bm_count: this.allOrderItem[0].oim_count,
+          bm_money:
+            this.allOrderItem[0].oim_price * this.allOrderItem[0].oim_count
+        };
+        this.tableData.push(newData);
+        for (let i = 1; i < this.allOrderItem.length; i++) {
+          this.flag = 0;
+          for (let j = 0; j < this.tableData.length; j++) {
+            if (this.tableData[j].bm_name == this.allOrderItem[i].oim_name) {
+              this.tableData[j].bm_count += this.allOrderItem[i].oim_count;
+              (this.tableData[j].bm_money =
+                this.tableData[j].bm_count * this.tableData[j].bm_price),
+                (this.flag = 1);
+            }
+          }
+          if (this.flag == 0) {
+            var newData = {
+              bm_name: this.allOrderItem[i].oim_name,
+              bm_unit: this.allOrderItem[i].oim_unit,
+              bm_price: this.allOrderItem[i].oim_price,
+              bm_count: this.allOrderItem[i].oim_count,
+              bm_money:
+                this.allOrderItem[i].oim_price * this.allOrderItem[i].oim_count
+            };
+            this.tableData.push(newData);
           }
         }
-        if (this.flag == 0) {
-          var newData = {
-            bm_name: this.allOrderItem[i].oim_name,
-            bm_unit: this.allOrderItem[i].oim_unit,
-            bm_price: this.allOrderItem[i].oim_price,
-            bm_count: this.allOrderItem[i].oim_count,
-            bm_money:
-              this.allOrderItem[i].oim_price * this.allOrderItem[i].oim_count
-          };
-          this.tableData.push(newData);
+        for (let k = 0; k < this.tableData.length; k++) {
+          this.money += this.tableData[k].bm_money;
         }
-      }
-      for (let k = 0; k < this.tableData.length; k++) {
-        this.money += this.tableData[k].bm_money;
+      }else{
+        alert("当前餐台空闲！");
       }
     },
+    //添加一条账单记录
     async addBill(b_number, bt_number, b_ought, b_real, bs_name) {
       let result = await this.addOneBill({
         b_number: b_number,
@@ -141,10 +151,11 @@ export default {
         b_real: b_ought,
         bs_name: bs_name
       });
-      if(result != 1) result;
+      if (result != 1) result;
       this.addVisible = false;
-      this.updateState(bt_number,"空闲");
+      this.updateState(bt_number, "空闲");
     },
+    //修改餐台的状态
     async updateState(t_number, t_state) {
       let result = await this.updateTableState({
         t_number: t_number,
@@ -152,6 +163,22 @@ export default {
       });
       if (!result) return;
     },
+    //删除一条点餐记录
+    async deleteOrder(ot_number) {
+      let result = await this.deleteOneOrder({
+        ot_number: ot_number
+      });
+      console.log("deleteOrder", result);
+      if (result != 1) return;
+    },
+    //删除指定餐台的点餐明细
+    async deleteOrderItem(ot_number) {
+      let result = await this.deleteOneOrderItemByOTnumber({
+        ot_number: ot_number
+      });
+      console.log("deleteOrderItem", result);
+      if (result != 1) return;
+    }
   },
   components: {
     PayTable
@@ -159,7 +186,6 @@ export default {
   mounted() {
     if (this.tableNumber) {
       this.getOrderItem(this.tableNumber);
-     
     }
   },
   created() {

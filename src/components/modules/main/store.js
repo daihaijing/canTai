@@ -8,12 +8,14 @@ import diancan from '../ztztgl/diancan/store';
 import ctyd from '../ztztgl/ctyd/store';
 import qtsy from '../ztztgl/qtsy/store';
 import hbct from '../ztztgl/hbct/store';
+import zdcx from '../ztztgl/zdcx/store';
 //kcgl
 import cprk from '../kcgl/cprk/store';
 //xtsz
 
 //xxcxgl
 import mbjzmxcx from '../xxcxgl/mbjzmxcx/store';
+import sfxmxsfx from '../xxcxgl/sfxmxsfx/store';
 import {
     sysClient
   } from '@/clients/hprose-client'
@@ -48,6 +50,7 @@ import {
       ctyd,
       qtsy,
       hbct,
+      zdcx,
 
       //库存管理
       cprk,
@@ -57,6 +60,7 @@ import {
 
       //信息查询管理
       mbjzmxcx,
+      sfxmxsfx,
       
     },
     state,

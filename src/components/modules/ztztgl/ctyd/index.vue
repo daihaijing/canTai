@@ -4,34 +4,86 @@
       <span :class="style.txtView">餐台预定</span>
     </div>
     <div :class="style.content">
-      <div :class="style.form">  
-        <el-form :model="dynamicValidateForm" status-icon ref="dynamicValidateForm" label-width="100px" class="demo-dynamic" :rules="rules">
-            <el-form-item prop="rt_number" label="预定餐台号:">
-              <el-select v-model="dynamicValidateForm.rt_number" clearable placeholder="请选择" class="inputCtyd">
-                <el-option v-for="item in tableDatas" :key="item.t_number" :label="item.t_name" :value="item.t_number"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item prop="r_people" label="人数:">
-                <el-input :class="style.ydInputView" class="inputCtyd" v-model.number="dynamicValidateForm.r_people"></el-input>
-            </el-form-item>
-            <el-form-item label="登记时间:" required>
-              <span>{{nowTime}}</span>
-            </el-form-item>
-            <el-form-item prop="r_order" label="预定餐次:">
-              <el-select v-model="dynamicValidateForm.r_order" clearable placeholder="请选择" class="inputCtyd">
-                <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item prop="r_phone" label="联系方式:">
-              <el-input v-model="dynamicValidateForm.r_phone"  :class="style.ydInputView" class="inputCtyd" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item prop="r_remark" label="备注:">
-              <el-input v-model="dynamicValidateForm.r_remark" :class="style.ydInputView" class="inputCtyd"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="info" plain @click="addYD('dynamicValidateForm')">预定</el-button>
-              <el-button type="info" plain @click="backKT">返回</el-button>
-            </el-form-item>
+      <div :class="style.form">
+        <el-form
+          :model="dynamicValidateForm"
+          status-icon
+          ref="dynamicValidateForm"
+          label-width="100px"
+          class="demo-dynamic"
+          :rules="rules"
+        >
+          <el-form-item prop="rt_number" label="预定餐台号:">
+            <el-select
+              v-model="dynamicValidateForm.rt_number"
+              clearable
+              placeholder="请选择"
+              class="inputCtyd"
+            >
+              <el-option
+                v-for="item in tableDatas"
+                :key="item.t_number"
+                :label="item.t_name"
+                :value="item.t_number"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item prop="r_people" label="人数:">
+            <el-input
+              :class="style.ydInputView"
+              class="inputCtyd"
+              v-model.number="dynamicValidateForm.r_people"
+            ></el-input>
+          </el-form-item>
+          <el-form-item prop="r_time" label="预定时间:">
+            <el-select
+              v-model="dynamicValidateForm.r_time"
+              clearable
+              placeholder="请选择"
+              class="inputCtyd"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item prop="r_order" label="预定餐次:">
+            <el-select
+              v-model="dynamicValidateForm.r_order"
+              clearable
+              placeholder="请选择"
+              class="inputCtyd"
+              @change="timeChange"
+            >
+              <el-option
+                v-for="item in options2"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item prop="r_phone" label="联系方式:">
+            <el-input
+              v-model="dynamicValidateForm.r_phone"
+              :class="style.ydInputView"
+              class="inputCtyd"
+            ></el-input>
+          </el-form-item>
+          <el-form-item prop="r_remark" label="备注:">
+            <el-input
+              v-model="dynamicValidateForm.r_remark"
+              :class="style.ydInputView"
+              class="inputCtyd"
+            ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="info" plain @click="addYD('dynamicValidateForm')">预定</el-button>
+            <el-button type="info" plain @click="backKT">返回</el-button>
+          </el-form-item>
         </el-form>
       </div>
     </div>
@@ -39,37 +91,66 @@
 </template>
 
 <script>
-import Vue from 'vue';
+import Vue from "vue";
 import style from "css/kaitai.css";
 import bus from "@/bus.js";
-import { mapActions } from 'vuex';
-import { getAllTable,addOneReserve } from './mutation-types';
+//import {formatDate} from '#com/date.js';
+import { mapActions } from "vuex";
+import { getAllTable, addOneReserve } from "./mutation-types";
 export default {
   data() {
-    let validatePass = (rule, value, callback) =>{
+    let validatePass = (rule, value, callback) => {
       let re = /^[0-9]*$/;
-      if(value == ''){
-          callback(new Error('请输入联系方式'))
-      }else{
-          if(value.length<11||value.length>11){
-              callback(new Error('长度为11位'))
-          }else if(!re.test(value))
-          {
-              callback(new Error('只能含有数字'))
-          }else{
-              callback();
-          }
+      if (value == "") {
+        callback(new Error("请输入联系方式"));
+      } else {
+        if (value.length < 11 || value.length > 11) {
+          callback(new Error("长度为11位"));
+        } else if (!re.test(value)) {
+          callback(new Error("只能含有数字"));
+        } else {
+          callback();
+        }
       }
-    }
+    };
     return {
-      style,
       nowTime: "",
+      style,
       //桌号选择
-      tableDatas:[],
+      tableDatas: [],
       //日期选择
-      pickerOptions1: {
+      options: [
+        {
+          value: "",
+          label: "今天"
+        },
+        {
+          value: "",
+          label: "明天"
+        },
+        {
+          value: "",
+          label: "后天"
+        }
+      ],
+      //餐次选择
+      options2: [
+        {
+          value: "11:00:00",
+          label: "午餐"
+        },
+        {
+          value: "17:00:00",
+          label: "晚餐"
+        }
+      ],
+      //预定日期选择
+      pickerOptions: {
         disabledDate(time) {
-          return time.getTime() > Date.now();
+          return (
+            time.getTime() < Date.now() ||
+            time.getTime() > Date.now() + 3600 * 1000 * 24 * 7
+          );
         },
         shortcuts: [
           {
@@ -79,77 +160,63 @@ export default {
             }
           },
           {
-            text: "昨天",
+            text: "明天",
             onClick(picker) {
               const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              date.setTime(date.getTime() + 3600 * 1000 * 24);
               picker.$emit("pick", date);
             }
           },
           {
-            text: "一周前",
+            text: "后天",
             onClick(picker) {
               const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              date.setTime(date.getTime() + 3600 * 1000 * 24 * 2);
               picker.$emit("pick", date);
             }
           }
         ]
       },
-      //餐次选择
-      options2: [
-        {
-          value: "1",
-          label: "早餐"
-        },
-        {
-          value: "2",
-          label: "午餐"
-        },
-        {
-          value: "3",
-          label: "晚餐"
-        }
-      ],
       //表单参数
-      dynamicValidateForm:{
-          rt_number:"",
-          r_people:"",
-          r_order:"",
-          r_people:"",
-          r_remark:"",
+      dynamicValidateForm: {
+        rt_number: "",
+        r_people: "",
+        r_time: "",
+        r_order: "",
+        r_phone: "",
+        r_remark: ""
       },
-      rules:{
-          value1:[
-              {required: true, message: '请选择餐台号',trigger:'change'},
-          ],
-          value2:[
-              // {required: true, message: '请输入人数',trigger:'blur'},
-              // {type: 'number', message: '人数必须为数字值',trigger:'blur'}
-          ],
-          value3: [
-            // { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-          ],
-          value4: [
-            // { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
-          ],
-          value5: [
-            { required: true, message: '请选择餐次', trigger: 'change' }
-          ],
-          value6:[
-            // {validator: validatePass, trigger: 'blur' }
-          ]
-      }
+      rules: {}
     };
   },
   methods: {
-    addYD(formName){
-      this.$refs[formName].validate((valid) => {
-        if(valid){
+    //选择预定日期
+    timeChange() {
+      //console.log(this.dynamicValidateForm.r_time + " " +this.dynamicValidateForm.r_order);
+    },
+    addYD(formName) {
+      //获取预定的餐次信息
+      let order = "";
+      for (let i = 0; i < this.options2.length; i++) {
+        if (this.dynamicValidateForm.r_order == this.options2[i].value) {
+          order = this.options2[i].label;
+        }
+      }
+      //随机生成8位数字，作为预订编号
+      let r_number = "";
+      for (let i = 0; i < 8; i++) {
+        r_number += Math.floor(Math.random() * 10);
+      }
+      this.$refs[formName].validate(valid => {
+        if (valid) {
           this.addReserve(
+            r_number,
             this.dynamicValidateForm.rt_number,
             this.dynamicValidateForm.r_people,
-            this.dynamicValidateForm.r_order,
+            this.dynamicValidateForm.r_time +
+              " " +
+              this.dynamicValidateForm.r_order,
+            order,
             this.dynamicValidateForm.r_phone,
             this.dynamicValidateForm.r_remark
           );
@@ -158,13 +225,14 @@ export default {
             message: "预定成功",
             type: "success"
           });
+          if (this.dynamicValidateForm.r_time == this.nowTime) {
+            setTimeout(() => {
+              bus.$emit("yuding", this.dynamicValidateForm.rt_number);
+            }, 1000);
+          }
           this.$router.push({
-            name:'kt'
+            name: "kt"
           });
-          setTimeout(()=>{
-            bus.$emit("yuding",this.dynamicValidateForm.rt_number);
-          },1000)
-
         } else {
           return false;
         }
@@ -176,26 +244,35 @@ export default {
     //异步通信
     ...mapActions({
       getAllTable,
-      addOneReserve,
+      addOneReserve
     }),
     //获取所有餐台
-    async getTable(){
+    async getTable() {
       let result = await this.getAllTable();
-      if(!result) return;
+      if (!result) return;
       let data = JSON.parse(result);
       this.tableDatas = data;
-      //console.log(this.tableDatas);
     },
     //添加预定
-    async addReserve(rt_number,r_people,r_order,r_phone,r_remark){
+    async addReserve(
+      r_number,
+      rt_number,
+      r_people,
+      r_time,
+      r_order,
+      r_phone,
+      r_remark
+    ) {
       let result = await this.addOneReserve({
-        rt_number:rt_number,
-        r_people:r_people,
-        r_order:r_order,
-        r_phone:r_phone,
-        r_remark:r_remark,
+        r_number: r_number,
+        rt_number: rt_number,
+        r_people: r_people,
+        r_time: r_time,
+        r_order: r_order,
+        r_phone: r_phone,
+        r_remark: r_remark
       });
-      if(result == 1) return;
+      if (result == 1) return;
     },
     // 获取当前时间函数
     timeFormate(timeStamp) {
@@ -208,33 +285,27 @@ export default {
         new Date(timeStamp).getDate() < 10
           ? "0" + new Date(timeStamp).getDate()
           : new Date(timeStamp).getDate();
-      let hh =
-        new Date(timeStamp).getHours() < 10
-          ? "0" + new Date(timeStamp).getHours()
-          : new Date(timeStamp).getHours();
-      let mm =
-        new Date(timeStamp).getMinutes() < 10
-          ? "0" + new Date(timeStamp).getMinutes()
-          : new Date(timeStamp).getMinutes();
-      let ss =
-        new Date(timeStamp).getSeconds() < 10
-          ? "0" + new Date(timeStamp).getSeconds()
-          : new Date(timeStamp).getSeconds();
-      // return year + "年" + month + "月" + date +"日"+" "+hh+":"+mm ;
-      this.nowTime =
-        year + "年" + month + "月" + date + "日" + "     " + hh + ":" + mm + ":" + ss;
-      // console.log(this.nowTime);
+      let date1 =
+        new Date(timeStamp).getDate() < 10
+          ? "0" + (new Date(timeStamp).getDate() + 1)
+          : new Date(timeStamp).getDate() + 1;
+      let date2 =
+        new Date(timeStamp).getDate() < 10
+          ? "0" + (new Date(timeStamp).getDate() + 2)
+          : new Date(timeStamp).getDate() + 2;
+      this.options[0].value = year + "-" + month + "-" + date;
+      this.options[1].value = year + "-" + month + "-" + date1;
+      this.options[2].value = year + "-" + month + "-" + date2;
+      this.nowTime = year + "-" + month + "-" + date;
     },
     // 定时器函数
     nowTimes() {
       this.timeFormate(new Date());
       setInterval(this.nowTimes, 30 * 1000);
-    },
+    }
   },
-  created(){
-    //获取时间
+  created() {
     this.nowTimes();
-
     this.getTable();
   }
 };

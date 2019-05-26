@@ -385,3 +385,26 @@
   max-height: 240px;
   overflow-y: auto;
 }
+/* 预定查询表格 */
+@keyframes mymove
+    {
+    from {left: 100%;}
+    to {left: 20%;}
+}
+ 
+/*Safari 和 Chrome:*/
+@-webkit-keyframes mymove
+{
+  from {left: 100%;}
+    to {left: 20%;}
+}
+:global(.yuDingSelect){
+  width:79%;
+  position: absolute;
+  /* right: 0; */
+  bottom: 45px;
+  animation:mymove 0.3s linear;
+	/*Safari 和 Chrome:*/
+	-webkit-animation:mymove 0.3s linear;
+}
+

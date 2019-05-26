@@ -22,7 +22,10 @@ const actions = {
       sysClient.getData('http://localhost:8081/order/getOneOrderByOnumber',args),
   [TYPES.getAllStaff]:(context,args) =>
       sysClient.getData('http://localhost:8081/staff/getAllStaff',args),
-      
+  [TYPES.getReserveByNowTime]:(context,args) =>
+      sysClient.getData('http://localhost:8081/reserve/getReserveByNowTime',args),
+  // [TYPES.deleteOneReserve]:(context,args) =>
+  //     sysClient.getData('http://localhost:8081/reserve/deleteOneReserve',args),      
 };
 export default {
   state,

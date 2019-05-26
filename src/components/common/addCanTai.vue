@@ -11,9 +11,7 @@
         ref="ruleForm"
         label-width="100px"
         class="demo-ruleForm">
-        <el-form-item label="餐台号" prop="t_number" :rules="[
-          { type: 'number', message: '餐台号必须为数字值'}
-        ]">
+        <el-form-item label="餐台号" prop="t_number">
           <el-input v-model.number="ruleForm.t_number" :class="style.addinput" @focus="clear" id="contentA"></el-input>
         </el-form-item>
         <el-form-item label="餐台名称" prop="t_name">
@@ -23,10 +21,11 @@
           <el-input v-model="ruleForm.t_state" :class="style.addinput" @focus="clear" id="contentC"></el-input>
         </el-form-item>
         <el-form-item label="类型" prop="t_type">
-          <el-input v-model="ruleForm.t_type" :class="style.addinput" @focus="clear" id="contentD" ></el-input>
+          <el-radio v-model="ruleForm.t_type" label="卡座">卡座</el-radio>
+          <el-radio v-model="ruleForm.t_type" label="包间">包间</el-radio>
+          <!-- <el-input v-model="ruleForm.t_type" :class="style.addinput" @focus="clear" id="contentD" ></el-input> -->
         </el-form-item>
-        <el-form-item label="额定人数" prop="t_people" :rules="[
-          { type: 'number', message: '额定人数必须为数字值'}]">
+        <el-form-item label="额定人数" prop="t_people">
           <el-input v-model.number="ruleForm.t_people" :class="style.addinput" @focus="clear" id="contentE"></el-input>
         </el-form-item>
         <el-form-item>
@@ -48,8 +47,8 @@ export default {
       ruleForm:{
         t_number: "",
         t_name: "",
-        t_state: "",
-        t_type: "",
+        t_state: "空闲",
+        t_type: "卡座",
         t_people:"",
       },
       rules: { 

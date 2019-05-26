@@ -1,3 +1,5 @@
-export const getAllOrderItemByOnumber = 'qtsy/getAllOrderItemByOnumber';
-export const addOneBill = 'qtsy/addOneBill';
-export const updateTableState = 'qtsy/updateTableState';
+export const getAllOrderItemByOnumber = 'qtsy/getAllOrderItemByOnumber'
+export const addOneBill = 'qtsy/addOneBill'
+export const updateTableState = 'qtsy/updateTableState'
+export const deleteOneOrder = 'qtsy/deleteOneOrder'
+export const deleteOneOrderItemByOTnumber = 'qtsy/deleteOneOrderItemByOTnumber'

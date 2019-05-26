@@ -106,6 +106,7 @@ export default {
         this.isRightPsw = true;
         this.loginMessage = "密码错误";
       }
+      this.guanLiPassword = "";
     },
     //提交管理员密码
     guanLiEmit() {
