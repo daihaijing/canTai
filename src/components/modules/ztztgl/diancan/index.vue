@@ -3,64 +3,64 @@
     <el-tabs class="dcTitle" v-model="activeName2" @tab-click="handleClick2">
       <el-tab-pane label="点餐" class="dianCanTab" name="dc">
         <el-tabs class="dcTable" v-model="activeName" type="card" @tab-click="handleClick">
-          <el-tab-pane label="汤类" name="汤类">
-            <div v-for="item in dcSoupTable" :class="style.dcIcon">
-              <img :class="style.dcimg" :src="item.m_picture" class="dcimg">
-              <i class="el-icon-minus dcRight" @click="dcRemove(item)"></i>
-              <i class="el-icon-plus dcLeft" @click="diancan(item)"></i>
-            </div>
-          </el-tab-pane>
           <el-tab-pane label="热菜" name="热菜">
-            <div v-for="item in dcSoupTable" :class="style.dcIcon">
+            <div v-for="item in dcSoupTable" :class="style.dcIcon" v-if="activeName=='热菜'">
               <img :class="style.dcimg" :src="item.m_picture" class="dcimg">
               <i class="el-icon-minus dcRight" @click="dcRemove(item)"></i>
               <i class="el-icon-plus dcLeft" @click="diancan(item)"></i>
             </div>
           </el-tab-pane>
           <el-tab-pane label="凉菜" name="凉菜">
-            <div v-for="item in dcSoupTable" :class="style.dcIcon">
+            <div v-for="item in dcSoupTable" :class="style.dcIcon" v-if="activeName=='凉菜'">
               <img :class="style.dcimg" :src="item.m_picture" class="dcimg">
               <i class="el-icon-minus dcRight" @click="dcRemove(item)"></i>
               <i class="el-icon-plus dcLeft" @click="diancan(item)"></i>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="待定" name="待定">
-            <div v-for="item in dcSoupTable" :class="style.dcIcon">
+          <el-tab-pane label="汤类" name="汤类">
+            <div v-for="item in dcSoupTable" :class="style.dcIcon" v-if="activeName=='汤类'">
               <img :class="style.dcimg" :src="item.m_picture" class="dcimg">
               <i class="el-icon-minus dcRight" @click="dcRemove(item)"></i>
               <i class="el-icon-plus dcLeft" @click="diancan(item)"></i>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="待定" name="待定">
-            <div v-for="item in dcSoupTable" :class="style.dcIcon">
+          <el-tab-pane label="熟食" name="熟食">
+            <div v-for="item in dcSoupTable" :class="style.dcIcon" v-if="activeName=='熟食'">
+              <img :class="style.dcimg" :src="item.m_picture" class="dcimg">
+              <i class="el-icon-minus dcRight" @click="dcRemove(item)"></i>
+              <i class="el-icon-plus dcLeft" @click="diancan(item)"></i>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="海鲜" name="海鲜">
+            <div v-for="item in dcSoupTable" :class="style.dcIcon" v-if="activeName=='海鲜'">
               <img :class="style.dcimg" :src="item.m_picture" class="dcimg">
               <i class="el-icon-minus dcRight" @click="dcRemove(item)"></i>
               <i class="el-icon-plus dcLeft" @click="diancan(item)"></i>
             </div>
           </el-tab-pane>
           <el-tab-pane label="饮料类" name="饮料类">
-            <div v-for="item in dcSoupTable" :class="style.dcIcon">
+            <div v-for="item in dcSoupTable" :class="style.dcIcon" v-if="activeName=='饮料类'">
               <img :class="style.dcimg" :src="item.m_picture" class="dcimg">
               <i class="el-icon-minus dcRight" @click="dcRemove(item)"></i>
               <i class="el-icon-plus dcLeft" @click="diancan(item)"></i>
             </div>
           </el-tab-pane>
           <el-tab-pane label="酒水类" name="酒水类">
-            <div v-for="item in dcSoupTable" :class="style.dcIcon">
+            <div v-for="item in dcSoupTable" :class="style.dcIcon" v-if="activeName=='酒水类'">
               <img :class="style.dcimg" :src="item.m_picture" class="dcimg">
               <i class="el-icon-minus dcRight" @click="dcRemove(item)"></i>
               <i class="el-icon-plus dcLeft" @click="diancan(item)"></i>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="待定" name="待定">
+          <!-- <el-tab-pane label="待定" name="待定">
             <div v-for="item in dcSoupTable" :class="style.dcIcon">
               <img :class="style.dcimg" :src="item.m_picture" class="dcimg">
               <i class="el-icon-minus dcRight" @click="dcRemove(item)"></i>
               <i class="el-icon-plus dcLeft" @click="diancan(item)"></i>
             </div>
-          </el-tab-pane>
+          </el-tab-pane> -->
           <el-tab-pane label="烧烤类" name="烧烤类">
-            <div v-for="item in dcSoupTable" :class="style.dcIcon">
+            <div v-for="item in dcSoupTable" :class="style.dcIcon" v-if="activeName=='烧烤类'">
               <img :class="style.dcimg" :src="item.m_picture" class="dcimg">
               <i class="el-icon-minus dcRight" @click="dcRemove(item)"></i>
               <i class="el-icon-plus dcLeft" @click="diancan(item)"></i>
@@ -117,7 +117,7 @@ export default {
       tableNumber: "", //当前桌号
       diancanNumber: "", //当前点餐编号
       //customers: "",//当前桌台的点餐人数
-      activeName: "汤类",
+      activeName: "热菜",
       activeName2: "dc",
       //汤类列表
       dcSoupTable: [],
@@ -351,7 +351,7 @@ export default {
   mounted() {
     //获取时间
     this.nowTimes();
-    this.getMenu("汤类");
+    this.getMenu(this.activeName);
     bus.$on("tableNumber", num => {
       this.tableNumber = num;
     });
