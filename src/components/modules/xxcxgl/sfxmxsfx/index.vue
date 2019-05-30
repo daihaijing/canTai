@@ -53,16 +53,17 @@ import Table from "./table";
 import Trend from "./trend";
 import { mapActions } from "vuex";
 import { getMarketByTime } from "./mutation-types";
-import zhexiantu from "@/data/zhexian.json"
-import chulitu from "@/data/chuli.json"
 import bus from "@/bus.js"
 export default {
   data() {
     return {
       style,
-      zhexiantu,
-      chulitu,
+      chulitu:[],
       options: [
+        {
+          value: "汤类",
+          label: "汤类"
+        },
         {
           value: "热菜",
           label: "热菜"
@@ -70,6 +71,30 @@ export default {
         {
           value: "凉菜",
           label: "凉菜"
+        },
+        {
+          value: "饮料类",
+          label: "饮料类"
+        },
+        {
+          value: "酒水类",
+          label: "酒水类"
+        },
+        {
+          value: "熟食",
+          label: "熟食"
+        },
+        {
+          value: "海鲜",
+          label: "海鲜"
+        },
+        {
+          value: "甜点",
+          label: "甜点"
+        },
+        {
+          value: "烧烤类",
+          label: "烧烤类"
         }
       ],
       timeSelect: "", //时间选择
@@ -80,7 +105,6 @@ export default {
       begin: "", //起始时间时间戳
       end: "", //终止时间时间戳
       sort: "1",
-      zhexian: [],
       object2:[],
     };
   },
@@ -125,38 +149,16 @@ export default {
         }
       }
       this.tableData = this.tableData1;
-      this.zhexian = this.marketTable;
-      let arrDate = [];
-      let num = [];
+      let object = [];
       for(let i in this.tableData){
-        for(let j in this.zhexian){
-          if(this.tableData[i].mm_name == this.zhexian[j].mm_name){
-            let time = this.zhexian[j].mm_time.substring(0,10);
-            arrDate.push(time);
-            num.push(this.zhexian[j].mm_count);
-          }
-        }
-      }
-      console.log(arrDate,num)
-    }
-  },
-  components: {
-    Table,
-    Trend
-  },
-  mounted() {
-    this.tableData = this.chulitu;
-    this.zhexian = this.zhexiantu;
-    let object = [];
-      for(let i in this.tableData){
-        for(let j in this.zhexian){
-          if(this.tableData[i].mm_name == this.zhexian[j].mm_name){
+        for(let j in this.marketTable){
+          if(this.tableData[i].mm_name == this.marketTable[j].mm_name){
             object.push({name:"",arrDate:[],num:[],price:[]});
             object[i].name = this.tableData[i].mm_name;
-            let time = this.zhexian[j].mm_time.substring(0,10);
+            let time = this.marketTable[j].mm_time.substring(0,10);
             object[i].arrDate.push(time);
-            object[i].num.push(this.zhexian[j].mm_count);
-            object[i].price.push(this.zhexian[j].mm_money);
+            object[i].num.push(this.marketTable[j].mm_count);
+            object[i].price.push(this.marketTable[j].mm_money);
           }
         }
       }
@@ -165,7 +167,13 @@ export default {
           this.object2.push(object[i]);
         }
       }
-    console.log(this.object2)
+    }
+  },
+  components: {
+    Table,
+    Trend
+  },
+  mounted() {
     this.$nextTick(() => {
       document.getElementById('zheXian').style.width = this.object2.length * 370 + 'px';
       document.getElementById('zheXian').style.height = '262px';
