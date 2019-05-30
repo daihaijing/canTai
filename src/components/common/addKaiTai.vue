@@ -18,7 +18,7 @@
           <el-input v-model.number="ruleForm.ot_number" :class="style.addinput"></el-input>
         </el-form-item>
         <el-form-item label="顾客人数" prop="o_customers">
-          <el-input v-model="ruleForm.o_customers" :class="style.addinput"></el-input>
+          <el-input v-model="ruleForm.o_customers" :class="style.addinput" placeholder="此项可不填"></el-input>
         </el-form-item>
         <el-form-item label="服务员" prop="o_server">
           <!-- <el-input v-model="ruleForm.o_server" :class="style.addinput"></el-input> -->
@@ -32,7 +32,7 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="newAdd('ruleForm')">提交</el-button>
+          <el-button type="primary" @click="newAdd('ruleForm')">确定</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
       </el-form>
@@ -44,6 +44,20 @@
 import style from "css/jcxxgl.css";
 export default {
   data() {
+    var validatePass_o_customers = (rule, value, callback) => {
+      let num = Number(value);
+      if (value == "") {
+        this.ruleForm.o_customers == 4;//如果顾客人数不填，默认为4
+      } else {
+        if (!/^[0-9]+$/.test(value)) {
+          callback(new Error("只能输入数字"));
+        } else if (num < 0 || num > 16) {
+          callback(new Error("最多15人"));
+        } else {
+          callback();
+        }
+      }
+    };
     return {
       style,
       ruleForm: {
@@ -52,7 +66,9 @@ export default {
         o_customers: "",
         o_server: ""
       },
-      rules: {}
+      rules: {
+        o_customers: [{ validator: validatePass_o_customers, trigger: "blur" }],
+      }
     };
   },
   props: {
@@ -66,8 +82,10 @@ export default {
       this.$emit("addCloseEmit");
     },
     newAdd(ruleForm) {
+      //表单验证
       this.$refs[ruleForm].validate(valid => {
         if (valid) {
+          //验证成功，将开台信息发送给父组件（开台界面）
           this.$emit(
             "newAdd",
             this.ruleForm.o_number,

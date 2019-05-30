@@ -33,6 +33,7 @@
               :class="style.ydInputView"
               class="inputCtyd"
               v-model.number="dynamicValidateForm.r_people"
+              placeholder="此项可不填"
             ></el-input>
           </el-form-item>
           <el-form-item prop="r_time" label="预定时间:">
@@ -78,6 +79,7 @@
               v-model="dynamicValidateForm.r_remark"
               :class="style.ydInputView"
               class="inputCtyd"
+              placeholder="此项可不填"
             ></el-input>
           </el-form-item>
           <el-form-item>
@@ -99,7 +101,7 @@ import { mapActions } from "vuex";
 import { getAllTable, addOneReserve } from "./mutation-types";
 export default {
   data() {
-    let validatePass = (rule, value, callback) => {
+    var validatePass_r_phone = (rule, value, callback) => {
       let re = /^[0-9]*$/;
       if (value == "") {
         callback(new Error("请输入联系方式"));
@@ -108,7 +110,9 @@ export default {
           callback(new Error("长度为11位"));
         } else if (!re.test(value)) {
           callback(new Error("只能含有数字"));
-        } else {
+        } else if (value.substring(0) != 1){
+          callback(new Error("号码格式错误"));
+        }else {
           callback();
         }
       }
@@ -186,7 +190,9 @@ export default {
         r_phone: "",
         r_remark: ""
       },
-      rules: {}
+      rules: {
+        r_phone: [{ validator: validatePass_r_phone, trigger: "blur" }]
+      }
     };
   },
   methods: {

@@ -10,9 +10,15 @@
         :rules="rules"
         ref="ruleForm"
         label-width="100px"
-        class="demo-ruleForm">
+        class="demo-ruleForm"
+      >
         <el-form-item label="餐台号" prop="t_number">
-          <el-input v-model.number="ruleForm.t_number" :class="style.addinput" @focus="clear" id="contentA"></el-input>
+          <el-input
+            v-model.number="ruleForm.t_number"
+            :class="style.addinput"
+            @focus="clear"
+            id="contentA"
+          ></el-input>
         </el-form-item>
         <el-form-item label="餐台名称" prop="t_name">
           <el-input v-model="ruleForm.t_name" :class="style.addinput" @focus="clear" id="contentB"></el-input>
@@ -26,7 +32,12 @@
           <!-- <el-input v-model="ruleForm.t_type" :class="style.addinput" @focus="clear" id="contentD" ></el-input> -->
         </el-form-item>
         <el-form-item label="额定人数" prop="t_people">
-          <el-input v-model.number="ruleForm.t_people" :class="style.addinput" @focus="clear" id="contentE"></el-input>
+          <el-input
+            v-model.number="ruleForm.t_people"
+            :class="style.addinput"
+            @focus="clear"
+            id="contentE"
+          ></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="newAdd('ruleForm')" v-if="tiJiao">提交</el-button>
@@ -44,16 +55,15 @@ export default {
   data() {
     return {
       style,
-      ruleForm:{
+      ruleForm: {
         t_number: "",
         t_name: "",
         t_state: "空闲",
         t_type: "卡座",
-        t_people:"",
+        t_people: ""
       },
-      rules: { 
-      }
-    }
+      rules: {}
+    };
   },
   props: {
     addVisible: null,
@@ -69,8 +79,8 @@ export default {
       this.$emit("addCloseEmit");
     },
     newAdd(ruleForm) {
-      this.$refs[ruleForm].validate((valid) => {
-        if(valid){
+      this.$refs[ruleForm].validate(valid => {
+        if (valid) {
           // this.$notify({
           //     title: '成功',
           //     message: '提交成功'
@@ -81,16 +91,16 @@ export default {
             this.ruleForm.t_name,
             this.ruleForm.t_state,
             this.ruleForm.t_type,
-            this.ruleForm.t_people,
+            this.ruleForm.t_people
           );
         } else {
-            return false;
+          return false;
         }
       });
     },
     newEdit(ruleForm) {
-      this.$refs[ruleForm].validate((valid) => {
-        if(valid){
+      this.$refs[ruleForm].validate(valid => {
+        if (valid) {
           // this.$notify({
           //     title: '成功',
           //     message: '修改成功'
@@ -101,10 +111,10 @@ export default {
             this.ruleForm.t_name,
             this.ruleForm.t_state,
             this.ruleForm.t_type,
-            this.ruleForm.t_people,
+            this.ruleForm.t_people
           );
         } else {
-            return false;
+          return false;
         }
       });
     },
@@ -139,7 +149,7 @@ export default {
       }
     },
     resetForm(formName) {
-        this.$refs[formName].resetFields();
+      this.$refs[formName].resetFields();
     }
   },
   mounted() {

@@ -9,10 +9,10 @@ class Service {
 		this._validateParams(methodUrl);
 		return new Promise((resolve, reject) => {
 			const instance = axios.create({
-				baseURL: this.baseUrl,
-				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-				transformResponse: [function (data) {
-				}]
+					baseURL: this.baseUrl,
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+					transformResponse: [function (data) {
+					}]
 			  })
 			  instance.interceptors.request.use(config => {
 				  return config;

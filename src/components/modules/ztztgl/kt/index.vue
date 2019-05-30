@@ -76,49 +76,48 @@ export default {
       o_number: "",
       ot_number: "",
       staffTable: [],
-      diancanTable: [],
       reserveData: [], //保存预订信息
       nowTime: "", //记录当前时间
       flag: 0, //标记所选餐台是否已被预订
+      flag1: 0, //标记当前餐次是否有预订信息
       select: false
     };
   },
   methods: {
     selectEmit() {
-      if (!this.select) this.select = true;
-      else this.select = false;
+      if (this.flag1 == 1) {
+        if (!this.select) this.select = true;
+        else this.select = false;
+      } else {
+        this.$notify.info({
+          title: "提示",
+          message: "当餐次暂无预订信息！"
+        });
+      }
     },
     addCloseEmit() {
       this.addVisible = false;
     },
+    //开台弹框确定按钮点击事件
     newAdd(o_number, ot_number, o_customers, o_server) {
-      var newData = {
-        o_number: o_number,
-        ot_number: ot_number,
-        o_customers: o_customers,
-        o_server: o_server
-      };
+      //添加当前餐台的一条点餐记录
       this.addOrder(o_number, ot_number, o_customers, o_server);
-      this.diancanTable.push(newData);
-      this.addVisible = false;
-      this.updateState(ot_number, "占用");
-      this.$router.push({
-        name: "diancan",
-        params: {
-          o_number: o_number,
-          ot_number: ot_number
-        }
-      });
     },
+    //开台界面餐台点击事件
     toDianCan(val) {
+      //标记当前餐台是否已经预订
       this.flag = 0;
+      //判断当前点击餐台的状态
       if (val.t_state == "空闲") {
+        //如果未空闲，则查询当前时间及餐次的预定列表
         for (let i = 0; i < this.reserveData.length; i++) {
           if (
+            //如果当前餐台已预定，则和当前点餐顾客确认预留的联系方式
             this.reserveData[i].rt_number == val.t_number &&
             new Date(this.reserveData[i].r_time).getTime() / 1000 <
               new Date(this.nowTime).getTime() / 1000
           ) {
+            //记录当前餐台已被预订
             this.flag = 1;
             this.$confirm(
               "当前餐台已被预定，请确认顾客信息是否正确！",
@@ -131,6 +130,7 @@ export default {
               }
             )
               .then(() => {
+                //如果预订电话正确，继续进行开台操作
                 //暂定随机生成8位数字，作为点餐编号
                 let number = "";
                 for (let i = 0; i < 8; i++) {
@@ -142,27 +142,29 @@ export default {
                 this.ot_number = val.t_number;
                 this.$message({
                   type: "success",
-                  message: "开台成功!"
+                  message: "信息无误，开台成功!"
                 });
               })
               .catch(() => {
+                //如果不正确，则为当前顾客安排其他餐台进行点餐
                 this.deleteReserve(this.reserveData[i].r_number);
                 this.$message({
                   type: "info",
-                  message: "已取消预订"
+                  message: "信息有误，请安排其他餐台点餐"
                 });
-                //暂定随机生成8位数字，作为点餐编号
-                let number = "";
-                for (let i = 0; i < 8; i++) {
-                  number += Math.floor(Math.random() * 10);
-                }
-                this.addVisible = true;
+                // //暂定随机生成8位数字，作为点餐编号
+                // let number = "";
+                // for (let i = 0; i < 8; i++) {
+                //   number += Math.floor(Math.random() * 10);
+                // }
+                // this.addVisible = true;
 
-                this.o_number = number;
-                this.ot_number = val.t_number;
+                // this.o_number = number;
+                // this.ot_number = val.t_number;
               });
           }
         }
+        //如果当前餐台未被预订，则弹出开台弹框
         if (this.flag == 0) {
           //暂定随机生成8位数字，作为点餐编号
           let number = "";
@@ -170,16 +172,18 @@ export default {
             number += Math.floor(Math.random() * 10);
           }
           this.addVisible = true;
-
+          //设置默认值
           this.o_number = number;
           this.ot_number = val.t_number;
         }
       } else {
+        //如果当前餐台已被占用，则直接进入点餐界面
         //暂定随机生成8位数字，作为点餐编号
         let number = "";
         for (let i = 0; i < 8; i++) {
           number += Math.floor(Math.random() * 10);
         }
+        //跳转到点餐界面，并传值点餐编号和餐台号
         this.$router.push({
           name: "diancan",
           params: {
@@ -188,9 +192,6 @@ export default {
           }
         });
       }
-    },
-    toYuDing() {
-      this.$router.push({ name: "ctyd" });
     },
     //异步通信
     ...mapActions({
@@ -212,8 +213,6 @@ export default {
       let data = JSON.parse(result);
       this.zhuotai = data;
     },
-    //获取当前桌号的点餐信息
-    // getOneOrder()
     //修改餐台状态
     async updateTable(t_number, t_name, t_people, t_type, t_state) {
       let result = await this.updateOneTable({
@@ -253,7 +252,22 @@ export default {
         o_customers: o_customers,
         o_server: o_server
       });
-      if (result == 1) return;
+      if (result == 1) {
+        //关闭开台弹框
+        this.addVisible = false;
+        //修改当前餐台的状态为“占用”
+        this.updateState(ot_number, "占用");
+        //进入点餐界面，并传值当前开台的餐台号和点餐编号
+        this.$router.push({
+          name: "diancan",
+          params: {
+            o_number: o_number,
+            ot_number: ot_number
+          }
+        });
+      }else{
+        alert("开台失败！");
+      }
     },
     //删除点餐记录
     async deleteOrder(ot_number) {
@@ -275,8 +289,12 @@ export default {
         r_time: r_time
       });
       let data = JSON.parse(result);
-      this.reserveData = data;
-      //console.log(this.reserveData);
+      if (data.length == 0) {
+        this.flag1 = 0;
+      } else {
+        this.flag1 = 1;
+        this.reserveData = data;
+      }
     },
     makeArray(obj) {
       return Array.prototype.slice.call(obj, 0);
@@ -304,10 +322,8 @@ export default {
         new Date(timeStamp).getSeconds() < 10
           ? "0" + new Date(timeStamp).getSeconds()
           : new Date(timeStamp).getSeconds();
-      // return year + "年" + month + "月" + date +"日"+" "+hh+":"+mm ;
       this.nowTime =
         year + "-" + month + "-" + date + " " + hh + ":" + mm + ":" + ss;
-      // console.log(this.nowTime);
     },
     // 定时器函数
     nowTimes() {
@@ -318,26 +334,6 @@ export default {
   mounted() {
     bus.$on("yuding", num => {
       this.getReserve(this.nowTime.substring(0, 10));
-      // console.log(this.zhuotai);
-      // for (let i = 0; i < this.zhuotai.length; i++) {
-      //   if (num == this.zhuotai[i].t_number) {
-      //     Vue.set(this.zhuotai, i, {
-      //       t_number: this.zhuotai[i].t_number,
-      //       t_name: this.zhuotai[i].t_name,
-      //       t_people: this.zhuotai[i].t_people,
-      //       t_type: this.zhuotai[i].t_type,
-      //       t_state: "预订",
-      //       src: "/static/assets/used.png"
-      //     });
-      //     this.updateTable(
-      //       this.zhuotai[i].t_number,
-      //       this.zhuotai[i].t_name,
-      //       this.zhuotai[i].t_people,
-      //       this.zhuotai[i].t_type,
-      //       this.zhuotai[i].t_state
-      //     );
-      //   }
-      // }
     });
   },
   created() {

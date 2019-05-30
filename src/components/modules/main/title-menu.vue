@@ -8,6 +8,7 @@
           <el-menu-item index="ctsz" :disabled="isUser">餐台设置</el-menu-item>
           <el-menu-item index="hbct" :disabled="isUser">合并餐台</el-menu-item>
           <el-menu-item index="zdcx" :disabled="isUser">账单查询</el-menu-item>
+          <el-menu-item index="sfxmxsfx" :disabled="isUser">销售分析</el-menu-item>
         </el-menu>
     </div>
 </template>

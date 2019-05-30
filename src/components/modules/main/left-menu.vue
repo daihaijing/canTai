@@ -2,7 +2,7 @@
   <div>
     <div :class="style.logo">
       <img
-        src="../../../../static/assets/slogan.jpg"
+        src="../../../../static/assets/logo.jpg"
       >
     </div>
     <el-menu

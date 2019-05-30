@@ -1,4 +1,5 @@
 <template>
+<!-- 用户登录弹框 -->
   <el-dialog :visible.sync="isLogin" @close="loginEmit" class="loginDiv">
     <el-form
       :model="dynamicValidateForm"
@@ -25,8 +26,7 @@
 </template>
 
 <script>
-//import utils from "@/util/utils"
-import Crypto from "@/Crypto";
+import Crypto from "@/Crypto";//用于加密
 import { mapActions } from "vuex";
 import { getLogin } from "./mutation-types";
 export default {
@@ -65,6 +65,7 @@ export default {
     loginEmit() {
       this.$emit("loginEmit");
     },
+    //异步通信
     ...mapActions({
       getLogin
     }),
@@ -78,10 +79,10 @@ export default {
         let s_position = data.s_position;
         var user = {};
         user.userName = data.s_name;
-        user.passWord = escape(Crypto.set(this.dynamicValidateForm.passWord));
-        user.time = Date.parse(new Date()) + 2592000000;
+        user.passWord = escape(Crypto.set(this.dynamicValidateForm.passWord));//escape用于对字符串进行编码
+        user.time = Date.parse(new Date()) + 2592000000;//设置过期时间
         user.s_position = data.s_position;
-        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("user", JSON.stringify(user));//将登陆信息保存在本地浏览器的localStorage中
         this.isLogin = false;
         location.reload();
       }else{
@@ -93,7 +94,9 @@ export default {
       }
     },
     upUser(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate(valid => { 
+        //this.$refs[formName]拿到正确的需要验证的form
+        //validate jquery中用来进行表单验证的插件
         if (valid) {
           this.loginEmitData();
         } else {
